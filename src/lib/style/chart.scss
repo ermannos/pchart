@@ -1,0 +1,56 @@
+
+$backcolor: #FFFDE7;
+$axis-stroke-width-primary: .6;
+$axis-stroke-width-secondary: .3;
+$axis-stroke-color: #707070;
+$grid-stroke-width-primary: .6;
+$grid-stroke-width-secondary: .3;
+$grid-stroke-color: #FFD54F;
+
+svg {
+    background-color: #DCEDC8;
+    font-family: 'Lucida Grande',Verdana,Arial, Helvetica, sans-serif;
+    font-weight: lighter;
+}
+
+.backdrop {
+    fill: $backcolor;
+    z-index: 1;
+}
+
+.axis {
+    stroke: black;
+    stroke-width: $axis-stroke-width-primary;
+
+    text[name="valuelabel"] {
+        font-size: 9px;
+        stroke:none;
+    }
+    text[name="axislabel"] {
+        font-size: 12px;
+        stroke:none;
+    }
+
+    .tick {
+        stroke: $axis-stroke-color;
+        stroke-width: $axis-stroke-width-secondary;
+    }
+
+    .longtick {
+        stroke:$axis-stroke-color;
+        stroke-width: $axis-stroke-width-primary;
+    }
+}
+
+.grid {
+    z-index: 2;
+
+    .refline {
+        stroke: $grid-stroke-color;
+        stroke-width: $grid-stroke-width-secondary;
+    }
+    .longrefline {
+        stroke: $grid-stroke-color;
+        stroke-width: $grid-stroke-width-primary;
+    }
+}

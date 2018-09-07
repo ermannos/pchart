@@ -1,0 +1,33 @@
+svg {
+  background-color: #DCEDC8;
+  font-family: 'Lucida Grande',Verdana,Arial, Helvetica, sans-serif;
+  font-weight: lighter; }
+
+.backdrop {
+  fill: #FFFDE7;
+  z-index: 1; }
+
+.axis {
+  stroke: black;
+  stroke-width: 0.6; }
+  .axis text[name="valuelabel"] {
+    font-size: 9px;
+    stroke: none; }
+  .axis text[name="axislabel"] {
+    font-size: 12px;
+    stroke: none; }
+  .axis .tick {
+    stroke: #707070;
+    stroke-width: 0.3; }
+  .axis .longtick {
+    stroke: #707070;
+    stroke-width: 0.6; }
+
+.grid {
+  z-index: 2; }
+  .grid .refline {
+    stroke: #FFD54F;
+    stroke-width: 0.3; }
+  .grid .longrefline {
+    stroke: #FFD54F;
+    stroke-width: 0.6; }

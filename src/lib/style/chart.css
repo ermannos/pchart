@@ -31,3 +31,23 @@ svg {
   .grid .longrefline {
     stroke: #FFD54F;
     stroke-width: 0.6; }
+
+.areas {
+  z-index: 3; }
+  .areas .area-curve {
+    stroke: none;
+    fill: rgba(127, 127, 127, 0.3); }
+
+.percentiles {
+  z-index: 10; }
+  .percentiles .percentile-curve {
+    fill: none;
+    stroke: black;
+    stroke-width: 1; }
+    .percentiles .percentile-curve.dotted {
+      stroke-dasharray: 5; }
+  .percentiles .percentile-label {
+    font-family: 'Lucida Grande',Verdana,Arial, Helvetica, sans-serif;
+    font-weight: lighter;
+    font-size: 9px;
+    stroke: none; }

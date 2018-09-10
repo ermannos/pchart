@@ -54,3 +54,32 @@ svg {
         stroke-width: $grid-stroke-width-primary;
     }
 }
+
+.areas {
+    z-index: 3;
+
+    .area-curve {
+        stroke: none;
+        fill: rgba(127,127,127, .3)
+    }
+}
+
+.percentiles {
+    z-index: 10;
+    .percentile-curve{
+        fill: none;
+        stroke: black;
+        stroke-width: 1;
+
+        &.dotted {
+            stroke-dasharray: 5;
+        }
+    }
+
+    .percentile-label {
+        font-family: 'Lucida Grande',Verdana,Arial, Helvetica, sans-serif;
+        font-weight: lighter;
+        font-size: 9px;
+        stroke:none;
+    }
+}

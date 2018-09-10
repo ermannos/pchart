@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {getData} from './data';
+import {AxisTransformation} from './utils';
 import './style/chart.css';
 
 let short_tick_len = 5;
@@ -9,7 +9,7 @@ class PChart extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: getData([3,10,25,50,75,90,97])
+            data: this.props.dataset.getData()
         }
     }
 
@@ -19,9 +19,12 @@ class PChart extends Component {
         return (
             <svg width={this.props.width} height={this.props.height}>
                 <Backdrop size={size} margins={margins}/>
-                <XAxis size={size} margins={margins} data={this.state.data} unit={'month'}/>
-                <YAxis size={size} margins={margins} data={this.state.data} unit={'cm'} step={5} title='Altezza (cm)'/>
-                <Grid size={size} margins={margins} data={this.state.data} unit={'month'} step={5}/>
+                <XAxis size={size} margins={margins} dataset={this.props.dataset}/>
+                <YAxis size={size} margins={margins} dataset={this.props.dataset} step={5}/>
+                <Grid size={size} margins={margins} dataset={this.props.dataset} step={5}/>
+                <Areas size={size} margins={margins} dataset={this.props.dataset} step={5}/>
+                <Percentiles size={size} margins={margins} dataset={this.props.dataset} step={5}/>
+                <PatientData patient={this.props.patient}/>
             </svg>
         );
     }
@@ -41,14 +44,12 @@ class Backdrop extends Component {
 
 class XAxis extends Component {
     render() {
-        let data = this.props.data;
+        let data = this.props.dataset.getData();
         let keys = Object.keys(data);
-        //let min = keys[0];
-        //let max = keys[keys.length-1];
         let count = keys.length;
         let len = this.props.size.width - this.props.margins.left - this.props.margins.right;
         let stepX = len/(count-1);
-        let step = this.props.unit=='month' ? 6 : 5;
+        let step = this.props.dataset.getUnitX()==='month' ? 6 : 5;
         let labelstep = 2;
         let ticks = [];
         let valuelabels = [];
@@ -80,7 +81,7 @@ class XAxis extends Component {
                     {valuelabels}
                 </g>
                 <text name='axislabel' x={(this.props.margins.left+this.props.size.width-this.props.margins.right)/2} y={this.props.size.height-5} textAnchor='middle'>
-                    {this.props.unit==='month' ? 'Mesi' : 'Chenneso'}
+                    {this.props.dataset.getUnitX()==='month' ? 'Mesi' : 'Chenneso'}
                 </text>
             </g>
         );
@@ -89,10 +90,10 @@ class XAxis extends Component {
 
 class YAxis extends Component {
     render() {
-        let data = this.props.data;
+        let data = this.props.dataset.getData();
         let keys = Object.keys(data);
-        let firstentry = this.props.data[keys[0]];
-        let lastentry = this.props.data[keys[keys.length-1]];
+        let firstentry = data[keys[0]];
+        let lastentry = data[keys[keys.length-1]];
         let percentiles = Object.keys(firstentry);
         let _min = firstentry[percentiles[0]];
         let _max = lastentry[percentiles[percentiles.length-1]];
@@ -139,7 +140,7 @@ class YAxis extends Component {
                 <text name='axislabel' 
                     x={20} y={(this.props.margins.top + this.props.size.height - this.props.margins.bottom)/2} 
                     textAnchor='middle' transform={'rotate(-90 20 ' + ((this.props.margins.top + this.props.size.height - this.props.margins.bottom)/2) + ')'}>
-                    {this.props.title}
+                    {this.props.dataset.getTitle()}
                 </text>
             </g>
         );
@@ -148,13 +149,13 @@ class YAxis extends Component {
 
 class Grid extends Component {
     render() {
-        let data = this.props.data;
+        let data = this.props.dataset.getData();
         let keys = Object.keys(data);
         
         let tickcountX = keys.length;
         let lenX = this.props.size.width - this.props.margins.left - this.props.margins.right;
         let stepX = lenX/(tickcountX-1);
-        let step = this.props.unit=='month' ? 6 : 5;
+        let step = this.props.dataset.getUnitX()==='month' ? 6 : 5;
         let reflinesx = [];
         for(let t = 0; t<tickcountX; t++) {
             let long = t%step===0;
@@ -193,6 +194,143 @@ class Grid extends Component {
             <g name='grid' className='grid'>
                 {reflinesx}
                 {reflinesy}
+            </g>
+        )
+    }
+}
+
+class Areas extends Component {
+    render() {
+        let data = this.props.dataset.getData();
+        let keys = Object.keys(data);
+        let minX = keys[0];
+        let maxX = keys[keys.length-1];
+        let lenX = this.props.size.width - this.props.margins.left - this.props.margins.right;
+
+        let firstentry = data[keys[0]];
+        let lastentry = data[keys[keys.length-1]];
+        let pp = Object.keys(firstentry);
+        let _min = firstentry[pp[0]];
+        let _max = lastentry[pp[pp.length-1]];
+        let step = this.props.step;
+        let tolerance = .05;
+        let minY = Math.floor(((1-tolerance) * _min)/step) * step;
+        let maxY = Math.ceil(((1+tolerance) * _max)/step) * step;
+        let lenY = this.props.size.height - this.props.margins.top - this.props.margins.bottom;
+
+        let transformX = new AxisTransformation(lenX, minX, maxX);
+        let transformY = new AxisTransformation(lenY, minY, maxY);
+
+        let areas = [];
+        let points1 = this.props.dataset.getPercentilePoints(0);
+        let points2 = this.props.dataset.getPercentilePoints(this.props.dataset.getPercentiles().length-1);
+        let pathStr = '';
+        points1.forEach((point,i) => {
+            let x = transformX.transform(point[0]) + this.props.margins.left;
+            let y = this.props.size.height - this.props.margins.bottom - transformY.transform(point[1]);
+            pathStr += i===0 ? 'M' : 'L';
+            pathStr += x + ' ' + y + ' ';
+        });
+        points2.reverse().forEach((point,i) => {
+            let x = transformX.transform(point[0]) + this.props.margins.left;
+            let y = this.props.size.height - this.props.margins.bottom - transformY.transform(point[1]);
+            pathStr += 'L';
+            pathStr += x + ' ' + y + ' ';
+        });
+        pathStr += 'Z';
+        areas.push(
+            <path className='area-curve' key='area-curve-1' name='area-curve-1' d={pathStr}/>
+        );
+
+        if (this.props.dataset.getPercentiles().length>=4) {
+            let points3 = this.props.dataset.getPercentilePoints(1);
+            let points4 = this.props.dataset.getPercentilePoints(this.props.dataset.getPercentiles().length-2);
+            pathStr = '';
+            points3.forEach((point,i) => {
+                let x = transformX.transform(point[0]) + this.props.margins.left;
+                let y = this.props.size.height - this.props.margins.bottom - transformY.transform(point[1]);
+                pathStr += i===0 ? 'M' : 'L';
+                pathStr += x + ' ' + y + ' ';
+            });
+            points4.reverse().forEach((point,i) => {
+                let x = transformX.transform(point[0]) + this.props.margins.left;
+                let y = this.props.size.height - this.props.margins.bottom - transformY.transform(point[1]);
+                pathStr += 'L';
+                pathStr += x + ' ' + y + ' ';
+            });
+            pathStr += 'Z';
+            areas.push(
+                <path className='area-curve' key='area-curve-2' name='area-curve-2' d={pathStr}/>
+            );
+    
+        }
+
+        return (
+            <g name='areas' className='areas'>
+                {areas}
+            </g>
+        );
+    }
+}
+
+class Percentiles extends Component {
+    render() {
+        let data = this.props.dataset.getData();
+        let keys = Object.keys(data);
+        let minX = keys[0];
+        let maxX = keys[keys.length-1];
+        let lenX = this.props.size.width - this.props.margins.left - this.props.margins.right;
+
+        let firstentry = data[keys[0]];
+        let lastentry = data[keys[keys.length-1]];
+        let pp = Object.keys(firstentry);
+        let _min = firstentry[pp[0]];
+        let _max = lastentry[pp[pp.length-1]];
+        let step = this.props.step;
+        let tolerance = .05;
+        let minY = Math.floor(((1-tolerance) * _min)/step) * step;
+        let maxY = Math.ceil(((1+tolerance) * _max)/step) * step;
+        let lenY = this.props.size.height - this.props.margins.top - this.props.margins.bottom;
+
+        let transformX = new AxisTransformation(lenX, minX, maxX);
+        let transformY = new AxisTransformation(lenY, minY, maxY);
+
+        let curves = [];
+        for (let j=0; j< this.props.dataset.getPercentiles().length; j++) {
+            let p = this.props.dataset.getPercentiles()[j]
+            let points = this.props.dataset.getPercentilePoints(j);
+            let pathStr = '';
+            let lastx, lasty;
+            points.forEach((point,i) => {
+                let x = transformX.transform(point[0]) + this.props.margins.left;
+                let y = this.props.size.height - this.props.margins.bottom - transformY.transform(point[1]);
+                pathStr += i===0 ? 'M' : 'L';
+                pathStr += x + ' ' + y + ' ';
+                if (i===points.length-1) {
+                    lastx = x;
+                    lasty = y;
+                }
+            });
+            curves.push(
+                <path className={'percentile-curve' + (j===0 || j===(this.props.dataset.getPercentiles().length-1) ? ' dotted' : '')} key={'percentile-curve-' + p} name={'percentile-'+p} d={pathStr}/>
+            );
+            curves.push(
+                <text key={'percentile-label-'+p} className='percentile-label' x={lastx-3} y={lasty-3} textAnchor='end'>{p + 'th'}</text>
+            );
+        }
+        return (
+            <g name='percentiles' className='percentiles'>
+                {curves}
+            </g>
+        );
+    }
+}
+
+class PatientData extends Component {
+    render() {
+        return (
+            <g name='patient-data' className='patient-data'>
+
             </g>
         )
     }

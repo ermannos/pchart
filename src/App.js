@@ -2,9 +2,51 @@ import React, { Component } from 'react';
 import PChart from './lib/chart';
 import {Dataset} from './lib/data';
 import {height_boy_018} from './lib/data/height_boy_018';
-import {patient} from './lib/patient';
 import './App.css';
+
 let percentiles = [3,10,25,50,75,90,97];
+const testpatient = {
+  firstname: 'John',
+  lastname: 'Doe',
+  sex: 'M',
+  birthdate: '2002-04-27',
+  measures: [
+    {
+      date: '2018-09-11',
+      height: 181.5,
+      weight: 60
+    },
+    {
+      date: '2018-08-18',
+      height: 181
+    },
+    {
+      date: '2018-05-18',
+      height: 180
+    },
+    {
+      date: '2017-08-02',
+      height: 176
+    },
+    {
+      date: '2017-01-28',
+      height: 173
+    },
+    {
+      date: '2016-10-08',
+      height: 170
+    },
+    {
+      date: '2016-03-16',
+      height: 165
+    },
+    {
+      date: '2015-09-26',
+      height: 160
+    },
+]
+}
+
 
 class App extends Component {
   render() {
@@ -17,7 +59,7 @@ class App extends Component {
 
         <div className='container'>
           <div className='row'>
-            <PChart width={1200} height={800} dataset={dataset} patient={patient}/>
+            <PChart width={1200} height={800} dataset={dataset} patient={testpatient}/>
           </div>
         </div>
       </div>

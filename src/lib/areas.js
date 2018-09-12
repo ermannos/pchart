@@ -3,7 +3,7 @@ import {AxisTransformation} from './utils';
 
 class Areas extends Component {
     render() {
-        let data = this.props.dataset.getData();
+        let data = this.props.dataset.data;
         let keys = Object.keys(data);
         let minX = keys[0];
         let maxX = keys[keys.length-1];
@@ -25,7 +25,7 @@ class Areas extends Component {
 
         let areas = [];
         let points1 = this.props.dataset.getPercentilePoints(0);
-        let points2 = this.props.dataset.getPercentilePoints(this.props.dataset.getPercentiles().length-1);
+        let points2 = this.props.dataset.getPercentilePoints(this.props.dataset.percentiles.length-1);
         let pathStr = '';
         points1.forEach((point,i) => {
             let x = transformX.transform(point[0]) + this.props.margins.left;
@@ -44,9 +44,9 @@ class Areas extends Component {
             <path className='area-curve' key='area-curve-1' name='area-curve-1' d={pathStr}/>
         );
 
-        if (this.props.dataset.getPercentiles().length>=4) {
+        if (this.props.dataset.percentiles.length>=4) {
             let points3 = this.props.dataset.getPercentilePoints(1);
-            let points4 = this.props.dataset.getPercentilePoints(this.props.dataset.getPercentiles().length-2);
+            let points4 = this.props.dataset.getPercentilePoints(this.props.dataset.percentiles.length-2);
             pathStr = '';
             points3.forEach((point,i) => {
                 let x = transformX.transform(point[0]) + this.props.margins.left;

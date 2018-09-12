@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class Grid extends Component {
     render() {
-        let data = this.props.dataset.getData();
+        let data = this.props.dataset.data;
         let keys = Object.keys(data);
         
         let tickcountX = keys.length;

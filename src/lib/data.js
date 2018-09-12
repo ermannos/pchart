@@ -65,39 +65,36 @@ const zIndex = {
 }
 
 export class Dataset {
-    constructor (lmsData, percentiles) {
-        this.lmsData = lmsData;
+    constructor (lmsDataset, percentiles) {
+        this.title = lmsDataset.title;
+        this.description = lmsDataset.description;
+        this.unitX = lmsDataset.unitX;
+        this.unitY = lmsDataset.unitY;
+        this.type = lmsDataset.type;
+        this.lmsdata = lmsDataset.data;
         this.percentiles = percentiles;
         this._buildData();
     }
 
-    getPercentiles() {
-        return this.percentiles;
-    }
-
-    getData() {
-        return this.data;
-    }
-
     getUnitX() {
-        return this.lmsData.unitX;
+        return this.unitX;
     }
 
     getUnitY() {
-        return this.lmsData.unitY;
+        return this.unitY;
     }
 
     getTitle() {
-        return this.lmsData.title;
+        return this.title;
     }
 
     getType() {
-        return this.lmsData.type;
+        return this.type;
     }
 
     _buildData() {
         let _data = {};
-        this.lmsData.data.forEach(v => {
+        this.lmsdata.forEach(v => {
             let d = v[0];
             let L = v[1];
             let M = v[2];
@@ -122,7 +119,7 @@ export class Dataset {
         let z = zIndex[p];
         if (z===undefined) return [];
     
-        this.lmsData.data.forEach(v => {
+        this.lmsdata.forEach(v => {
             let d = v[0];
             let L = v[1];
             let M = v[2];
@@ -136,7 +133,7 @@ export class Dataset {
     
     getPercentileForValue(x, y) {
         let data = undefined;
-        this.lmsData.data.forEach(v => {
+        this.lmsdata.forEach(v => {
             let d = v[0];
             if (d<=x)
                 data = v;

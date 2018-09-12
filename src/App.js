@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PChart from './lib/chart';
 import {Dataset} from './lib/data';
-import {height_boy_018} from './lib/data/height_boy_018';
+import height_boy_018 from './ch/height_boy_018.json';
+import who_height_boys_519 from './who/height_boys_5-19Y.json';
+import who_height_girls_013W from './who/height_girls_0-13W.json';
 import './App.css';
 
 let percentiles = [3,10,25,50,75,90,97];
-const testpatient = {
+const testpatient1 = {
   firstname: 'John',
   lastname: 'Doe',
   sex: 'M',
@@ -46,11 +48,41 @@ const testpatient = {
     },
 ]
 }
+const testpatient2 = {
+  firstname: 'Jane',
+  lastname: 'Doe',
+  sex: 'F',
+  birthdate: '2018-01-14',
+  measures: [
+    {
+      date: '2018-01-23',
+      height: 52
+    },
+    {
+      date: '2018-01-31',
+      height: 54
+    },
+    {
+      date: '2018-02-17',
+      height: 57
+    },
+    {
+      date: '2018-02-26',
+      height: 59
+    },
+    {
+      date: '2018-03-04',
+      height: 60
+    },
+  ]
+}
 
 
 class App extends Component {
   render() {
-    let dataset = new Dataset(height_boy_018, percentiles);
+    let dataset1 = new Dataset(height_boy_018, percentiles);
+    let dataset11 = new Dataset(who_height_boys_519, percentiles);
+    let dataset2 = new Dataset(who_height_girls_013W, percentiles);
     return (
       <div className="App">
         <div className="App-header">
@@ -59,7 +91,11 @@ class App extends Component {
 
         <div className='container'>
           <div className='row'>
-            <PChart width={1200} height={800} dataset={dataset} patient={testpatient}/>
+            <PChart width={800} height={800} dataset={dataset1} patient={testpatient1} showTitle/>
+            <PChart width={800} height={800} dataset={dataset11} patient={testpatient1} showTitle/>
+          </div>
+          <div className='row'>
+            <PChart width={1200} height={800} dataset={dataset2} patient={testpatient2} showTitle/>
           </div>
         </div>
       </div>

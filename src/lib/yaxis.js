@@ -4,7 +4,7 @@ let long_tick_len = 10;
 
 class YAxis extends Component {
     render() {
-        let data = this.props.dataset.getData();
+        let data = this.props.dataset.data;
         let keys = Object.keys(data);
         let firstentry = data[keys[0]];
         let lastentry = data[keys[keys.length-1]];

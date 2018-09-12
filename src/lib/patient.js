@@ -4,7 +4,7 @@ import {AxisTransformation} from './utils';
 
 export default class PatientData extends Component {
     render() {
-        let data = this.props.dataset.getData();
+        let data = this.props.dataset.data;
         let keys = Object.keys(data);
         let minX = keys[0];
         let maxX = keys[keys.length-1];

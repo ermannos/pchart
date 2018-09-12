@@ -1,11 +1,10 @@
-// Table of height fo male children (0-228 months, 0-19 years)
-// value: {month number, L, M, S}
-export const height_boy_018 = {
-    title: 'Altezza (cm)',
-    unitX: 'month',
-    unitY: 'cm',
-    type: 'height',
-    data: [
+{
+    "title": "Altezza (cm)",
+    "description": "Altezza/lunghezza per età, maschi, da 0 a 19 anni (CH)",
+    "unitX": "month",
+    "unitY": "cm",
+    "type": "height",
+    "data": [
     [0, 1, 49.8842, 0.03795], 
     [1, 1, 54.7244, 0.03557], 
     [2, 1, 58.4249, 0.03424], 
@@ -236,5 +235,5 @@ export const height_boy_018 = {
     [226, 1, 176.4976, 0.0415], 
     [227, 1, 176.5211, 0.04142], 
     [228, 1, 176.5432, 0.04134]
-]};
+]}
 

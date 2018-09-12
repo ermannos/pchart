@@ -4,13 +4,13 @@ let long_tick_len = 10;
 
 class XAxis extends Component {
     render() {
-        let data = this.props.dataset.getData();
+        let data = this.props.dataset.data;
         let keys = Object.keys(data);
         let count = keys.length;
         let len = this.props.size.width - this.props.margins.left - this.props.margins.right;
         let stepX = len/(count-1);
-        let step = this.props.dataset.getUnitX()==='month' ? 6 : 5;
-        let labelstep = 2;
+        let step = this.props.dataset.getUnitX()==='month' ? 6 : (this.props.dataset.getUnitX()==='week' ? 1 : 5);
+        let labelstep = this.props.dataset.getUnitX()==='month' ? 2 : 1;
         let ticks = [];
         let valuelabels = [];
         for(let t = 0; t<count; t++) {
@@ -30,6 +30,7 @@ class XAxis extends Component {
                 );
             }
         } 
+        let axisTitle = this.props.dataset.getUnitX()==='month' ? 'Mesi' : this.props.dataset.getUnitX()==='week' ? 'Settimane' : ''
         return (
             <g name='xaxis' className='axis'>
                 <line x1={this.props.margins.left} y1={this.props.size.height-this.props.margins.bottom} 
@@ -41,7 +42,7 @@ class XAxis extends Component {
                     {valuelabels}
                 </g>
                 <text name='axislabel' x={(this.props.margins.left+this.props.size.width-this.props.margins.right)/2} y={this.props.size.height-5} textAnchor='middle'>
-                    {this.props.dataset.getUnitX()==='month' ? 'Mesi' : 'Chenneso'}
+                    {axisTitle}
                 </text>
             </g>
         );

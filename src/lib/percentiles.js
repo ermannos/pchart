@@ -3,7 +3,7 @@ import {AxisTransformation} from './utils';
 
 class Percentiles extends Component {
     render() {
-        let data = this.props.dataset.getData();
+        let data = this.props.dataset.data;
         let keys = Object.keys(data);
         let minX = keys[0];
         let maxX = keys[keys.length-1];
@@ -24,8 +24,8 @@ class Percentiles extends Component {
         let transformY = new AxisTransformation(lenY, minY, maxY);
 
         let curves = [];
-        for (let j=0; j< this.props.dataset.getPercentiles().length; j++) {
-            let p = this.props.dataset.getPercentiles()[j]
+        for (let j=0; j< this.props.dataset.percentiles.length; j++) {
+            let p = this.props.dataset.percentiles[j]
             let points = this.props.dataset.getPercentilePoints(j);
             let pathStr = '';
             let lastx, lasty;
@@ -40,7 +40,7 @@ class Percentiles extends Component {
                 }
             });
             curves.push(
-                <path className={'percentile-curve' + (j===0 || j===(this.props.dataset.getPercentiles().length-1) ? ' dotted' : '')} key={'percentile-curve-' + p} name={'percentile-'+p} d={pathStr}/>
+                <path className={'percentile-curve' + (j===0 || j===(this.props.dataset.percentiles.length-1) ? ' dotted' : '')} key={'percentile-curve-' + p} name={'percentile-'+p} d={pathStr}/>
             );
             curves.push(
                 <text key={'percentile-label-'+p} className='percentile-label' x={lastx-3} y={lasty-3} textAnchor='end'>{p + 'th'}</text>

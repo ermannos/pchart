@@ -189,7 +189,7 @@ export class Dataset {
             let z = zIndex[p];
             if (z<Z) bestP = p;
         });
-        console.log('xyz', x, y, Z, bestP);
+        return bestP;
     }
 }
 

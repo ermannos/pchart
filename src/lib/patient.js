@@ -24,6 +24,7 @@ export default class PatientData extends Component {
         let transformX = new AxisTransformation(lenX, minX, maxX);
         let transformY = new AxisTransformation(lenY, minY, maxY);
 
+        let labels = [];
         let points = [];
         let lineStr = ''
         this.props.patient.measures.forEach((m,i) => {
@@ -31,21 +32,28 @@ export default class PatientData extends Component {
             let birthdate =  moment(this.props.patient.birthdate);
             let datediff = pointdate.diff(birthdate, this.props.dataset.getUnitX());
             let value = m[this.props.dataset.getType()];
-            let z = this.props.dataset.getPercentileForValue(datediff, value);
+            let percentile = this.props.dataset.getPercentileForValue(datediff, value);
             console.log('drawing point ', datediff, this.props.dataset.getUnitX(), value);
 
             let x = transformX.transform(datediff) + this.props.margins.left;
             let y = this.props.size.height - this.props.margins.bottom - transformY.transform(value);
 
-            points.push(
-                <circle key={'dot-'+i} cx={x} cy={y} r={3} stroke='none' fill='red' />
+            if (this.props.showlabels)
+                labels.push(
+                    <text key={'label-'+i} name={'label-'+i} className='percentile-label' x={x} y={y-10} textAnchor='middle' fill={this.props.color || 'red'}>{percentile}</text>
+                );
+
+                points.push(
+                <circle className='percentile-point' key={'dot-'+i} cx={x} cy={y} r={3} fill={this.props.color || 'red'} />
             )
+
             lineStr += (i===0 ? 'M' : 'L') + x + ' ' + y + ' '; 
         });
         console.log(lineStr);
         return (
             <g name='patient-data' className='patient-data'>
-                <path d={lineStr} stroke='red' fill='none'/>
+                <path className='percentile-line' d={lineStr} stroke={this.props.color || 'red'}/>
+                {labels}
                 {points}
             </g>
         )

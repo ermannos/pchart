@@ -3,7 +3,7 @@
   "description": "BMI per età, femmine, da 0 a 2 anni (WHO)",
   "sex": "female",
   "unitX": "month",
-  "unitY": "",
+  "unitY": "kg/m2",
   "type": "bmi",
   "data": [
     [

@@ -3,7 +3,7 @@
   "description": "BMI per età, maschi, da 0 a 13 settimane (WHO)",
   "sex": "male",
   "unitX": "week",
-  "unitY": "",
+  "unitY": "kg/m2",
   "type": "bmi",
   "data": [
     [

@@ -3,7 +3,7 @@
   "description": "BMI per età, maschi, da 2 a 5 anni (WHO)",
   "sex": "male",
   "unitX": "month",
-  "unitY": "",
+  "unitY": "kg/m2",
   "type": "bmi",
   "data": [
     [

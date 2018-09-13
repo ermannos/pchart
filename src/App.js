@@ -68,11 +68,40 @@ const testpatient2 = {
     },
     {
       date: '2018-02-26',
-      height: 59
+      height: 58.9
     },
     {
       date: '2018-03-04',
       height: 60
+    },
+  ]
+}
+
+const testpatient3 = {
+  firstname: 'Janelle',
+  lastname: 'Doe',
+  sex: 'F',
+  birthdate: '2018-01-14',
+  measures: [
+    {
+      date: '2018-01-23',
+      height: 51
+    },
+    {
+      date: '2018-01-31',
+      height: 52
+    },
+    {
+      date: '2018-02-17',
+      height: 53
+    },
+    {
+      date: '2018-02-26',
+      height: 54
+    },
+    {
+      date: '2018-03-04',
+      height: 56
     },
   ]
 }
@@ -91,11 +120,11 @@ class App extends Component {
 
         <div className='container'>
           <div className='row'>
-            <PChart width={800} height={800} dataset={dataset1} patient={testpatient1} showTitle/>
-            <PChart width={800} height={800} dataset={dataset11} patient={testpatient1} showTitle/>
+            <PChart width={800} height={800} dataset={dataset1} patient={testpatient1} showtitle />
+            <PChart width={800} height={800} dataset={dataset11} patient={testpatient1} showtitle />
           </div>
           <div className='row'>
-            <PChart width={1200} height={800} dataset={dataset2} patient={testpatient2} showTitle/>
+            <PChart width={1200} height={800} dataset={dataset2} patients={[testpatient2,testpatient3]} showtitle showlabels/>
           </div>
         </div>
       </div>

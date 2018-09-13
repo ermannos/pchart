@@ -1,4 +1,5 @@
-
+$font-family: 'Lucida Grande',Verdana,Arial, Helvetica, sans-serif;
+$background-color: 'transparent'; //#DCEDC8;
 $backcolor: #FFFDE7;
 $axis-stroke-width-primary: .6;
 $axis-stroke-width-secondary: .3;
@@ -6,11 +7,16 @@ $axis-stroke-color: #707070;
 $grid-stroke-width-primary: .6;
 $grid-stroke-width-secondary: .3;
 $grid-stroke-color: #FFD54F;
+$area-color: rgba(127,127,127, .3);
 
 svg {
-    background-color: #DCEDC8;
-    font-family: 'Lucida Grande',Verdana,Arial, Helvetica, sans-serif;
+    background-color: $background-color;
+    font-family: $font-family;
     font-weight: lighter;
+}
+
+.title {
+    font-size: 16px;
 }
 
 .backdrop {
@@ -60,7 +66,7 @@ svg {
 
     .area-curve {
         stroke: none;
-        fill: rgba(127,127,127, .3)
+        fill: $area-color
     }
 }
 
@@ -77,9 +83,24 @@ svg {
     }
 
     .percentile-label {
-        font-family: 'Lucida Grande',Verdana,Arial, Helvetica, sans-serif;
         font-weight: lighter;
         font-size: 9px;
         stroke:none;
+    }
+}
+
+.patient-data {
+    .percentile-label {
+        font-weight: lighter;
+        font-size: 12px;
+        stroke:none;
+    }
+
+    .percentile-point {
+        stroke: none; 
+    }
+
+    .percentile-line {
+        fill: none;
     }
 }

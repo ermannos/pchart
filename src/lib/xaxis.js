@@ -3,20 +3,15 @@ import Store from './store';
 let short_tick_len = 5;
 let long_tick_len = 10;
 
-class XAxis extends Component {
+export default class XAxis extends Component {
     render() {
-        let data = Store.getDataset().data;
-        let keys = Object.keys(data);
-        let count = keys.length;
-        let len = Store.getSize().width - Store.getMargins().left - Store.getMargins().right;
-        let stepX = len/(count-1);
         let step = Store.getDataset().getUnitX()==='month' ? 6 : (Store.getDataset().getUnitX()==='week' ? 1 : 5);
         let labelstep = Store.getDataset().getUnitX()==='month' ? 2 : 1;
         let ticks = [];
         let valuelabels = [];
-        for(let t = 0; t<count; t++) {
+        for(let t = 0; t<Store.getMeasures().countX; t++) {
             let long = t%step===0;
-            let x = Store.getMargins().left + t * stepX;
+            let x = Store.getMeasures().left + t * Store.getMeasures().stepX;
             let y1 = Store.getSize().height-Store.getMargins().bottom;
             let y2 = y1 + (long ? long_tick_len : short_tick_len);
             ticks.push(
@@ -26,7 +21,7 @@ class XAxis extends Component {
             if (showlabel) {
                 valuelabels.push(
                     <text key={'valuelabel-'+t} name='valuelabel' x={x} y={y2+2+10} textAnchor='middle'>
-                        {keys[t]}
+                        {Store.getMeasures().keys[t]}
                     </text>
                 );
             }
@@ -34,15 +29,15 @@ class XAxis extends Component {
         let axisTitle = Store.getDataset().getUnitX()==='month' ? 'Mesi' : Store.getDataset().getUnitX()==='week' ? 'Settimane' : ''
         return (
             <g name='xaxis' className='axis'>
-                <line x1={Store.getMargins().left} y1={Store.getSize().height-Store.getMargins().bottom} 
-                    x2={Store.getSize().width-Store.getMargins().right} y2={Store.getSize().height-Store.getMargins().bottom}/>
+                <line x1={Store.getMeasures().left} y1={Store.getMeasures().bottom} 
+                    x2={Store.getMeasures().right} y2={Store.getMeasures().bottom}/>
                 <g>
                     {ticks}
                 </g>
                 <g>
                     {valuelabels}
                 </g>
-                <text name='axislabel' x={(Store.getMargins().left+Store.getSize().width-Store.getMargins().right)/2} y={Store.getSize().height-5} textAnchor='middle'>
+                <text name='axislabel' x={(Store.getMargins().left+Store.getMeasures().right)/2} y={Store.getSize().height-5} textAnchor='middle'>
                     {axisTitle}
                 </text>
             </g>
@@ -50,4 +45,3 @@ class XAxis extends Component {
     }
 }
 
-export default XAxis;

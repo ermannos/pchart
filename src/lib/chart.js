@@ -12,21 +12,17 @@ import PatientData from './patient';
 class PChart extends Component {
     constructor(props) {
         super(props);
+        let w = props.width;
+        let h = props.height;
+        if (isNaN(w)) { w = 800; console.error("Error: width property must be a number. Using the default value") }
+        if (isNaN(h)) { h = 800; console.error("Error: height property must be a number. Using the default value") }
+
         Store.initialize({
             dataset: props.dataset,
-            size:{width:props.width,height:props.height},
+            size:{width:w,height:h},
             margins: {left:60,right:10,top:this.props.showtitle ? 50 : 10,bottom:40},
             step:5
         });
-    }
-
-    randomColor = () => {
-        let letters = '0123456789ABCDEF';
-        let color = '#';
-        for (var i = 0; i < 6; i++) {
-          color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
     }
 
     render() {
@@ -34,18 +30,19 @@ class PChart extends Component {
         if (this.props.showtitle) 
             title = <text name='title' className='title' x={Store.getSize().width/2} y={15} textAnchor='middle' alignmentBaseline='text-before-edge'>{this.props.dataset.description}</text>
         
-            let patientdata = [];
-        if (this.props.patients) {
-            this.props.patients.forEach((patient,i) => {
-                patientdata.push(
-                    <PatientData key={'patientdata-'+i} patient={patient} color={i===0 ? 'red' : this.randomColor()} showlabels={this.props.showlabels}/>
-                );
-            });
-        } else if (this.props.patient) {
+        let patientdata = [];
+        let patients;
+        if (Array.isArray(this.props.patients))
+            patients = this.props.patients;
+        else
+            patients = [this.props.patients];
+
+        patients.forEach((patient,i) => {
             patientdata.push(
-                <PatientData key={'patientdata-0'} patient={this.props.patient} showlabels={this.props.showlabels}/>
+                <PatientData key={'patientdata-'+i} patient={patient} showlabels={this.props.showlabels}/>
             );
-    }
+        });
+
         return (
             <svg width={Store.getSize().width} height={Store.getSize().height}>
                 {title}

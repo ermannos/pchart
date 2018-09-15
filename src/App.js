@@ -82,6 +82,7 @@ const testpatient3 = {
   lastname: 'Doe',
   sex: 'F',
   birthdate: '2018-01-14',
+  color: randomColor(),
   measures: [
     {
       date: '2018-01-23',
@@ -106,6 +107,14 @@ const testpatient3 = {
   ]
 }
 
+function randomColor() {
+  let letters = '0123456789ABCDEF';
+  let color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
 
 class App extends Component {
   render() {
@@ -120,8 +129,8 @@ class App extends Component {
 
         <div className='container'>
           <div className='row'>
-            <PChart width={800} height={800} dataset={dataset1} patient={testpatient1} showtitle />
-            <PChart width={800} height={800} dataset={dataset11} patient={testpatient1} showtitle />
+            <PChart width={800} height={800} dataset={dataset1} patients={testpatient1} showtitle />
+            <PChart width={800} height={800} dataset={dataset11} patients={testpatient1} showtitle />
           </div>
           <div className='row'>
             <PChart width={1200} height={800} dataset={dataset2} patients={[testpatient2,testpatient3]} showtitle showlabels/>

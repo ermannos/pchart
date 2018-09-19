@@ -1,4 +1,5 @@
-This file is part of PChart library.
+GNU GENERAL PUBLIC LICENSE
+Version 3, 29 June 2007
 Copyright (c) 2018-present Ermanno Scanagatta
 
 PChart is free software: you can redistribute it and/or modify

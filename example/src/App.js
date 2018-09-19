@@ -8,7 +8,7 @@ let percentiles = [3,10,25,50,75,90,97];
 const testpatient1 = {
   firstname: 'John',
   lastname: 'Doe',
-  sex: 'M',
+  sex: 'male',
   birthdate: '2002-04-27',
   measures: [
     {
@@ -49,7 +49,7 @@ const testpatient1 = {
 const testpatient2 = {
   firstname: 'Jane',
   lastname: 'Doe',
-  sex: 'F',
+  sex: 'female',
   birthdate: '2018-01-14',
   measures: [
     {
@@ -74,11 +74,10 @@ const testpatient2 = {
     },
   ]
 }
-
 const testpatient3 = {
   firstname: 'Janelle',
   lastname: 'Doe',
-  sex: 'F',
+  sex: 'female',
   birthdate: '2018-01-14',
   color: randomColor(),
   measures: [

@@ -1,6 +1,6 @@
 {
-  "title": "Altezza (cm)",
-  "description": "Altezza/lunghezza per età, femmine, da 0 a 13 settimane (WHO)",
+  "title": "Height (cm)",
+  "description": "Height/length for age, girls, from 0 to 13 weeks (WHO)",
   "sex": "female",
   "unitX": "week",
   "unitY": "cm",

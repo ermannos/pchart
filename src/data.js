@@ -104,7 +104,7 @@ const zIndex = {
     99: 2.3263
 }
 
-export class Dataset {
+export default class Dataset {
     constructor (lmsDataset, percentiles) {
         this.title = lmsDataset.title;
         this.description = lmsDataset.description;

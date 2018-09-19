@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import PChart from './lib/chart';
-import {Dataset} from './lib/data';
-import height_boy_018 from './ch/height_boy_018.json';
+import {Dataset,PChart} from 'pchart';
 import who_height_boys_519 from './who/height_boys_5-19Y.json';
 import who_height_girls_013W from './who/height_girls_0-13W.json';
 import './App.css';
@@ -118,22 +116,20 @@ function randomColor() {
 
 class App extends Component {
   render() {
-    let dataset1 = new Dataset(height_boy_018, percentiles);
-    let dataset11 = new Dataset(who_height_boys_519, percentiles);
+    let dataset1 = new Dataset(who_height_boys_519, percentiles);
     let dataset2 = new Dataset(who_height_girls_013W, percentiles);
     return (
       <div className="App">
         <div className="App-header">
-          <h1 className="App-title">PChart</h1>
+          <h1 className="App-title">PChart example</h1>
         </div>
 
         <div className='container'>
           <div className='row'>
-            <PChart width={800} height={800} dataset={dataset1} patients={testpatient1} showtitle />
-            <PChart width={800} height={800} dataset={dataset11} patients={testpatient1} showtitle />
+            <PChart width={1200} height={800} dataset={dataset1} patients={testpatient1} showtitle />
           </div>
           <div className='row'>
-            <PChart width={1200} height={800} dataset={dataset2} patients={[testpatient2,testpatient3]} showtitle showlabels/>
+            < PChart width={1200} height={800} dataset={dataset2} patients={[testpatient2,testpatient3]} showtitle showlabels/>
           </div>
         </div>
       </div>

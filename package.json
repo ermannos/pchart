@@ -1,6 +1,6 @@
 {
   "name": "pchart",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "PChart",
   "author": "Ermanno Scanagatta",
   "license": "MIT",
@@ -16,6 +16,13 @@
     "node": ">=8",
     "npm": ">=5"
   },
+  "keywords": [
+    "chart",
+    "percentile",
+    "pediatric",
+    "growth",
+    "react"
+  ],
   "scripts": {
     "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --recursive",
     "test": "cross-env CI=1 react-scripts test --env=jsdom",

@@ -42,10 +42,9 @@ class Example extends Component {
 ```
 
 ## Example
-To run the included example open the terminal and run:
+To run the included example open the terminal in the project folder and run:
 ```bash
 npm install
-npm run build
 cd example
 npm install
 npm start

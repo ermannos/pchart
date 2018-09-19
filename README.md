@@ -13,17 +13,42 @@ npm install --save pchart
 ## Usage
 
 ```jsx
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import {PChart, Dataset} from 'pchart';
+import who_height_boys_013W from './who/height_boys_0-13W.json';
 
-import MyComponent from 'pchart'
+const percentiles = [5,25,50,75,95];
+const patient = {
+  firstname: 'John',
+  lastname: 'Smith',
+  sex: 'M',
+  birthdate: '2018-01-14',
+  measures: [
+    {
+      date: '2018-01-23',
+      height: 51
+    }
+  ]
+}
 
 class Example extends Component {
   render () {
+    let dataset = new Dataset(who_height_boys_013W, percentiles);
     return (
-      <MyComponent />
+      <PChart width={1200} height={800} dataset={dataset} patients={patient} showtitle showlabels/>
     )
   }
 }
+```
+
+## Example
+To run the included example open the terminal and run:
+```bash
+npm install
+npm run build
+cd example
+npm install
+npm start
 ```
 
 ## License

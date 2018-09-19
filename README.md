@@ -131,4 +131,4 @@ npm start
 
 ## License
 
-MIT © [](https://github.com/)
+GNU GPL-3.0

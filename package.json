@@ -1,9 +1,9 @@
 {
   "name": "pchart",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "PChart",
   "author": "Ermanno Scanagatta",
-  "license": "MIT",
+  "license": "GPL-3.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/ermannos/pchart"

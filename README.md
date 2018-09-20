@@ -1,6 +1,6 @@
 # PChart
 
-[![NPM](https://img.shields.io/npm/v/pchart.svg)](https://www.npmjs.com/package/pchart) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![Build Status][build-badge]][build] [![NPM](https://img.shields.io/npm/v/pchart.svg)](https://www.npmjs.com/package/pchart) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) [![MIT License][license-badge]][license]
 
 A really simple charting component made for React to display percentile charts, more specifically child growth charts.
 

@@ -16,10 +16,11 @@
 */
 import React, { Component } from 'react';
 import Store from './store';
+import { withTheme } from '@callstack/react-theme-provider';
 let short_tick_len = 5;
 let long_tick_len = 10;
 
-export default class XAxis extends Component {
+class XAxis extends Component {
     render() {
         let step = Store.getDataset().getUnitX()==='month' ? 6 : (Store.getDataset().getUnitX()==='week' ? 1 : 5);
         let labelstep = Store.getDataset().getUnitX()==='month' ? 2 : 1;
@@ -31,7 +32,7 @@ export default class XAxis extends Component {
             let y1 = Store.getSize().height-Store.getMargins().bottom;
             let y2 = y1 + (long ? long_tick_len : short_tick_len);
             ticks.push(
-                <line className={long?'longtick':'tick'} key={'tick-'+t} x1={x} y1={y1} x2={x} y2={y2}/>
+                <line className={long?'longtick':'tick'} key={'tick-'+t} x1={x} y1={y1} x2={x} y2={y2} stroke={this.props.theme.axisColor}/>
             );
             let showlabel = t%(step*labelstep)===0
             if (showlabel) {
@@ -46,7 +47,8 @@ export default class XAxis extends Component {
         return (
             <g name='xaxis' className='axis'>
                 <line x1={Store.getMeasures().left} y1={Store.getMeasures().bottom} 
-                    x2={Store.getMeasures().right} y2={Store.getMeasures().bottom}/>
+                    x2={Store.getMeasures().right} y2={Store.getMeasures().bottom}
+                    stroke={this.props.theme.axisColor}/>
                 <g>
                     {ticks}
                 </g>
@@ -61,3 +63,4 @@ export default class XAxis extends Component {
     }
 }
 
+export default withTheme(XAxis);

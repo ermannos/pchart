@@ -1,16 +1,10 @@
 $font-family: 'Lucida Grande',Verdana,Arial, Helvetica, sans-serif;
-$background-color: 'transparent'; //#DCEDC8;
-$backcolor: #FFFDE7;
 $axis-stroke-width-primary: .6;
 $axis-stroke-width-secondary: .3;
-$axis-stroke-color: #707070;
 $grid-stroke-width-primary: .6;
 $grid-stroke-width-secondary: .3;
-$grid-stroke-color: #FFD54F;
-$area-color: rgba(127,127,127, .3);
 
 svg {
-    background-color: $background-color;
     font-family: $font-family;
     font-weight: lighter;
 }
@@ -20,12 +14,10 @@ svg {
 }
 
 .backdrop {
-    fill: $backcolor;
     z-index: 1;
 }
 
 .axis {
-    stroke: black;
     stroke-width: $axis-stroke-width-primary;
 
     text[name="valuelabel"] {
@@ -38,12 +30,10 @@ svg {
     }
 
     .tick {
-        stroke: $axis-stroke-color;
         stroke-width: $axis-stroke-width-secondary;
     }
 
     .longtick {
-        stroke:$axis-stroke-color;
         stroke-width: $axis-stroke-width-primary;
     }
 }
@@ -52,11 +42,9 @@ svg {
     z-index: 2;
 
     .refline {
-        stroke: $grid-stroke-color;
         stroke-width: $grid-stroke-width-secondary;
     }
     .longrefline {
-        stroke: $grid-stroke-color;
         stroke-width: $grid-stroke-width-primary;
     }
 }
@@ -66,7 +54,6 @@ svg {
 
     .area-curve {
         stroke: none;
-        fill: $area-color
     }
 }
 

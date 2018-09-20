@@ -64,6 +64,7 @@ const patient = {
   lastname: 'Smith',
   sex: 'male',
   birthdate: '2018-01-14',
+  color: 'red',
   measures: [
     {
       date: '2018-01-23',
@@ -78,6 +79,21 @@ const patient = {
 <PChart width={1200} height={800} dataset={dataset} patients={patient}/>
 ```
 
+## Theming
+You can override the default theme passing an object containing some styling properties
+This is the content of the default theme:
+
+```javascript
+const defaultTheme = {
+  backgroundColor: 'transparent',
+  backdropFill: '#FFFDE7',
+  axisColor: '#707070',
+  gridColor: '#FFD54F',
+  areaColor: 'rgba(127,127,127, .3)'
+}
+```
+
+
 ## PChart properties
 Property | Type | Default | Description
 ---------|------|---------|------------
@@ -87,6 +103,7 @@ dataset|object|null|The dataset object containingall the data used to build the 
 patients|object or array|null|A single patient object, or an array of patient objects to be displayed on the chart
 showtitle|boolean|false|If true, the percentile data description field will be shown above the chart as a title
 showlabels|boolean|false|If true, a label indicating the percentile value will be shown above every patient data point in the chart
+theme|object|null|An object containing styling properties used to override the default theme
 
 
 ## Sample code
@@ -109,12 +126,17 @@ const patient = {
     }
   ]
 }
+const theme = {
+  backdropFill: '#B2EBF2',
+  gridColor: '#00ACC1',
+  areaColor: 'rgba(0,172,193,.4)'
+}
 
 class Example extends Component {
   render () {
     let dataset = new Dataset(who_height_boys_013W, percentiles);
     return (
-      <PChart width={1200} height={800} dataset={dataset} patients={patient} showtitle showlabels/>
+      <PChart width={1200} height={800} dataset={dataset} patients={patient} theme={theme} showtitle showlabels/>
     )
   }
 }

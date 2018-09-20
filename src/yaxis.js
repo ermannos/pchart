@@ -16,10 +16,11 @@
 */
 import React, { Component } from 'react';
 import Store from './store';
+import { withTheme } from '@callstack/react-theme-provider';
 let short_tick_len = 5;
 let long_tick_len = 10;
 
-export default class YAxis extends Component {
+class YAxis extends Component {
     render() {
         let labelstep = 2;
         let tickcount = Store.getMeasures().maxY-Store.getMeasures().minY;
@@ -33,7 +34,7 @@ export default class YAxis extends Component {
             let x2 = x1 - (long ? long_tick_len : short_tick_len);
             let y = Store.getMeasures().bottom - t*stepY;
             ticks.push(
-                <line className={long ? 'longtick' : 'tick'} key={'tick-' + t} x1={x1} y1={y} x2={x2} y2={y}/>
+                <line className={long ? 'longtick' : 'tick'} key={'tick-' + t} x1={x1} y1={y} x2={x2} y2={y} stroke={this.props.theme.axisColor}/>
             );
             let showlabel = t%(Store.getStep()*labelstep)===0;
             if (showlabel) {
@@ -47,7 +48,8 @@ export default class YAxis extends Component {
         return (
             <g name='yaxis' className='axis'>
                 <line x1={Store.getMeasures().left} y1={Store.getMeasures().bottom} 
-                    x2={Store.getMeasures().left} y2={Store.getMeasures().top}/>
+                    x2={Store.getMeasures().left} y2={Store.getMeasures().top}
+                    stroke={this.props.theme.axisColor}/>
                 <g>
                     {ticks}                    
                 </g>
@@ -63,4 +65,6 @@ export default class YAxis extends Component {
         );
     }
 }
+
+export default withTheme(YAxis);
 

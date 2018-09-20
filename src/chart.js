@@ -24,6 +24,7 @@ import Grid from './grid';
 import Areas from './areas';
 import Percentiles from './percentiles';
 import PatientData from './patient';
+import { ThemeProvider } from '@callstack/react-theme-provider';
 
 class PChart extends Component {
     constructor(props) {
@@ -59,17 +60,34 @@ class PChart extends Component {
             );
         });
 
+        const defaultTheme = {
+            backgroundColor: 'transparent',
+            backdropFill: '#FFFDE7',
+            axisColor: '#707070',
+            gridColor: '#FFD54F',
+            areaColor: 'rgba(127,127,127, .3)'
+        }
+
+        let theme;
+        if (this.props.theme) {
+            theme = Object.assign({}, defaultTheme, this.props.theme);
+        } else {
+            theme = defaultTheme;
+        }
+
         return (
-            <svg width={Store.getSize().width} height={Store.getSize().height}>
-                {title}
-                <Backdrop/>
-                <XAxis/>
-                <YAxis/>
-                <Grid/>
-                <Areas/>
-                <Percentiles/>
-                {patientdata}
-            </svg>
+            <ThemeProvider theme={theme}>
+                <svg width={Store.getSize().width} height={Store.getSize().height} style={{backgroundColor:defaultTheme.backgroundColor}}>
+                    {title}
+                    <Backdrop/>
+                    <XAxis/>
+                    <YAxis/>
+                    <Grid/>
+                    <Areas/>
+                    <Percentiles/>
+                    {patientdata}
+                </svg>
+            </ThemeProvider>
         );
     }
 }

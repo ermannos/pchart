@@ -16,11 +16,12 @@
 */
 import React, { Component } from 'react';
 import Store from './store';
+import { withTheme } from '@callstack/react-theme-provider';
 
 class Backdrop extends Component {
     render() {
         return (
-            <rect name='backdrop' className='backdrop' 
+            <rect name='backdrop' className='backdrop' fill={this.props.theme.backdropFill}
                 x={Store.getMeasures().left} 
                 y={Store.getMeasures().top} 
                 width={Store.getMeasures().width} 
@@ -29,4 +30,4 @@ class Backdrop extends Component {
     }
 }
 
-export default Backdrop;
+export default withTheme(Backdrop);

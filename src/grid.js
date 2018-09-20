@@ -16,6 +16,7 @@
 */
 import React, { Component } from 'react';
 import Store from './store';
+import { withTheme } from '@callstack/react-theme-provider';
 
 class Grid extends Component {
     render() {
@@ -29,7 +30,7 @@ class Grid extends Component {
             let y1 = Store.getMeasures().bottom;
             let y2 = Store.getMeasures().top;
             reflinesx.push(
-                <line className={long?'longrefline':'refline'} key={'reflinex-'+t} x1={x} y1={y1} x2={x} y2={y2}/>
+                <line className={long?'longrefline':'refline'} key={'reflinex-'+t} x1={x} y1={y1} x2={x} y2={y2} stroke={this.props.theme.gridColor}/>
             );
         }
 
@@ -43,7 +44,7 @@ class Grid extends Component {
             let x2 = Store.getMeasures().right;
             let y = Store.getMeasures().bottom - t*stepY;
             reflinesy.push(
-                <line className={long ? 'longrefline' : 'refline'} key={'refliney-' + t} x1={x1} y1={y} x2={x2} y2={y}/>
+                <line className={long ? 'longrefline' : 'refline'} key={'refliney-' + t} x1={x1} y1={y} x2={x2} y2={y} stroke={this.props.theme.gridColor}/>
             );
         }
         return (
@@ -55,5 +56,5 @@ class Grid extends Component {
     }
 }
 
-export default Grid;
+export default withTheme(Grid);
 

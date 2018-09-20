@@ -120,6 +120,15 @@ const testpatient3 = {
   ]
 }
 
+const theme1 = {
+  backdropFill: '#B2EBF2',
+  gridColor: '#00ACC1',
+  areaColor: 'rgba(0,172,193,.4)'
+}
+const theme2 = {
+  backdropFill: '#FFF9C4'
+}
+
 function randomColor() {
   let letters = '0123456789ABCDEF';
   let color = '#';
@@ -141,10 +150,10 @@ class App extends Component {
 
         <div className='container'>
           <div className='row'>
-            <PChart width={1200} height={800} dataset={dataset1} patients={testpatient1} showtitle />
+            <PChart width={1200} height={800} dataset={dataset1} patients={testpatient1} showtitle theme={theme1}/>
           </div>
           <div className='row'>
-            < PChart width={1200} height={800} dataset={dataset2} patients={[testpatient2,testpatient3]} showtitle showlabels/>
+            < PChart width={1200} height={800} dataset={dataset2} patients={[testpatient2,testpatient3]} theme={theme2} showtitle showlabels/>
           </div>
         </div>
       </div>

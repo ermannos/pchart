@@ -16,6 +16,7 @@
 */
 import React, { Component } from 'react';
 import Store from './store';
+import { withTheme } from '@callstack/react-theme-provider';
 
 class Areas extends Component {
     render() {
@@ -37,7 +38,7 @@ class Areas extends Component {
         });
         pathStr += 'Z';
         areas.push(
-            <path className='area-curve' key='area-curve-1' name='area-curve-1' d={pathStr}/>
+            <path className='area-curve' key='area-curve-1' name='area-curve-1' d={pathStr} fill={this.props.theme.areaColor}/>
         );
 
         if (Store.getDataset().percentiles.length>=4) {
@@ -58,7 +59,7 @@ class Areas extends Component {
             });
             pathStr += 'Z';
             areas.push(
-                <path className='area-curve' key='area-curve-2' name='area-curve-2' d={pathStr}/>
+                <path className='area-curve' key='area-curve-2' name='area-curve-2' d={pathStr} fill={this.props.theme.areaColor}/>
             );
     
         }
@@ -71,4 +72,4 @@ class Areas extends Component {
     }
 }
 
-export default Areas;
+export default withTheme(Areas);

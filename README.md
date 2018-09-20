@@ -80,7 +80,7 @@ const patient = {
 ```
 
 ## Theming
-You can override the default theme passing an object containing some styling properties
+You can override the default theme passing an object containing some styling properties. 
 This is the content of the default theme:
 
 ```javascript
@@ -92,7 +92,7 @@ const defaultTheme = {
   areaColor: 'rgba(127,127,127, .3)'
 }
 ```
-
+The color of patient data points can be specified in the patient data structure (if not, the default is red).
 
 ## PChart properties
 Property | Type | Default | Description

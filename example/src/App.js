@@ -122,11 +122,11 @@ const testpatient3 = {
 
 const theme1 = {
   backdropFill: '#B2EBF2',
-  gridColor: '#00ACC1',
-  areaColor: 'rgba(0,172,193,.4)'
+  gridColor: '#00ACC1'
 }
 const theme2 = {
-  backdropFill: '#FFF9C4'
+  backdropFill: '#E7CBEB',
+  gridColor: '#aa00ff',
 }
 
 function randomColor() {

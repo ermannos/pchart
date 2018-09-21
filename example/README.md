@@ -8,6 +8,9 @@ npm install
 npm start
 ```
 
+## Example chart
+![Example chart](pchart.png?raw=true "Example chart")
+
 ## License
 
 MIT © [](https://github.com/)

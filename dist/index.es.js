@@ -1836,7 +1836,8 @@ var XAxis = function (_Component) {
                     ));
                 }
             }
-            var axisTitle = Store.getDataset().getUnitX() === 'month' ? 'Mesi' : Store.getDataset().getUnitX() === 'week' ? 'Settimane' : '';
+            var axisTitle = Store.getDataset().getUnitX() + 's';
+            axisTitle = axisTitle.charAt(0).toUpperCase() + axisTitle.toLowerCase().substr(1);
             return React.createElement(
                 'g',
                 { name: 'xaxis', className: 'axis' },

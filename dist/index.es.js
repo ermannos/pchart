@@ -1582,6 +1582,7 @@ var hoistNonReactStatics = createCommonjsModule(function (module, exports) {
 var REACT_METHODS = ['autobind', 'childContextTypes', 'componentDidMount', 'componentDidUpdate', 'componentWillMount', 'componentWillReceiveProps', 'componentWillUnmount', 'componentWillUpdate', 'contextTypes', 'displayName', 'getChildContext', 'getDefaultProps', 'getDOMNode', 'getInitialState', 'mixins', 'propTypes', 'render', 'replaceProps', 'setProps', 'shouldComponentUpdate', 'statics', 'updateComponent'];
 
 function copyRefs(TargetComponent, SourceComponent) {
+  // $FlowFixMe
   if (!SourceComponent.prototype) {
     return TargetComponent;
   }
@@ -1836,8 +1837,7 @@ var XAxis = function (_Component) {
                     ));
                 }
             }
-            var axisTitle = Store.getDataset().getUnitX() + 's';
-            axisTitle = axisTitle.charAt(0).toUpperCase() + axisTitle.toLowerCase().substr(1);
+            var axisTitle = Store.getDataset().getUnitX() === 'month' ? 'Mesi' : Store.getDataset().getUnitX() === 'week' ? 'Settimane' : '';
             return React.createElement(
                 'g',
                 { name: 'xaxis', className: 'axis' },

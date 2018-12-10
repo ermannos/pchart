@@ -1589,6 +1589,7 @@ var hoistNonReactStatics = createCommonjsModule(function (module, exports) {
 var REACT_METHODS = ['autobind', 'childContextTypes', 'componentDidMount', 'componentDidUpdate', 'componentWillMount', 'componentWillReceiveProps', 'componentWillUnmount', 'componentWillUpdate', 'contextTypes', 'displayName', 'getChildContext', 'getDefaultProps', 'getDOMNode', 'getInitialState', 'mixins', 'propTypes', 'render', 'replaceProps', 'setProps', 'shouldComponentUpdate', 'statics', 'updateComponent'];
 
 function copyRefs(TargetComponent, SourceComponent) {
+  // $FlowFixMe
   if (!SourceComponent.prototype) {
     return TargetComponent;
   }

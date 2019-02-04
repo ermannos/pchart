@@ -6713,6 +6713,7 @@ var PatientData = function (_Component) {
             var points = [];
             var lineStr = '';
             this.props.patient.measures.forEach(function (m, i) {
+                if (!m) return;
                 var pointdate = moment(m.date);
                 var birthdate = moment(_this2.props.patient.birthdate);
                 var datediff = pointdate.diff(birthdate, Store.getDataset().getUnitX());

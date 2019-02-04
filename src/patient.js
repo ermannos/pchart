@@ -33,6 +33,7 @@ export default class PatientData extends Component {
 
             let x = Store.transformX(datediff) + Store.getMeasures().left;
             let y = Store.getMeasures().bottom - Store.transformY(value);
+            if (isNaN(y)) return;
 
             if (this.props.showlabels)
                 labels.push(

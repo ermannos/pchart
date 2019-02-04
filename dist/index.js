@@ -6722,6 +6722,7 @@ var PatientData = function (_Component) {
 
                 var x = Store.transformX(datediff) + Store.getMeasures().left;
                 var y = Store.getMeasures().bottom - Store.transformY(value);
+                if (isNaN(y)) return;
 
                 if (_this2.props.showlabels) labels.push(React__default.createElement(
                     'text',

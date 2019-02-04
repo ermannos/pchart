@@ -42,6 +42,21 @@ class PChart extends Component {
         });
     }
 
+    componentWillReceiveProps(props) {
+        let w = props.width;
+        let h = props.height;
+        if (isNaN(w)) { w = 800; console.error("Error: width property must be a number. Using the default value") }
+        if (isNaN(h)) { h = 800; console.error("Error: height property must be a number. Using the default value") }
+
+        Store.initialize({
+            dataset: props.dataset,
+            size:{width:w,height:h},
+            margins: {left:60,right:10,top:this.props.showtitle ? 50 : 10,bottom:40},
+            step:5
+        });
+        this.forceUpdate();
+    }
+
     render() {
         let title;
         if (this.props.showtitle) 

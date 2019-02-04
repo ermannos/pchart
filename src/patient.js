@@ -24,6 +24,7 @@ export default class PatientData extends Component {
         let points = [];
         let lineStr = ''
         this.props.patient.measures.forEach((m,i) => {
+            if (!m) return;
             let pointdate = moment(m.date);
             let birthdate =  moment(this.props.patient.birthdate);
             let datediff = pointdate.diff(birthdate, Store.getDataset().getUnitX());

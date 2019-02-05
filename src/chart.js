@@ -42,6 +42,8 @@ class PChart extends Component {
 
     componentWillReceiveProps(props) {
         this.setSize(props.width, props.height);
+        if (props.dataset)
+            this.store.setDataset(props.dataset);
         this.setState({size:this.store.getSize()});
     }
 

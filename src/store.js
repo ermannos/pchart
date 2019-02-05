@@ -23,6 +23,15 @@ export default class Store {
 
     setSize(size) {
         this.size = size;
+        this._init();
+    }
+
+    setDataset(dataset) {
+        this.dataset = dataset;
+        this._init();
+    }
+
+    _init() {
 
         this.top = this.margins.top;
         this.bottom = this.size.height - this.margins.bottom;

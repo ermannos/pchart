@@ -107,6 +107,17 @@ var Store = function () {
         key: "setSize",
         value: function setSize(size) {
             this.size = size;
+            this._init();
+        }
+    }, {
+        key: "setDataset",
+        value: function setDataset(dataset) {
+            this.dataset = dataset;
+            this._init();
+        }
+    }, {
+        key: "_init",
+        value: function _init() {
 
             this.top = this.margins.top;
             this.bottom = this.size.height - this.margins.bottom;
@@ -6848,6 +6859,7 @@ var PChart = function (_Component) {
         key: 'componentWillReceiveProps',
         value: function componentWillReceiveProps(props) {
             this.setSize(props.width, props.height);
+            if (props.dataset) this.store.setDataset(props.dataset);
             this.setState({ size: this.store.getSize() });
         }
     }, {

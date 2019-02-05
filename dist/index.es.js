@@ -94,86 +94,101 @@ var possibleConstructorReturn = function (self, call) {
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-var Store = {
-    initialize: function initialize(params) {
+var Store = function () {
+    function Store(params) {
+        classCallCheck(this, Store);
+
         this.dataset = params.dataset;
-        this.size = params.size;
         this.margins = params.margins;
         this.step = params.step;
-
-        this.top = this.margins.top;
-        this.bottom = this.size.height - this.margins.bottom;
-        this.left = this.margins.left;
-        this.right = this.size.width - this.margins.right;
-        this.width = this.size.width - this.margins.left - this.margins.right;
-        this.height = this.size.height - this.margins.top - this.margins.bottom;
-
-        var data = this.dataset.data;
-        this.keys = Object.keys(data);
-
-        this.countX = this.keys.length;
-        this.stepX = this.width / (this.countX - 1);
-        this.minX = this.keys[0];
-        this.maxX = this.keys[this.keys.length - 1];
-
-        var firstentry = data[this.keys[0]];
-        var lastentry = data[this.keys[this.keys.length - 1]];
-        var percentiles = Object.keys(firstentry);
-        var _min = firstentry[percentiles[0]];
-        var _max = lastentry[percentiles[percentiles.length - 1]];
-        var tolerance = .05;
-        this.minY = Math.floor((1 - tolerance) * _min / this.step) * this.step;
-        this.maxY = Math.ceil((1 + tolerance) * _max / this.step) * this.step;
-
-        this._transformX = new AxisTransformation(this.width, this.minX, this.maxX);
-        this._transformY = new AxisTransformation(this.height, this.minY, this.maxY);
-    },
-
-    getDataset: function getDataset() {
-        return this.dataset;
-    },
-
-    getSize: function getSize() {
-        return this.size;
-    },
-
-    getMargins: function getMargins() {
-        return this.margins;
-    },
-
-    getStep: function getStep() {
-        return this.step;
-    },
-
-    getMeasures: function getMeasures() {
-        return {
-            top: this.top,
-            bottom: this.bottom,
-            left: this.left,
-            right: this.right,
-            width: this.width,
-            height: this.height,
-
-            keys: this.keys,
-
-            countX: this.countX,
-            stepX: this.stepX,
-            minX: this.minX,
-            maxX: this.maxX,
-            minY: this.minY,
-            maxY: this.maxY
-        };
-    },
-
-    transformX: function transformX(value) {
-        return this._transformX.transform(value);
-    },
-
-    transformY: function transformY(value) {
-        return this._transformY.transform(value);
     }
 
-};
+    createClass(Store, [{
+        key: "setSize",
+        value: function setSize(size) {
+            this.size = size;
+
+            this.top = this.margins.top;
+            this.bottom = this.size.height - this.margins.bottom;
+            this.left = this.margins.left;
+            this.right = this.size.width - this.margins.right;
+            this.width = this.size.width - this.margins.left - this.margins.right;
+            this.height = this.size.height - this.margins.top - this.margins.bottom;
+
+            var data = this.dataset.data;
+            this.keys = Object.keys(data);
+
+            this.countX = this.keys.length;
+            this.stepX = this.width / (this.countX - 1);
+            this.minX = this.keys[0];
+            this.maxX = this.keys[this.keys.length - 1];
+
+            var firstentry = data[this.keys[0]];
+            var lastentry = data[this.keys[this.keys.length - 1]];
+            var percentiles = Object.keys(firstentry);
+            var _min = firstentry[percentiles[0]];
+            var _max = lastentry[percentiles[percentiles.length - 1]];
+            var tolerance = .05;
+            this.minY = Math.floor((1 - tolerance) * _min / this.step) * this.step;
+            this.maxY = Math.ceil((1 + tolerance) * _max / this.step) * this.step;
+
+            this._transformX = new AxisTransformation(this.width, this.minX, this.maxX);
+            this._transformY = new AxisTransformation(this.height, this.minY, this.maxY);
+        }
+    }, {
+        key: "getDataset",
+        value: function getDataset() {
+            return this.dataset;
+        }
+    }, {
+        key: "getSize",
+        value: function getSize() {
+            return this.size;
+        }
+    }, {
+        key: "getMargins",
+        value: function getMargins() {
+            return this.margins;
+        }
+    }, {
+        key: "getStep",
+        value: function getStep() {
+            return this.step;
+        }
+    }, {
+        key: "getMeasures",
+        value: function getMeasures() {
+            return {
+                top: this.top,
+                bottom: this.bottom,
+                left: this.left,
+                right: this.right,
+                width: this.width,
+                height: this.height,
+
+                keys: this.keys,
+
+                countX: this.countX,
+                stepX: this.stepX,
+                minX: this.minX,
+                maxX: this.maxX,
+                minY: this.minY,
+                maxY: this.maxY
+            };
+        }
+    }, {
+        key: "transformX",
+        value: function transformX(value) {
+            return this._transformX.transform(value);
+        }
+    }, {
+        key: "transformY",
+        value: function transformY(value) {
+            return this._transformY.transform(value);
+        }
+    }]);
+    return Store;
+}();
 
 var AxisTransformation = function () {
     function AxisTransformation(len, minValue, maxValue) {
@@ -193,6 +208,24 @@ var AxisTransformation = function () {
     }]);
     return AxisTransformation;
 }();
+
+/*
+    Copyright (C) 2019  Ermanno Scanagatta
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+var StoreContext = React.createContext({ value: 'ciao' });
 
 function unwrapExports (x) {
 	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
@@ -1775,11 +1808,19 @@ var Backdrop = function (_Component) {
     createClass(Backdrop, [{
         key: 'render',
         value: function render() {
-            return React.createElement('rect', { name: 'backdrop', className: 'backdrop', fill: this.props.theme.backdropFill,
-                x: Store.getMeasures().left,
-                y: Store.getMeasures().top,
-                width: Store.getMeasures().width,
-                height: Store.getMeasures().height });
+            var _this2 = this;
+
+            return React.createElement(
+                StoreContext.Consumer,
+                null,
+                function (store) {
+                    return React.createElement('rect', { name: 'backdrop', className: 'backdrop', fill: _this2.props.theme.backdropFill,
+                        x: store.getMeasures().left,
+                        y: store.getMeasures().top,
+                        width: store.getMeasures().width,
+                        height: store.getMeasures().height });
+                }
+            );
         }
     }]);
     return Backdrop;
@@ -1817,14 +1858,15 @@ var XAxis = function (_Component) {
     createClass(XAxis, [{
         key: 'render',
         value: function render() {
-            var step = Store.getDataset().getUnitX() === 'month' ? 6 : Store.getDataset().getUnitX() === 'week' ? 1 : 5;
-            var labelstep = Store.getDataset().getUnitX() === 'month' ? 2 : 1;
+            var store = this.context;
+            var step = store.getDataset().getUnitX() === 'month' ? 6 : store.getDataset().getUnitX() === 'week' ? 1 : 5;
+            var labelstep = store.getDataset().getUnitX() === 'month' ? 2 : 1;
             var ticks = [];
             var valuelabels = [];
-            for (var t = 0; t < Store.getMeasures().countX; t++) {
+            for (var t = 0; t < store.getMeasures().countX; t++) {
                 var long = t % step === 0;
-                var x = Store.getMeasures().left + t * Store.getMeasures().stepX;
-                var y1 = Store.getSize().height - Store.getMargins().bottom;
+                var x = store.getMeasures().left + t * store.getMeasures().stepX;
+                var y1 = store.getSize().height - store.getMargins().bottom;
                 var y2 = y1 + (long ? long_tick_len : short_tick_len);
                 ticks.push(React.createElement('line', { className: long ? 'longtick' : 'tick', key: 'tick-' + t, x1: x, y1: y1, x2: x, y2: y2, stroke: this.props.theme.axisColor }));
                 var showlabel = t % (step * labelstep) === 0;
@@ -1832,16 +1874,16 @@ var XAxis = function (_Component) {
                     valuelabels.push(React.createElement(
                         'text',
                         { key: 'valuelabel-' + t, name: 'valuelabel', x: x, y: y2 + 2 + 10, textAnchor: 'middle' },
-                        Store.getMeasures().keys[t]
+                        store.getMeasures().keys[t]
                     ));
                 }
             }
-            var axisTitle = Store.getDataset().getUnitX() === 'month' ? 'Mesi' : Store.getDataset().getUnitX() === 'week' ? 'Settimane' : '';
+            var axisTitle = store.getDataset().getTitleX();
             return React.createElement(
                 'g',
                 { name: 'xaxis', className: 'axis' },
-                React.createElement('line', { x1: Store.getMeasures().left, y1: Store.getMeasures().bottom,
-                    x2: Store.getMeasures().right, y2: Store.getMeasures().bottom,
+                React.createElement('line', { x1: store.getMeasures().left, y1: store.getMeasures().bottom,
+                    x2: store.getMeasures().right, y2: store.getMeasures().bottom,
                     stroke: this.props.theme.axisColor }),
                 React.createElement(
                     'g',
@@ -1855,7 +1897,7 @@ var XAxis = function (_Component) {
                 ),
                 React.createElement(
                     'text',
-                    { name: 'axislabel', x: (Store.getMargins().left + Store.getMeasures().right) / 2, y: Store.getSize().height - 5, textAnchor: 'middle' },
+                    { name: 'axislabel', x: (store.getMargins().left + store.getMeasures().right) / 2, y: store.getSize().height - 5, textAnchor: 'middle' },
                     axisTitle
                 )
             );
@@ -1863,6 +1905,8 @@ var XAxis = function (_Component) {
     }]);
     return XAxis;
 }(Component);
+
+XAxis.contextType = StoreContext;
 
 var XAxis$1 = withTheme(XAxis);
 
@@ -1896,32 +1940,33 @@ var YAxis = function (_Component) {
     createClass(YAxis, [{
         key: 'render',
         value: function render() {
+            var store = this.context;
             var labelstep = 2;
-            var tickcount = Store.getMeasures().maxY - Store.getMeasures().minY;
-            var stepY = Store.getMeasures().height / tickcount;
+            var tickcount = store.getMeasures().maxY - store.getMeasures().minY;
+            var stepY = store.getMeasures().height / tickcount;
 
             var ticks = [];
             var valuelabels = [];
             for (var t = 0; t <= tickcount; t++) {
-                var long = t % Store.getStep() === 0;
-                var x1 = Store.getMeasures().left;
+                var long = t % store.getStep() === 0;
+                var x1 = store.getMeasures().left;
                 var x2 = x1 - (long ? long_tick_len$1 : short_tick_len$1);
-                var y = Store.getMeasures().bottom - t * stepY;
+                var y = store.getMeasures().bottom - t * stepY;
                 ticks.push(React.createElement('line', { className: long ? 'longtick' : 'tick', key: 'tick-' + t, x1: x1, y1: y, x2: x2, y2: y, stroke: this.props.theme.axisColor }));
-                var showlabel = t % (Store.getStep() * labelstep) === 0;
+                var showlabel = t % (store.getStep() * labelstep) === 0;
                 if (showlabel) {
                     valuelabels.push(React.createElement(
                         'text',
                         { name: 'valuelabel', key: 'valuelabel-' + t, x: x2 - 3, y: y, textAnchor: 'end', alignmentBaseline: 'middle' },
-                        Store.getMeasures().minY + t
+                        store.getMeasures().minY + t
                     ));
                 }
             }
             return React.createElement(
                 'g',
                 { name: 'yaxis', className: 'axis' },
-                React.createElement('line', { x1: Store.getMeasures().left, y1: Store.getMeasures().bottom,
-                    x2: Store.getMeasures().left, y2: Store.getMeasures().top,
+                React.createElement('line', { x1: store.getMeasures().left, y1: store.getMeasures().bottom,
+                    x2: store.getMeasures().left, y2: store.getMeasures().top,
                     stroke: this.props.theme.axisColor }),
                 React.createElement(
                     'g',
@@ -1936,15 +1981,17 @@ var YAxis = function (_Component) {
                 React.createElement(
                     'text',
                     { name: 'axislabel',
-                        x: 20, y: (Store.getMargins().top + Store.getMeasures().bottom) / 2,
-                        textAnchor: 'middle', transform: 'rotate(-90 20 ' + (Store.getMargins().top + Store.getMeasures().bottom) / 2 + ')' },
-                    Store.getDataset().getTitle()
+                        x: 20, y: (store.getMargins().top + store.getMeasures().bottom) / 2,
+                        textAnchor: 'middle', transform: 'rotate(-90 20 ' + (store.getMargins().top + store.getMeasures().bottom) / 2 + ')' },
+                    store.getDataset().getTitleY()
                 )
             );
         }
     }]);
     return YAxis;
 }(Component);
+
+YAxis.contextType = StoreContext;
 
 var YAxis$1 = withTheme(YAxis);
 
@@ -1976,27 +2023,28 @@ var Grid = function (_Component) {
     createClass(Grid, [{
         key: 'render',
         value: function render() {
-            var tickcountX = Store.getMeasures().keys.length;
-            var stepX = Store.getMeasures().width / (tickcountX - 1);
-            var step = Store.getDataset().getUnitX() === 'month' ? 6 : 5;
+            var store = this.context;
+            var tickcountX = store.getMeasures().keys.length;
+            var stepX = store.getMeasures().width / (tickcountX - 1);
+            var step = store.getDataset().getUnitX() === 'month' ? 6 : 5;
             var reflinesx = [];
             for (var t = 0; t < tickcountX; t++) {
                 var long = t % step === 0;
-                var x = Store.getMeasures().left + t * stepX;
-                var y1 = Store.getMeasures().bottom;
-                var y2 = Store.getMeasures().top;
+                var x = store.getMeasures().left + t * stepX;
+                var y1 = store.getMeasures().bottom;
+                var y2 = store.getMeasures().top;
                 reflinesx.push(React.createElement('line', { className: long ? 'longrefline' : 'refline', key: 'reflinex-' + t, x1: x, y1: y1, x2: x, y2: y2, stroke: this.props.theme.gridColor }));
             }
 
-            var tickCountY = Store.getMeasures().maxY - Store.getMeasures().minY;
-            var stepY = Store.getMeasures().height / tickCountY;
+            var tickCountY = store.getMeasures().maxY - store.getMeasures().minY;
+            var stepY = store.getMeasures().height / tickCountY;
 
             var reflinesy = [];
             for (var _t = 0; _t <= tickCountY; _t++) {
-                var _long = _t % Store.getStep() === 0;
-                var x1 = Store.getMeasures().left;
-                var x2 = Store.getMeasures().right;
-                var y = Store.getMeasures().bottom - _t * stepY;
+                var _long = _t % store.getStep() === 0;
+                var x1 = store.getMeasures().left;
+                var x2 = store.getMeasures().right;
+                var y = store.getMeasures().bottom - _t * stepY;
                 reflinesy.push(React.createElement('line', { className: _long ? 'longrefline' : 'refline', key: 'refliney-' + _t, x1: x1, y1: y, x2: x2, y2: y, stroke: this.props.theme.gridColor }));
             }
             return React.createElement(
@@ -2009,6 +2057,8 @@ var Grid = function (_Component) {
     }]);
     return Grid;
 }(Component);
+
+Grid.contextType = StoreContext;
 
 var Grid$1 = withTheme(Grid);
 
@@ -2040,38 +2090,39 @@ var Areas = function (_Component) {
     createClass(Areas, [{
         key: 'render',
         value: function render() {
+            var store = this.context;
             var areas = [];
-            var points1 = Store.getDataset().getPercentilePoints(0);
-            var points2 = Store.getDataset().getPercentilePoints(Store.getDataset().percentiles.length - 1);
+            var points1 = store.getDataset().getPercentilePoints(0);
+            var points2 = store.getDataset().getPercentilePoints(store.getDataset().percentiles.length - 1);
             var pathStr = '';
             points1.forEach(function (point, i) {
-                var x = Store.transformX(point[0]) + Store.getMargins().left;
-                var y = Store.getMeasures().bottom - Store.transformY(point[1]);
+                var x = store.transformX(point[0]) + store.getMargins().left;
+                var y = store.getMeasures().bottom - store.transformY(point[1]);
                 pathStr += i === 0 ? 'M' : 'L';
                 pathStr += x + ' ' + y + ' ';
             });
             points2.reverse().forEach(function (point, i) {
-                var x = Store.transformX(point[0]) + Store.getMargins().left;
-                var y = Store.getMeasures().bottom - Store.transformY(point[1]);
+                var x = store.transformX(point[0]) + store.getMargins().left;
+                var y = store.getMeasures().bottom - store.transformY(point[1]);
                 pathStr += 'L';
                 pathStr += x + ' ' + y + ' ';
             });
             pathStr += 'Z';
             areas.push(React.createElement('path', { className: 'area-curve', key: 'area-curve-1', name: 'area-curve-1', d: pathStr, fill: this.props.theme.areaColor }));
 
-            if (Store.getDataset().percentiles.length >= 4) {
-                var points3 = Store.getDataset().getPercentilePoints(1);
-                var points4 = Store.getDataset().getPercentilePoints(Store.getDataset().percentiles.length - 2);
+            if (store.getDataset().percentiles.length >= 4) {
+                var points3 = store.getDataset().getPercentilePoints(1);
+                var points4 = store.getDataset().getPercentilePoints(store.getDataset().percentiles.length - 2);
                 pathStr = '';
                 points3.forEach(function (point, i) {
-                    var x = Store.transformX(point[0]) + Store.getMargins().left;
-                    var y = Store.getMeasures().bottom - Store.transformY(point[1]);
+                    var x = store.transformX(point[0]) + store.getMargins().left;
+                    var y = store.getMeasures().bottom - store.transformY(point[1]);
                     pathStr += i === 0 ? 'M' : 'L';
                     pathStr += x + ' ' + y + ' ';
                 });
                 points4.reverse().forEach(function (point, i) {
-                    var x = Store.transformX(point[0]) + Store.getMargins().left;
-                    var y = Store.getMeasures().bottom - Store.transformY(point[1]);
+                    var x = store.transformX(point[0]) + store.getMargins().left;
+                    var y = store.getMeasures().bottom - store.transformY(point[1]);
                     pathStr += 'L';
                     pathStr += x + ' ' + y + ' ';
                 });
@@ -2088,6 +2139,8 @@ var Areas = function (_Component) {
     }]);
     return Areas;
 }(Component);
+
+Areas.contextType = StoreContext;
 
 var Areas$1 = withTheme(Areas);
 
@@ -2119,17 +2172,18 @@ var Percentiles = function (_Component) {
     createClass(Percentiles, [{
         key: 'render',
         value: function render() {
+            var store = this.context;
             var curves = [];
 
             var _loop = function _loop(j) {
-                var p = Store.getDataset().percentiles[j];
-                var points = Store.getDataset().getPercentilePoints(j);
+                var p = store.getDataset().percentiles[j];
+                var points = store.getDataset().getPercentilePoints(j);
                 var pathStr = '';
                 var lastx = void 0,
                     lasty = void 0;
                 points.forEach(function (point, i) {
-                    var x = Store.transformX(point[0]) + Store.getMeasures().left;
-                    var y = Store.getMeasures().bottom - Store.transformY(point[1]);
+                    var x = store.transformX(point[0]) + store.getMeasures().left;
+                    var y = store.getMeasures().bottom - store.transformY(point[1]);
                     pathStr += i === 0 ? 'M' : 'L';
                     pathStr += x + ' ' + y + ' ';
                     if (i === points.length - 1) {
@@ -2137,7 +2191,7 @@ var Percentiles = function (_Component) {
                         lasty = y;
                     }
                 });
-                curves.push(React.createElement('path', { className: 'percentile-curve' + (j === 0 || j === Store.getDataset().percentiles.length - 1 ? ' dotted' : ''), key: 'percentile-curve-' + p, name: 'percentile-' + p, d: pathStr }));
+                curves.push(React.createElement('path', { className: 'percentile-curve' + (j === 0 || j === store.getDataset().percentiles.length - 1 ? ' dotted' : ''), key: 'percentile-curve-' + p, name: 'percentile-' + p, d: pathStr }));
                 curves.push(React.createElement(
                     'text',
                     { key: 'percentile-label-' + p, className: 'percentile-label', x: lastx - 3, y: lasty - 3, textAnchor: 'end' },
@@ -2145,7 +2199,7 @@ var Percentiles = function (_Component) {
                 ));
             };
 
-            for (var j = 0; j < Store.getDataset().percentiles.length; j++) {
+            for (var j = 0; j < store.getDataset().percentiles.length; j++) {
                 _loop(j);
             }
             return React.createElement(
@@ -2157,6 +2211,8 @@ var Percentiles = function (_Component) {
     }]);
     return Percentiles;
 }(Component);
+
+Percentiles.contextType = StoreContext;
 
 var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -6702,6 +6758,7 @@ var PatientData = function (_Component) {
         value: function render() {
             var _this2 = this;
 
+            var store = this.context;
             var labels = [];
             var points = [];
             var lineStr = '';
@@ -6709,12 +6766,12 @@ var PatientData = function (_Component) {
                 if (!m) return;
                 var pointdate = moment(m.date);
                 var birthdate = moment(_this2.props.patient.birthdate);
-                var datediff = pointdate.diff(birthdate, Store.getDataset().getUnitX());
-                var value = m[Store.getDataset().getType()];
-                var percentile = Store.getDataset().getPercentileForValue(datediff, value);
+                var datediff = pointdate.diff(birthdate, store.getDataset().getUnitX());
+                var value = m[store.getDataset().getDataType()];
+                var percentile = store.getDataset().getPercentileForValue(datediff, value);
 
-                var x = Store.transformX(datediff) + Store.getMeasures().left;
-                var y = Store.getMeasures().bottom - Store.transformY(value);
+                var x = store.transformX(datediff) + store.getMeasures().left;
+                var y = store.getMeasures().bottom - store.transformY(value);
                 if (isNaN(y)) return;
 
                 if (_this2.props.showlabels) labels.push(React.createElement(
@@ -6730,7 +6787,7 @@ var PatientData = function (_Component) {
             return React.createElement(
                 'g',
                 { name: 'patient-data', className: 'patient-data' },
-                React.createElement('path', { className: 'percentile-line', d: lineStr, stroke: this.props.patient.color || 'red' }),
+                this.props.showlines ? React.createElement('path', { className: 'percentile-line', d: lineStr, stroke: this.props.patient.color || 'red' }) : '',
                 labels,
                 points
             );
@@ -6738,6 +6795,8 @@ var PatientData = function (_Component) {
     }]);
     return PatientData;
 }(Component);
+
+PatientData.contextType = StoreContext;
 
 /*
     Copyright (C) 2018  Ermanno Scanagatta
@@ -6764,43 +6823,32 @@ var PChart = function (_Component) {
 
         var _this = possibleConstructorReturn(this, (PChart.__proto__ || Object.getPrototypeOf(PChart)).call(this, props));
 
-        var w = props.width;
-        var h = props.height;
-        if (isNaN(w)) {
-            w = 800;console.error("Error: width property must be a number. Using the default value");
-        }
-        if (isNaN(h)) {
-            h = 800;console.error("Error: height property must be a number. Using the default value");
-        }
-
-        Store.initialize({
-            dataset: props.dataset,
-            size: { width: w, height: h },
-            margins: { left: 60, right: 10, top: _this.props.showtitle ? 50 : 10, bottom: 40 },
-            step: 5
-        });
-        return _this;
-    }
-
-    createClass(PChart, [{
-        key: 'componentWillReceiveProps',
-        value: function componentWillReceiveProps(props) {
-            var w = props.width;
-            var h = props.height;
+        _this.setSize = function (w, h) {
             if (isNaN(w)) {
                 w = 800;console.error("Error: width property must be a number. Using the default value");
             }
             if (isNaN(h)) {
                 h = 800;console.error("Error: height property must be a number. Using the default value");
             }
+            _this.store.setSize({ width: w, height: h });
+        };
 
-            Store.initialize({
-                dataset: props.dataset,
-                size: { width: w, height: h },
-                margins: { left: 60, right: 10, top: this.props.showtitle ? 50 : 10, bottom: 40 },
-                step: 5
-            });
-            this.forceUpdate();
+        _this.store = new Store({
+            dataset: props.dataset,
+            margins: { left: 60, right: 10, top: _this.props.showtitle ? 50 : 10, bottom: 40 },
+            step: 2
+        });
+
+        _this.setSize(props.width, props.height);
+        _this.state = { size: _this.store.getSize() };
+        return _this;
+    }
+
+    createClass(PChart, [{
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(props) {
+            this.setSize(props.width, props.height);
+            this.setState({ size: this.store.getSize() });
         }
     }, {
         key: 'render',
@@ -6810,8 +6858,8 @@ var PChart = function (_Component) {
             var title = void 0;
             if (this.props.showtitle) title = React.createElement(
                 'text',
-                { name: 'title', className: 'title', x: Store.getSize().width / 2, y: 15, textAnchor: 'middle', alignmentBaseline: 'text-before-edge' },
-                this.props.dataset.description
+                { name: 'title', className: 'title', x: this.store.getSize().width / 2, y: 15, textAnchor: 'middle', alignmentBaseline: 'text-before-edge' },
+                this.props.dataset.title
             );
 
             var patientdata = [];
@@ -6819,7 +6867,7 @@ var PChart = function (_Component) {
             if (Array.isArray(this.props.patients)) patients = this.props.patients;else patients = [this.props.patients];
 
             patients.forEach(function (patient, i) {
-                patientdata.push(React.createElement(PatientData, { key: 'patientdata-' + i, patient: patient, showlabels: _this2.props.showlabels }));
+                patientdata.push(React.createElement(PatientData, { key: 'patientdata-' + i, patient: patient, showlabels: _this2.props.showlabels, showlines: _this2.props.showlines }));
             });
 
             var defaultTheme = {
@@ -6836,21 +6884,24 @@ var PChart = function (_Component) {
             } else {
                 theme = defaultTheme;
             }
-
             return React.createElement(
                 ThemeProvider,
                 { theme: theme },
                 React.createElement(
-                    'svg',
-                    { width: Store.getSize().width, height: Store.getSize().height, style: { backgroundColor: defaultTheme.backgroundColor } },
-                    title,
-                    React.createElement(Backdrop$1, null),
-                    React.createElement(XAxis$1, null),
-                    React.createElement(YAxis$1, null),
-                    React.createElement(Grid$1, null),
-                    React.createElement(Areas$1, null),
-                    React.createElement(Percentiles, null),
-                    patientdata
+                    StoreContext.Provider,
+                    { value: this.store },
+                    React.createElement(
+                        'svg',
+                        { width: this.store.getSize().width, height: this.store.getSize().height, style: { backgroundColor: defaultTheme.backgroundColor } },
+                        title,
+                        React.createElement(Backdrop$1, null),
+                        React.createElement(XAxis$1, null),
+                        React.createElement(YAxis$1, null),
+                        React.createElement(Grid$1, null),
+                        React.createElement(Areas$1, null),
+                        React.createElement(Percentiles, null),
+                        patientdata
+                    )
                 )
             );
         }
@@ -6986,10 +7037,11 @@ var Dataset = function () {
         classCallCheck(this, Dataset);
 
         this.title = lmsDataset.title;
-        this.description = lmsDataset.description;
+        this.titleX = lmsDataset.titleX;
         this.unitX = lmsDataset.unitX;
+        this.titleY = lmsDataset.titleY;
         this.unitY = lmsDataset.unitY;
-        this.type = lmsDataset.type;
+        this.dataType = lmsDataset.dataType;
         this.lmsdata = lmsDataset.data;
         this.percentiles = percentiles;
         this._buildData();
@@ -7006,14 +7058,19 @@ var Dataset = function () {
             return this.unitY;
         }
     }, {
-        key: "getTitle",
-        value: function getTitle() {
-            return this.title;
+        key: "getTitleY",
+        value: function getTitleY() {
+            return this.titleY;
         }
     }, {
-        key: "getType",
-        value: function getType() {
-            return this.type;
+        key: "getTitleX",
+        value: function getTitleX() {
+            return this.titleX;
+        }
+    }, {
+        key: "getDataType",
+        value: function getDataType() {
+            return this.dataType;
         }
     }, {
         key: "_buildData",

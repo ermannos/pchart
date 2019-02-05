@@ -15,17 +15,21 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 import React, { Component } from 'react';
-import Store from './store';
+import StoreContext from './context';
 import { withTheme } from '@callstack/react-theme-provider';
 
 class Backdrop extends Component {
     render() {
         return (
-            <rect name='backdrop' className='backdrop' fill={this.props.theme.backdropFill}
-                x={Store.getMeasures().left} 
-                y={Store.getMeasures().top} 
-                width={Store.getMeasures().width} 
-                height={Store.getMeasures().height}/>
+            <StoreContext.Consumer>
+                {store =>
+                <rect name='backdrop' className='backdrop' fill={this.props.theme.backdropFill}
+                    x={store.getMeasures().left} 
+                    y={store.getMeasures().top} 
+                    width={store.getMeasures().width} 
+                    height={store.getMeasures().height}/>
+                }
+            </StoreContext.Consumer>
         )
     }
 }

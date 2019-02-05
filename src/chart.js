@@ -24,43 +24,37 @@ import Grid from './grid';
 import Areas from './areas';
 import Percentiles from './percentiles';
 import PatientData from './patient';
+import StoreContext from './context';
 import { ThemeProvider } from '@callstack/react-theme-provider';
 
 class PChart extends Component {
     constructor(props) {
         super(props);
-        let w = props.width;
-        let h = props.height;
-        if (isNaN(w)) { w = 800; console.error("Error: width property must be a number. Using the default value") }
-        if (isNaN(h)) { h = 800; console.error("Error: height property must be a number. Using the default value") }
-
-        Store.initialize({
+        this.store = new Store({
             dataset: props.dataset,
-            size:{width:w,height:h},
             margins: {left:60,right:10,top:this.props.showtitle ? 50 : 10,bottom:40},
-            step:5
+            step:2
         });
+
+        this.setSize(props.width, props.height);
+        this.state = {size:this.store.getSize()};
     }
 
     componentWillReceiveProps(props) {
-        let w = props.width;
-        let h = props.height;
+        this.setSize(props.width, props.height);
+        this.setState({size:this.store.getSize()});
+    }
+
+    setSize = (w,h) => {
         if (isNaN(w)) { w = 800; console.error("Error: width property must be a number. Using the default value") }
         if (isNaN(h)) { h = 800; console.error("Error: height property must be a number. Using the default value") }
-
-        Store.initialize({
-            dataset: props.dataset,
-            size:{width:w,height:h},
-            margins: {left:60,right:10,top:this.props.showtitle ? 50 : 10,bottom:40},
-            step:5
-        });
-        this.forceUpdate();
+        this.store.setSize({width:w, height:h});
     }
 
     render() {
         let title;
         if (this.props.showtitle) 
-            title = <text name='title' className='title' x={Store.getSize().width/2} y={15} textAnchor='middle' alignmentBaseline='text-before-edge'>{this.props.dataset.description}</text>
+            title = <text name='title' className='title' x={this.store.getSize().width/2} y={15} textAnchor='middle' alignmentBaseline='text-before-edge'>{this.props.dataset.title}</text>
         
         let patientdata = [];
         let patients;
@@ -71,7 +65,7 @@ class PChart extends Component {
 
         patients.forEach((patient,i) => {
             patientdata.push(
-                <PatientData key={'patientdata-'+i} patient={patient} showlabels={this.props.showlabels}/>
+                <PatientData key={'patientdata-'+i} patient={patient} showlabels={this.props.showlabels} showlines={this.props.showlines}/>
             );
         });
 
@@ -89,19 +83,20 @@ class PChart extends Component {
         } else {
             theme = defaultTheme;
         }
-
         return (
             <ThemeProvider theme={theme}>
-                <svg width={Store.getSize().width} height={Store.getSize().height} style={{backgroundColor:defaultTheme.backgroundColor}}>
-                    {title}
-                    <Backdrop/>
-                    <XAxis/>
-                    <YAxis/>
-                    <Grid/>
-                    <Areas/>
-                    <Percentiles/>
-                    {patientdata}
-                </svg>
+                <StoreContext.Provider value={this.store}>
+                    <svg width={this.store.getSize().width} height={this.store.getSize().height} style={{backgroundColor:defaultTheme.backgroundColor}}>
+                        {title}
+                        <Backdrop/>
+                        <XAxis/>
+                        <YAxis/>
+                        <Grid/>
+                        <Areas/>
+                        <Percentiles/>
+                        {patientdata}
+                    </svg>
+                </StoreContext.Provider>
             </ThemeProvider>
         );
     }

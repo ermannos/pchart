@@ -15,34 +15,35 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 import React, { Component } from 'react';
-import Store from './store';
+import StoreContext from './context';
 import { withTheme } from '@callstack/react-theme-provider';
 
 class Grid extends Component {
     render() {
-        let tickcountX = Store.getMeasures().keys.length;
-        let stepX = Store.getMeasures().width/(tickcountX-1);
-        let step = Store.getDataset().getUnitX()==='month' ? 6 : 5;
+        let store = this.context;
+        let tickcountX = store.getMeasures().keys.length;
+        let stepX = store.getMeasures().width/(tickcountX-1);
+        let step = store.getDataset().getUnitX()==='month' ? 6 : 5;
         let reflinesx = [];
         for(let t = 0; t<tickcountX; t++) {
             let long = t%step===0;
-            let x = Store.getMeasures().left + t * stepX;
-            let y1 = Store.getMeasures().bottom;
-            let y2 = Store.getMeasures().top;
+            let x = store.getMeasures().left + t * stepX;
+            let y1 = store.getMeasures().bottom;
+            let y2 = store.getMeasures().top;
             reflinesx.push(
                 <line className={long?'longrefline':'refline'} key={'reflinex-'+t} x1={x} y1={y1} x2={x} y2={y2} stroke={this.props.theme.gridColor}/>
             );
         }
 
-        let tickCountY = Store.getMeasures().maxY-Store.getMeasures().minY;
-        let stepY = Store.getMeasures().height/tickCountY;
+        let tickCountY = store.getMeasures().maxY-store.getMeasures().minY;
+        let stepY = store.getMeasures().height/tickCountY;
 
         let reflinesy = [];
         for(let t=0; t<=tickCountY; t++) {
-            let long = t%Store.getStep()===0;
-            let x1 = Store.getMeasures().left;
-            let x2 = Store.getMeasures().right;
-            let y = Store.getMeasures().bottom - t*stepY;
+            let long = t%store.getStep()===0;
+            let x1 = store.getMeasures().left;
+            let x2 = store.getMeasures().right;
+            let y = store.getMeasures().bottom - t*stepY;
             reflinesy.push(
                 <line className={long ? 'longrefline' : 'refline'} key={'refliney-' + t} x1={x1} y1={y} x2={x2} y2={y} stroke={this.props.theme.gridColor}/>
             );
@@ -55,6 +56,7 @@ class Grid extends Component {
         )
     }
 }
+Grid.contextType = StoreContext;
 
 export default withTheme(Grid);
 

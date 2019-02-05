@@ -20,7 +20,9 @@ import who_height_boys_519 from './who/height_boys_5-19Y.json';
 import who_height_girls_013W from './who/height_girls_0-13W.json';
 import './App.css';
 
-let percentiles = [3,10,25,50,75,90,97];
+let percentiles1 = [3,10,25,50,75,90,97];
+let percentiles2 = [5,15,30,50,70,85,95];
+
 const testpatient1 = {
   firstname: 'John',
   lastname: 'Doe',
@@ -30,11 +32,15 @@ const testpatient1 = {
     {
       date: '2018-09-11',
       height: 181.5,
-      weight: 60
+      weight: 60   // useless data
     },
     {
       date: '2018-08-18',
       height: 181
+    },
+    {
+      date: '2018-08-17',
+      weight: 59   // useless data
     },
     {
       date: '2018-05-18',
@@ -140,8 +146,8 @@ function randomColor() {
 
 class App extends Component {
   render() {
-    let dataset1 = new Dataset(who_height_boys_519, percentiles);
-    let dataset2 = new Dataset(who_height_girls_013W, percentiles);
+    let dataset1 = new Dataset(who_height_boys_519, percentiles1);
+    let dataset2 = new Dataset(who_height_girls_013W, percentiles2);
     return (
       <div className="App">
         <div className="App-header">
@@ -150,7 +156,7 @@ class App extends Component {
 
         <div className='container'>
           <div className='row'>
-            <PChart width={1200} height={800} dataset={dataset1} patients={testpatient1} showtitle theme={theme1}/>
+            <PChart width={1200} height={800} dataset={dataset1} patients={testpatient1} showtitle showlines theme={theme1}/>
           </div>
           <div className='row'>
             < PChart width={1200} height={800} dataset={dataset2} patients={[testpatient2,testpatient3]} theme={theme2} showtitle showlabels/>

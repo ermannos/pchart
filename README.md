@@ -20,12 +20,13 @@ import {PChart, Dataset} from 'pchart';
 This object will contain some fields descriptiong the type of data and an array of LMS values. See the example below:
 ```javascript
 {
-  "title": [Y axis title],
-  "description": [Data description, used as title for the chart],
-  "sex": [Patient sex],
+  "title": [Data description, used as title for the chart],
+  "titleX": [Y axis title],
   "unitX": [X axis unit, should be days|weeks|months|years],
+  "titleY": [Y axis title],
   "unitY": [Y axis unit],
-  "type": [Type of patient measure],
+  "sex": [Patient sex],
+  "dataType": [Type of patient measure],
   "data": [
     [ x0, L0, M0, S0 ],
     [ x1, L1, M1, S1 ],
@@ -36,12 +37,13 @@ This object will contain some fields descriptiong the type of data and an array 
 
 ```javascript
 let percentileValues = {
-  "title": "Height (cm)",
-  "description": "Height per age, boys, from 5 to 19 year",
-  "sex": "male",
+  "title": "Height per age, boys, from 5 to 19 year",
+  "titleX": "Months",
   "unitX": "month",
+  "titleY": "Height (cm)",
   "unitY": "cm",
-  "type": "height",
+  "sex": "male",
+  "dataType": "height",
   "data": [
     [ 61, 1, 110.2647, 0.04164],
     [ 62, 1, 110.8006, 0.04172],
@@ -103,6 +105,7 @@ dataset|object|null|The dataset object containingall the data used to build the 
 patients|object or array|null|A single patient object, or an array of patient objects to be displayed on the chart
 showtitle|boolean|false|If true, the percentile data description field will be shown above the chart as a title
 showlabels|boolean|false|If true, a label indicating the percentile value will be shown above every patient data point in the chart
+showlines|boolean|false|If true, every percentile point is connected with the next by a line
 theme|object|null|An object containing styling properties used to override the default theme
 
 

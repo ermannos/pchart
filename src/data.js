@@ -124,10 +124,11 @@ const zIndex = {
 export default class Dataset {
     constructor (lmsDataset, percentiles) {
         this.title = lmsDataset.title;
-        this.description = lmsDataset.description;
+        this.titleX = lmsDataset.titleX;
         this.unitX = lmsDataset.unitX;
+        this.titleY = lmsDataset.titleY;
         this.unitY = lmsDataset.unitY;
-        this.type = lmsDataset.type;
+        this.dataType = lmsDataset.dataType;
         this.lmsdata = lmsDataset.data;
         this.percentiles = percentiles;
         this._buildData();
@@ -141,12 +142,16 @@ export default class Dataset {
         return this.unitY;
     }
 
-    getTitle() {
-        return this.title;
+    getTitleY() {
+        return this.titleY;
     }
 
-    getType() {
-        return this.type;
+    getTitleX() {
+        return this.titleX;
+    }
+
+    getDataType() {
+        return this.dataType;
     }
 
     _buildData() {

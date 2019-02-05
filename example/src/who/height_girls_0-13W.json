@@ -1,10 +1,11 @@
 {
-  "title": "Height (cm)",
-  "description": "Height/length for age, girls, from 0 to 13 weeks",
+  "title": "Height/length for age, girls, from 0 to 13 weeks",
   "sex": "female",
+  "titleX": "Weeks",
   "unitX": "week",
+  "titleY": "Height (cm)",
   "unitY": "cm",
-  "type": "height",
+  "dataType": "height",
   "data": [
     [
       0,

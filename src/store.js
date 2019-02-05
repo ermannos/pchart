@@ -14,12 +14,15 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-let Store = {
-    initialize: function(params) {
+export default class Store {
+    constructor(params) {
         this.dataset = params.dataset;
-        this.size = params.size;
         this.margins = params.margins;
         this.step = params.step;
+    }
+
+    setSize(size) {
+        this.size = size;
 
         this.top = this.margins.top;
         this.bottom = this.size.height - this.margins.bottom;
@@ -48,25 +51,25 @@ let Store = {
         this._transformX = new AxisTransformation(this.width, this.minX, this.maxX);
         this._transformY = new AxisTransformation(this.height, this.minY, this.maxY);
 
-    },
+    }
 
-    getDataset: function() {
+    getDataset() {
         return this.dataset;
-    },
+    }
 
-    getSize: function() {
+    getSize() {
         return this.size;
-    },
+    }
 
-    getMargins: function() {
+    getMargins() {
         return this.margins;
-    },
+    }
 
-    getStep: function() {
+    getStep() {
         return this.step;
-    },
+    }
 
-    getMeasures: function() {
+    getMeasures() {
         return {
             top: this.top,
             bottom: this.bottom,
@@ -84,16 +87,15 @@ let Store = {
             minY: this.minY,
             maxY: this.maxY,
         }
-    },
+    }
 
-    transformX: function(value) {
+    transformX(value) {
         return this._transformX.transform(value);
-    },
+    }
 
-    transformY: function(value) {
+    transformY(value) {
         return this._transformY.transform(value);
-    },
-
+    }
 }
 
 class AxisTransformation {
@@ -108,5 +110,3 @@ class AxisTransformation {
         return this.len * (value-this.minValue) / (this.maxValue - this.minValue);
     }
 }
-
-export default Store;

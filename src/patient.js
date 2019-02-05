@@ -16,10 +16,11 @@
 */
 import React, { Component } from 'react';
 import moment from 'moment';
-import Store from './store';
+import StoreContext from './context';
 
 export default class PatientData extends Component {
     render() {
+        let store = this.context;
         let labels = [];
         let points = [];
         let lineStr = ''
@@ -27,12 +28,12 @@ export default class PatientData extends Component {
             if (!m) return;
             let pointdate = moment(m.date);
             let birthdate =  moment(this.props.patient.birthdate);
-            let datediff = pointdate.diff(birthdate, Store.getDataset().getUnitX());
-            let value = m[Store.getDataset().getType()];
-            let percentile = Store.getDataset().getPercentileForValue(datediff, value);
+            let datediff = pointdate.diff(birthdate, store.getDataset().getUnitX());
+            let value = m[store.getDataset().getDataType()];
+            let percentile = store.getDataset().getPercentileForValue(datediff, value);
 
-            let x = Store.transformX(datediff) + Store.getMeasures().left;
-            let y = Store.getMeasures().bottom - Store.transformY(value);
+            let x = store.transformX(datediff) + store.getMeasures().left;
+            let y = store.getMeasures().bottom - store.transformY(value);
             if (isNaN(y)) return;
 
             if (this.props.showlabels)
@@ -48,11 +49,14 @@ export default class PatientData extends Component {
         });
         return (
             <g name='patient-data' className='patient-data'>
-                <path className='percentile-line' d={lineStr} stroke={this.props.patient.color || 'red'}/>
+                {this.props.showlines ? 
+                    <path className='percentile-line' d={lineStr} stroke={this.props.patient.color || 'red'}/>
+                :''}
                 {labels}
                 {points}
             </g>
         )
     }
 }
+PatientData.contextType = StoreContext;
 

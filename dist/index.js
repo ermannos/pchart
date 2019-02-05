@@ -6788,7 +6788,9 @@ var PatientData = function (_Component) {
                 var value = m[store.getDataset().getDataType()];
                 var percentile = store.getDataset().getPercentileForValue(datediff, value);
 
-                var x = store.transformX(datediff) + store.getMeasures().left;
+                var dx = store.transformX(datediff);
+                if (dx < 0 || dx > store.getMeasures().width) return;
+                var x = store.getMeasures().left + dx;
                 var y = store.getMeasures().bottom - store.transformY(value);
                 if (isNaN(y)) return;
 

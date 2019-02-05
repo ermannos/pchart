@@ -32,7 +32,9 @@ export default class PatientData extends Component {
             let value = m[store.getDataset().getDataType()];
             let percentile = store.getDataset().getPercentileForValue(datediff, value);
 
-            let x = store.transformX(datediff) + store.getMeasures().left;
+            let dx = store.transformX(datediff);
+            if (dx<0 || dx>store.getMeasures().width) return;
+            let x = store.getMeasures().left + dx;
             let y = store.getMeasures().bottom - store.transformY(value);
             if (isNaN(y)) return;
 

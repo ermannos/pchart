@@ -14,7 +14,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-import React, { Component } from "react";
+import React, { useMemo } from "react";
 import { Dataset, PChart } from "pchart";
 import who_height_boys_519 from "./who/height_boys_5-19Y.json";
 import who_height_girls_013W from "./who/height_girls_0-13W.json";
@@ -144,44 +144,47 @@ function randomColor() {
   return color;
 }
 
-class App extends Component {
-  render() {
-    let dataset1 = new Dataset(who_height_boys_519, percentiles1);
-    let dataset2 = new Dataset(who_height_girls_013W, percentiles2);
-    return (
-      <div className="App">
-        <div className="App-header">
-          <h1 className="App-title">PChart example</h1>
-        </div>
+const App = () => {
+  const dataset1 = useMemo(() => {
+    return new Dataset(who_height_boys_519, percentiles1);
+  }, []);
+  const dataset2 = useMemo(() => {
+    return new Dataset(who_height_girls_013W, percentiles2);
+  }, []);
 
-        <div className="container">
-          <div className="row">
-            <PChart
-              width={1200}
-              height={800}
-              dataset={dataset1}
-              patients={testpatient1}
-              showtitle
-              showlines
-              theme={theme1}
-            />
-          </div>
-          <div className="row">
-            <PChart
-              width={1200}
-              height={800}
-              dataset={dataset2}
-              patients={[testpatient2, testpatient3]}
-              theme={theme2}
-              showtitle
-              showlines
-              showlabels
-            />
-          </div>
+  return (
+    <div className="App">
+      <div className="App-header">
+        <h1 className="App-title">PChart example</h1>
+      </div>
+
+      <div className="container">
+        <div className="row">
+          <PChart
+            width={1200}
+            height={800}
+            dataset={dataset1}
+            patients={testpatient1}
+            showtitle
+            showlines
+            theme={theme1}
+          />
+        </div>
+        <div className="row">
+          <PChart
+            width={1200}
+            height={800}
+            dataset={dataset2}
+            patients={[testpatient2, testpatient3]}
+            theme={theme2}
+            showtitle
+            showlines
+            showlabels
+          />
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default App;

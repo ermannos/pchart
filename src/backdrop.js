@@ -14,24 +14,24 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-import React, { Component } from 'react';
-import StoreContext from './context';
-import { withTheme } from '@callstack/react-theme-provider';
+import React, { useContext } from "react";
+import StoreContext from "./context";
+import { withTheme } from "@callstack/react-theme-provider";
 
-class Backdrop extends Component {
-    render() {
-        return (
-            <StoreContext.Consumer>
-                {store =>
-                <rect name='backdrop' className='backdrop' fill={this.props.theme.backdropFill}
-                    x={store.getMeasures().left} 
-                    y={store.getMeasures().top} 
-                    width={store.getMeasures().width} 
-                    height={store.getMeasures().height}/>
-                }
-            </StoreContext.Consumer>
-        )
-    }
-}
+const Backdrop = ({ backdropFill }) => {
+  const store = useContext(StoreContext);
+
+  return (
+    <rect
+      name="backdrop"
+      className="backdrop"
+      fill={backdropFill}
+      x={store.getMeasures().left}
+      y={store.getMeasures().top}
+      width={store.getMeasures().width}
+      height={store.getMeasures().height}
+    />
+  );
+};
 
 export default withTheme(Backdrop);

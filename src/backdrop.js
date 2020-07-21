@@ -15,17 +15,17 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 import React, { useContext } from "react";
-import StoreContext from "./context";
-import { withTheme } from "@callstack/react-theme-provider";
+import { StoreContext, ThemeContext } from "./context";
 
-const Backdrop = ({ backdropFill }) => {
+const Backdrop = () => {
   const store = useContext(StoreContext);
+  const theme = useContext(ThemeContext);
 
   return (
     <rect
       name="backdrop"
       className="backdrop"
-      fill={backdropFill}
+      fill={theme.backdropFill}
       x={store.getMeasures().left}
       y={store.getMeasures().top}
       width={store.getMeasures().width}
@@ -34,4 +34,4 @@ const Backdrop = ({ backdropFill }) => {
   );
 };
 
-export default withTheme(Backdrop);
+export default Backdrop;

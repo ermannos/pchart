@@ -14,64 +14,77 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-import React, { Component } from 'react';
-import StoreContext from './context';
-import { withTheme } from '@callstack/react-theme-provider';
+import React, { useContext } from "react";
+import { StoreContext, ThemeContext } from "./context";
 
-class Areas extends Component {
-    render() {
-        let store = this.context;
-        let areas = [];
-        let points1 = store.getDataset().getPercentilePoints(0);
-        let points2 = store.getDataset().getPercentilePoints(store.getDataset().percentiles.length-1);
-        let pathStr = '';
-        points1.forEach((point,i) => {
-            let x = store.transformX(point[0]) + store.getMargins().left;
-            let y = store.getMeasures().bottom - store.transformY(point[1]);
-            pathStr += i===0 ? 'M' : 'L';
-            pathStr += x + ' ' + y + ' ';
-        });
-        points2.reverse().forEach((point,i) => {
-            let x = store.transformX(point[0]) + store.getMargins().left;
-            let y = store.getMeasures().bottom - store.transformY(point[1]);
-            pathStr += 'L';
-            pathStr += x + ' ' + y + ' ';
-        });
-        pathStr += 'Z';
-        areas.push(
-            <path className='area-curve' key='area-curve-1' name='area-curve-1' d={pathStr} fill={this.props.theme.areaColor}/>
-        );
+const Areas = () => {
+  const store = useContext(StoreContext);
+  const theme = useContext(ThemeContext);
 
-        if (store.getDataset().percentiles.length>=4) {
-            let points3 = store.getDataset().getPercentilePoints(1);
-            let points4 = store.getDataset().getPercentilePoints(store.getDataset().percentiles.length-2);
-            pathStr = '';
-            points3.forEach((point,i) => {
-                let x = store.transformX(point[0]) + store.getMargins().left;
-                let y = store.getMeasures().bottom - store.transformY(point[1]);
-                pathStr += i===0 ? 'M' : 'L';
-                pathStr += x + ' ' + y + ' ';
-            });
-            points4.reverse().forEach((point,i) => {
-                let x = store.transformX(point[0]) + store.getMargins().left;
-                let y = store.getMeasures().bottom - store.transformY(point[1]);
-                pathStr += 'L';
-                pathStr += x + ' ' + y + ' ';
-            });
-            pathStr += 'Z';
-            areas.push(
-                <path className='area-curve' key='area-curve-2' name='area-curve-2' d={pathStr} fill={this.props.theme.areaColor}/>
-            );
-    
-        }
+  const areas = [];
+  const points1 = store.getDataset().getPercentilePoints(0);
+  const points2 = store
+    .getDataset()
+    .getPercentilePoints(store.getDataset().percentiles.length - 1);
+  let pathStr = "";
+  points1.forEach((point, i) => {
+    const x = store.transformX(point[0]) + store.getMargins().left;
+    const y = store.getMeasures().bottom - store.transformY(point[1]);
+    pathStr += i === 0 ? "M" : "L";
+    pathStr += `${x} ${y} `;
+  });
+  points2.reverse().forEach((point) => {
+    const x = store.transformX(point[0]) + store.getMargins().left;
+    const y = store.getMeasures().bottom - store.transformY(point[1]);
+    pathStr += "L";
+    pathStr += `${x} ${y} `;
+  });
+  pathStr += "Z";
+  areas.push(
+    <path
+      className="area-curve"
+      key="area-curve-1"
+      name="area-curve-1"
+      d={pathStr}
+      fill={theme.areaColor}
+    />
+  );
 
-        return (
-            <g name='areas' className='areas'>
-                {areas}
-            </g>
-        );
-    }
-}
-Areas.contextType = StoreContext;
+  if (store.getDataset().percentiles.length >= 4) {
+    const points3 = store.getDataset().getPercentilePoints(1);
+    const points4 = store
+      .getDataset()
+      .getPercentilePoints(store.getDataset().percentiles.length - 2);
+    pathStr = "";
+    points3.forEach((point, i) => {
+      const x = store.transformX(point[0]) + store.getMargins().left;
+      const y = store.getMeasures().bottom - store.transformY(point[1]);
+      pathStr += i === 0 ? "M" : "L";
+      pathStr += `${x} ${y} `;
+    });
+    points4.reverse().forEach((point) => {
+      const x = store.transformX(point[0]) + store.getMargins().left;
+      const y = store.getMeasures().bottom - store.transformY(point[1]);
+      pathStr += "L";
+      pathStr += `${x} ${y} `;
+    });
+    pathStr += "Z";
+    areas.push(
+      <path
+        className="area-curve"
+        key="area-curve-2"
+        name="area-curve-2"
+        d={pathStr}
+        fill={theme.areaColor}
+      />
+    );
+  }
 
-export default withTheme(Areas);
+  return (
+    <g name="areas" className="areas">
+      {areas}
+    </g>
+  );
+};
+
+export default Areas;

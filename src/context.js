@@ -14,6 +14,18 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-import React from 'react';
-const StoreContext = React.createContext({value:'ciao'});
+import React from "react";
+
+export const StoreContext = React.createContext();
+
+const defaultTheme = {
+  backgroundColor: "transparent",
+  backdropFill: "#FFFDE7",
+  axisColor: "#707070",
+  gridColor: "#FFD54F",
+  areaColor: "rgba(127,127,127, .3)",
+};
+
+export const ThemeContext = React.createContext({ value: defaultTheme });
+
 export default StoreContext;

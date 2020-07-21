@@ -1,8 +1,8 @@
 {
   "title": "Height per age, boys, from 5 to 19 years",
   "sex": "male",
-  "titleX": "Months",
-  "unitX": "month",
+  "titleX": "Years",
+  "unitX": "year",
   "titleY": "Height (cm)",
   "unitY": "cm",
   "dataType": "height",

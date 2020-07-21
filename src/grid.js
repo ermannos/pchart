@@ -14,49 +14,62 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-import React, { Component } from 'react';
-import StoreContext from './context';
-import { withTheme } from '@callstack/react-theme-provider';
+import React, { useContext } from "react";
+import { StoreContext, ThemeContext } from "./context";
 
-class Grid extends Component {
-    render() {
-        let store = this.context;
-        let tickcountX = store.getMeasures().keys.length;
-        let stepX = store.getMeasures().width/(tickcountX-1);
-        let step = store.getDataset().getUnitX()==='month' ? 6 : 5;
-        let reflinesx = [];
-        for(let t = 0; t<tickcountX; t++) {
-            let long = t%step===0;
-            let x = store.getMeasures().left + t * stepX;
-            let y1 = store.getMeasures().bottom;
-            let y2 = store.getMeasures().top;
-            reflinesx.push(
-                <line className={long?'longrefline':'refline'} key={'reflinex-'+t} x1={x} y1={y1} x2={x} y2={y2} stroke={this.props.theme.gridColor}/>
-            );
-        }
+const Grid = () => {
+  const store = useContext(StoreContext);
+  const theme = useContext(ThemeContext);
 
-        let tickCountY = store.getMeasures().maxY-store.getMeasures().minY;
-        let stepY = store.getMeasures().height/tickCountY;
+  const tickcountX = store.getMeasures().keys.length;
+  const stepX = store.getMeasures().width / (tickcountX - 1);
+  const step = store.getDataset().getUnitX() === "month" ? 6 : 5;
+  const reflinesx = [];
+  for (let t = 0; t < tickcountX; t += 1) {
+    const long = t % step === 0;
+    const x = store.getMeasures().left + t * stepX;
+    const y1 = store.getMeasures().bottom;
+    const y2 = store.getMeasures().top;
+    reflinesx.push(
+      <line
+        className={long ? "longrefline" : "refline"}
+        key={`reflinex-${t}`}
+        x1={x}
+        y1={y1}
+        x2={x}
+        y2={y2}
+        stroke={theme.gridColor}
+      />
+    );
+  }
 
-        let reflinesy = [];
-        for(let t=0; t<=tickCountY; t++) {
-            let long = t%store.getStep()===0;
-            let x1 = store.getMeasures().left;
-            let x2 = store.getMeasures().right;
-            let y = store.getMeasures().bottom - t*stepY;
-            reflinesy.push(
-                <line className={long ? 'longrefline' : 'refline'} key={'refliney-' + t} x1={x1} y1={y} x2={x2} y2={y} stroke={this.props.theme.gridColor}/>
-            );
-        }
-        return (
-            <g name='grid' className='grid'>
-                {reflinesx}
-                {reflinesy}
-            </g>
-        )
-    }
-}
-Grid.contextType = StoreContext;
+  const tickCountY = store.getMeasures().maxY - store.getMeasures().minY;
+  const stepY = store.getMeasures().height / tickCountY;
 
-export default withTheme(Grid);
+  const reflinesy = [];
+  for (let t = 0; t <= tickCountY; t += 1) {
+    const long = t % store.getStep() === 0;
+    const x1 = store.getMeasures().left;
+    const x2 = store.getMeasures().right;
+    const y = store.getMeasures().bottom - t * stepY;
+    reflinesy.push(
+      <line
+        className={long ? "longrefline" : "refline"}
+        key={`refliney-${t}`}
+        x1={x1}
+        y1={y}
+        x2={x2}
+        y2={y}
+        stroke={theme.gridColor}
+      />
+    );
+  }
+  return (
+    <g name="grid" className="grid">
+      {reflinesx}
+      {reflinesy}
+    </g>
+  );
+};
 
+export default Grid;

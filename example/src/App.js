@@ -16,12 +16,21 @@
 */
 import React, { useMemo } from "react";
 import { Dataset, PChart } from "pchart";
-import who_height_boys_519 from "./who/height_boys_5-19Y.json";
-import who_height_girls_013W from "./who/height_girls_0-13W.json";
+import heightBoys519Y from "./who/height_boys_5-19Y.json";
+import heightGirls013W from "./who/height_girls_0-13W.json";
 import "./App.css";
 
-let percentiles1 = [3, 10, 25, 50, 75, 90, 97];
-let percentiles2 = [5, 15, 30, 50, 70, 85, 95];
+const percentiles1 = [3, 10, 25, 50, 75, 90, 97];
+const percentiles2 = [5, 15, 30, 50, 70, 85, 95];
+
+function randomColor() {
+  const letters = "0123456789ABCDEF";
+  let color = "#";
+  for (let i = 0; i < 6; i += 1) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
 
 const testpatient1 = {
   firstname: "John",
@@ -135,21 +144,12 @@ const theme2 = {
   gridColor: "#aa00ff",
 };
 
-function randomColor() {
-  let letters = "0123456789ABCDEF";
-  let color = "#";
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}
-
 const App = () => {
   const dataset1 = useMemo(() => {
-    return new Dataset(who_height_boys_519, percentiles1);
+    return new Dataset(heightBoys519Y, percentiles1);
   }, []);
   const dataset2 = useMemo(() => {
-    return new Dataset(who_height_girls_013W, percentiles2);
+    return new Dataset(heightGirls013W, percentiles2);
   }, []);
 
   return (

@@ -1,19 +1,21 @@
 /*
-    Copyright (C) 2018  Ermanno Scanagatta
+Copyright (C) 2018  Ermanno Scanagatta
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable no-underscore-dangle */
 import React, { Component } from "react";
 import "./style/chart.css";
 import Store from "./store";
@@ -24,49 +26,46 @@ import Grid from "./grid";
 import Areas from "./areas";
 import Percentiles from "./percentiles";
 import PatientData from "./patient";
-import StoreContext from "./context";
-import { ThemeProvider } from "@callstack/react-theme-provider";
+import { StoreContext, ThemeContext } from "./context";
 
 class PChart extends Component {
   constructor(props) {
     super(props);
+    const { showtitle, width, height } = props;
     this.store = new Store({
       dataset: props.dataset,
       margins: {
         left: 60,
         right: 10,
-        top: this.props.showtitle ? 50 : 10,
+        top: showtitle ? 50 : 10,
         bottom: 40,
       },
       step: 2,
     });
 
-    this.setSize(props.width, props.height);
-    this.state = { size: this.store.getSize() };
+    this.setSize(width, height);
   }
 
   componentDidUpdate(prevprops) {
-    console.log("did update", this.props, prevprops);
-    if (
-      prevprops.width !== this.props.width ||
-      prevprops.height !== this.props.height
-    ) {
-      this.setSize(props.width, props.height);
-      this.setState({ size: this.store.getSize() });
+    const { width, height, dataset } = this.props;
+    if (prevprops.width !== width || prevprops.height !== height) {
+      this.setSize(width, height);
     }
-    if (this.props.dataset && prevprops.dataset !== this.props.dataset) {
-      this.store.setDataset(props.dataset);
+    if (dataset && prevprops.dataset !== dataset) {
+      this.store.setDataset(dataset);
     }
   }
 
   setSize = (w, h) => {
-    if (isNaN(w)) {
+    if (Number.isNaN(w)) {
+      // eslint-disable-next-line no-param-reassign
       w = 800;
       console.error(
         "Error: width property must be a number. Using the default value"
       );
     }
-    if (isNaN(h)) {
+    if (Number.isNaN(h)) {
+      // eslint-disable-next-line no-param-reassign
       h = 800;
       console.error(
         "Error: height property must be a number. Using the default value"
@@ -76,8 +75,16 @@ class PChart extends Component {
   };
 
   render() {
+    const {
+      dataset,
+      patients,
+      theme,
+      showtitle,
+      showlabels,
+      showlines,
+    } = this.props;
     let title;
-    if (this.props.showtitle)
+    if (showtitle) {
       title = (
         <text
           name="title"
@@ -87,20 +94,23 @@ class PChart extends Component {
           textAnchor="middle"
           alignmentBaseline="text-before-edge"
         >
-          {this.props.dataset.title}
+          {dataset.title}
         </text>
       );
+    }
+    let pp;
+    if (Array.isArray(patients)) {
+      pp = patients;
+    } else {
+      pp = [patients];
+    }
 
-    let patients;
-    if (Array.isArray(this.props.patients)) patients = this.props.patients;
-    else patients = [this.props.patients];
-
-    const patientdata = patients.map((patient, i) => (
+    const patientdata = pp.map((patient, i) => (
       <PatientData
-        key={"patientdata-" + i}
+        key={`patientdata-${i}`}
         patient={patient}
-        showlabels={this.props.showlabels}
-        showlines={this.props.showlines}
+        showlabels={showlabels}
+        showlines={showlines}
       />
     ));
 
@@ -112,15 +122,15 @@ class PChart extends Component {
       areaColor: "rgba(127,127,127, .3)",
     };
 
-    let theme;
-    if (this.props.theme) {
-      theme = Object.assign({}, defaultTheme, this.props.theme);
+    let _theme;
+    if (theme) {
+      _theme = { ...defaultTheme, ...theme };
     } else {
-      theme = defaultTheme;
+      _theme = defaultTheme;
     }
     return (
-      <ThemeProvider theme={theme}>
-        <StoreContext.Provider value={this.store}>
+      <StoreContext.Provider value={this.store}>
+        <ThemeContext.Provider value={_theme}>
           <svg
             width={this.store.getSize().width}
             height={this.store.getSize().height}
@@ -135,8 +145,8 @@ class PChart extends Component {
             <Percentiles />
             {patientdata}
           </svg>
-        </StoreContext.Provider>
-      </ThemeProvider>
+        </ThemeContext.Provider>
+      </StoreContext.Provider>
     );
   }
 }

@@ -287,12 +287,13 @@ var AxisTransformation = /*#__PURE__*/function () {
 }();
 
 var Store = /*#__PURE__*/function () {
-  function Store(params) {
+  function Store(params, onUpdate) {
     _classCallCheck(this, Store);
 
     this.dataset = params.dataset;
     this.margins = params.margins;
     this.step = params.step;
+    this.onUpdate = onUpdate;
   }
 
   _createClass(Store, [{
@@ -337,6 +338,10 @@ var Store = /*#__PURE__*/function () {
       this.maxY = Math.ceil((1 + tolerance) * _max / this.step) * this.step;
       this._transformX = new AxisTransformation(this.width, this.minX, this.maxX);
       this._transformY = new AxisTransformation(this.height, this.minY, this.maxY);
+
+      if (this.onUpdate) {
+        this.onUpdate();
+      }
     }
   }, {
     key: "getDataset",
@@ -623,11 +628,13 @@ var Grid = function Grid() {
   var theme = React.useContext(ThemeContext);
   var tickcountX = store.getMeasures().keys.length;
   var stepX = store.getMeasures().width / (tickcountX - 1);
-  var step = store.getDataset().getUnitX() === "month" ? 6 : 5;
+  var step = store.getDataset().getUnitX() === "month" || store.getDataset().getUnitX() === "year" ? 6 : 5;
   var reflinesx = [];
 
   for (var t = 0; t < tickcountX; t += 1) {
-    var _long = t % step === 0;
+    var key = store.getMeasures().keys[t];
+
+    var _long = store.getDataset().getUnitX() === "year" ? key % step === 0 : t % step === 0;
 
     var x = store.getMeasures().left + t * stepX;
     var y1 = store.getMeasures().bottom;
@@ -6588,6 +6595,10 @@ var PChart = /*#__PURE__*/function (_Component) {
 
     _this = _super.call(this, props);
 
+    _this.onUpdate = function () {
+      _this.forceUpdate();
+    };
+
     _this.setSize = function (w, h) {
       if (Number.isNaN(w)) {
         // eslint-disable-next-line no-param-reassign
@@ -6619,7 +6630,7 @@ var PChart = /*#__PURE__*/function (_Component) {
         bottom: 40
       },
       step: 2
-    });
+    }, _this.onUpdate);
 
     _this.setSize(width, height);
 

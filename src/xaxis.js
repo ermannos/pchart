@@ -38,6 +38,7 @@ const XAxis = () => {
     store.getDataset().getUnitX() === "year"
       ? 2
       : 1;
+
   const ticks = [];
   const valuelabels = [];
   for (let t = 0; t < store.getMeasures().countX; t += 1) {

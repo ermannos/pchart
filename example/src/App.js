@@ -14,7 +14,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { Dataset, PChart } from "pchart";
 import heightBoys519Y from "./who/height_boys_5-19Y.json";
 import heightGirls013W from "./who/height_girls_0-13W.json";
@@ -145,6 +145,7 @@ const theme2 = {
 };
 
 const App = () => {
+  const [width, setWidth] = useState(1200);
   const dataset1 = useMemo(() => {
     return new Dataset(heightBoys519Y, percentiles1);
   }, []);
@@ -159,9 +160,12 @@ const App = () => {
       </div>
 
       <div className="container">
+        <button onClick={() => setWidth(800)}>800</button>
+        <button onClick={() => setWidth(1200)}>1200</button>
+        <button onClick={() => setWidth(1600)}>1600</button>
         <div className="row">
           <PChart
-            width={1200}
+            width={width}
             height={800}
             dataset={dataset1}
             patients={testpatient1}
@@ -172,7 +176,7 @@ const App = () => {
         </div>
         <div className="row">
           <PChart
-            width={1200}
+            width={width}
             height={800}
             dataset={dataset2}
             patients={[testpatient2, testpatient3]}

@@ -32,16 +32,19 @@ class PChart extends Component {
   constructor(props) {
     super(props);
     const { showtitle, width, height } = props;
-    this.store = new Store({
-      dataset: props.dataset,
-      margins: {
-        left: 60,
-        right: 10,
-        top: showtitle ? 50 : 10,
-        bottom: 40,
+    this.store = new Store(
+      {
+        dataset: props.dataset,
+        margins: {
+          left: 60,
+          right: 10,
+          top: showtitle ? 50 : 10,
+          bottom: 40,
+        },
+        step: 2,
       },
-      step: 2,
-    });
+      this.onUpdate
+    );
 
     this.setSize(width, height);
   }
@@ -55,6 +58,10 @@ class PChart extends Component {
       this.store.setDataset(dataset);
     }
   }
+
+  onUpdate = () => {
+    this.forceUpdate();
+  };
 
   setSize = (w, h) => {
     if (Number.isNaN(w)) {

@@ -23,10 +23,18 @@ const Grid = () => {
 
   const tickcountX = store.getMeasures().keys.length;
   const stepX = store.getMeasures().width / (tickcountX - 1);
-  const step = store.getDataset().getUnitX() === "month" ? 6 : 5;
+  const step =
+    store.getDataset().getUnitX() === "month" ||
+    store.getDataset().getUnitX() === "year"
+      ? 6
+      : 5;
   const reflinesx = [];
   for (let t = 0; t < tickcountX; t += 1) {
-    const long = t % step === 0;
+    const key = store.getMeasures().keys[t];
+    const long =
+      store.getDataset().getUnitX() === "year"
+        ? key % step === 0
+        : t % step === 0;
     const x = store.getMeasures().left + t * stepX;
     const y1 = store.getMeasures().bottom;
     const y2 = store.getMeasures().top;

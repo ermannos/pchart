@@ -35,10 +35,11 @@ class AxisTransformation {
 }
 
 export default class Store {
-  constructor(params) {
+  constructor(params, onUpdate) {
     this.dataset = params.dataset;
     this.margins = params.margins;
     this.step = params.step;
+    this.onUpdate = onUpdate;
   }
 
   setSize(size) {
@@ -82,6 +83,9 @@ export default class Store {
       this.minY,
       this.maxY
     );
+    if (this.onUpdate) {
+      this.onUpdate();
+    }
   }
 
   getDataset() {

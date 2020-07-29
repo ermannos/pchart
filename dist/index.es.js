@@ -6533,7 +6533,7 @@ var PatientData = function PatientData(_ref) {
     var percentile = store.getDataset().getPercentileForValue(datediff, value);
     var dx = store.transformX(datediff);
 
-    if (dx < 0 || dx > store.getMeasures().width) {
+    if (dx === null || dx === undefined || dx < 0 || dx > store.getMeasures().width) {
       return;
     }
 
@@ -6590,6 +6590,8 @@ var PChart = /*#__PURE__*/function (_Component) {
 
     _this.onUpdate = function () {
       _this.forceUpdate();
+
+      console.log("uella!!");
     };
 
     _this.setSize = function (w, h) {

@@ -42,7 +42,12 @@ const PatientData = ({ patient, showlabels, showlines }) => {
       .getPercentileForValue(datediff, value);
 
     const dx = store.transformX(datediff);
-    if (dx < 0 || dx > store.getMeasures().width) {
+    if (
+      dx === null ||
+      dx === undefined ||
+      dx < 0 ||
+      dx > store.getMeasures().width
+    ) {
       return;
     }
     const x = store.getMeasures().left + dx;

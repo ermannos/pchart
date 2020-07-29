@@ -14,7 +14,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { Dataset, PChart } from "pchart";
 import heightBoys519Y from "./who/height_boys_5-19Y.json";
 import heightGirls013W from "./who/height_girls_0-13W.json";
@@ -73,6 +73,10 @@ const testpatient1 = {
     },
     {
       date: "2015-09-26",
+      height: 160,
+    },
+    {
+      date: "2005-09-26",
       height: 160,
     },
   ],

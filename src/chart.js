@@ -61,6 +61,7 @@ class PChart extends Component {
 
   onUpdate = () => {
     this.forceUpdate();
+    console.log("uella!!");
   };
 
   setSize = (w, h) => {

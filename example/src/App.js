@@ -145,7 +145,6 @@ const theme2 = {
 };
 
 const App = () => {
-  const [width, setWidth] = useState(1200);
   const dataset1 = useMemo(() => {
     return new Dataset(heightBoys519Y, percentiles1);
   }, []);
@@ -160,12 +159,9 @@ const App = () => {
       </div>
 
       <div className="container">
-        <button onClick={() => setWidth(800)}>800</button>
-        <button onClick={() => setWidth(1200)}>1200</button>
-        <button onClick={() => setWidth(1600)}>1600</button>
         <div className="row">
           <PChart
-            width={width}
+            width={1200}
             height={800}
             dataset={dataset1}
             patients={testpatient1}
@@ -176,7 +172,7 @@ const App = () => {
         </div>
         <div className="row">
           <PChart
-            width={width}
+            width={1200}
             height={800}
             dataset={dataset2}
             patients={[testpatient2, testpatient3]}

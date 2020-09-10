@@ -25,8 +25,11 @@ class AxisTransformation {
   }
 
   transform(value) {
-    if (value < this.minValue || value > this.maxValue) {
+    if (value < this.minValue) {
       return null;
+    }
+    if (value > this.maxValue) {
+      return this.len;
     }
     return (
       (this.len * (value - this.minValue)) / (this.maxValue - this.minValue)

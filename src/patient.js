@@ -19,7 +19,7 @@ import React, { useContext } from "react";
 import moment from "moment";
 import { StoreContext } from "./context";
 
-const PatientData = ({ patient, showlabels, showlines }) => {
+const PatientData = ({ patient, showlabels, showlines, showTooltip }) => {
   const store = useContext(StoreContext);
 
   const labels = [];
@@ -72,14 +72,16 @@ const PatientData = ({ patient, showlabels, showlines }) => {
       );
     }
     points.push(
-      <circle
-        className="percentile-point"
-        key={`dot-${i}`}
-        cx={x}
-        cy={y}
-        r={3}
-        fill={patient.color || "red"}
-      />
+      <g key={`dot-${i}`} id={`dot-${i}`}>
+        <circle
+          className="percentile-point"
+          cx={x}
+          cy={y}
+          r={3}
+          fill={patient.color || "red"}
+          onMouseEnter={() => showTooltip(x, y)}
+        />
+      </g>
     );
 
     lineStr += `${i === 0 ? "M" : "L"}${x} ${y} `;

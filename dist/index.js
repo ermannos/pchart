@@ -6521,7 +6521,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 var PatientData = function PatientData(_ref) {
   var patient = _ref.patient,
       showlabels = _ref.showlabels,
-      showlines = _ref.showlines;
+      showlines = _ref.showlines,
+      showTooltip = _ref.showTooltip;
   var store = React.useContext(StoreContext);
   var labels = [];
   var points = [];
@@ -6567,14 +6568,19 @@ var PatientData = function PatientData(_ref) {
       }, percentile));
     }
 
-    points.push( /*#__PURE__*/React__default.createElement("circle", {
-      className: "percentile-point",
+    points.push( /*#__PURE__*/React__default.createElement("g", {
       key: "dot-".concat(i),
+      id: "dot-".concat(i)
+    }, /*#__PURE__*/React__default.createElement("circle", {
+      className: "percentile-point",
       cx: x,
       cy: y,
       r: 3,
-      fill: patient.color || "red"
-    }));
+      fill: patient.color || "red",
+      onMouseEnter: function onMouseEnter() {
+        return showTooltip(x, y);
+      }
+    })));
     lineStr += "".concat(i === 0 ? "M" : "L").concat(x, " ").concat(y, " ");
   });
   return /*#__PURE__*/React__default.createElement("g", {
@@ -6585,6 +6591,40 @@ var PatientData = function PatientData(_ref) {
     d: lineStr,
     stroke: patient.color || "red"
   }) : "", labels, points);
+};
+
+/*
+    Copyright (C) 2020  Ermanno Scanagatta
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+var Tooltip = function Tooltip(_ref) {
+  var _ref$x = _ref.x,
+      x = _ref$x === void 0 ? 0 : _ref$x,
+      _ref$y = _ref.y,
+      y = _ref$y === void 0 ? 0 : _ref$y,
+      _ref$visible = _ref.visible,
+      visible = _ref$visible === void 0 ? false : _ref$visible;
+  return /*#__PURE__*/React__default.createElement("g", {
+    transform: visible ? "translate(".concat(x, ",").concat(y, ")") : "translate(-200,-100)",
+    style: {
+      transition: "all .5s ease-in-out"
+    }
+  }, /*#__PURE__*/React__default.createElement("path", {
+    d: "M0 0 L 200 0 L 200 50 L0 50 Z"
+  }));
 };
 
 var PChart = /*#__PURE__*/function (_Component) {
@@ -6601,8 +6641,6 @@ var PChart = /*#__PURE__*/function (_Component) {
 
     _this.onUpdate = function () {
       _this.forceUpdate();
-
-      console.log("uella!!");
     };
 
     _this.setSize = function (w, h) {
@@ -6640,6 +6678,11 @@ var PChart = /*#__PURE__*/function (_Component) {
 
     _this.setSize(width, height);
 
+    _this.state = {
+      tooltipX: 0,
+      tooltipY: 0,
+      tooltipVisible: false
+    };
     return _this;
   }
 
@@ -6662,6 +6705,8 @@ var PChart = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       var _this$props2 = this.props,
           dataset = _this$props2.dataset,
           patients = _this$props2.patients,
@@ -6695,7 +6740,20 @@ var PChart = /*#__PURE__*/function (_Component) {
           key: "patientdata-".concat(i),
           patient: patient,
           showlabels: showlabels,
-          showlines: showlines
+          showlines: showlines,
+          showTooltip: function showTooltip(x, y) {
+            _this2.setState({
+              tooltipX: x,
+              tooltipY: y,
+              tooltipVisible: true
+            }, function () {
+              setTimeout(function () {
+                _this2.setState({
+                  tooltipVisible: false
+                });
+              }, 3000);
+            });
+          }
         });
       });
       var defaultTheme = {
@@ -6714,6 +6772,10 @@ var PChart = /*#__PURE__*/function (_Component) {
         _theme = defaultTheme;
       }
 
+      var _this$state = this.state,
+          tooltipX = _this$state.tooltipX,
+          tooltipY = _this$state.tooltipY,
+          tooltipVisible = _this$state.tooltipVisible;
       return /*#__PURE__*/React__default.createElement(StoreContext.Provider, {
         value: this.store
       }, /*#__PURE__*/React__default.createElement(ThemeContext.Provider, {
@@ -6724,7 +6786,11 @@ var PChart = /*#__PURE__*/function (_Component) {
         style: {
           backgroundColor: defaultTheme.backgroundColor
         }
-      }, title, /*#__PURE__*/React__default.createElement(Backdrop, null), /*#__PURE__*/React__default.createElement(XAxis, null), /*#__PURE__*/React__default.createElement(YAxis, null), /*#__PURE__*/React__default.createElement(Grid, null), /*#__PURE__*/React__default.createElement(Areas, null), /*#__PURE__*/React__default.createElement(Percentiles, null), patientdata)));
+      }, title, /*#__PURE__*/React__default.createElement(Backdrop, null), /*#__PURE__*/React__default.createElement(XAxis, null), /*#__PURE__*/React__default.createElement(YAxis, null), /*#__PURE__*/React__default.createElement(Grid, null), /*#__PURE__*/React__default.createElement(Areas, null), /*#__PURE__*/React__default.createElement(Percentiles, null), patientdata, /*#__PURE__*/React__default.createElement(Tooltip, {
+        x: tooltipX,
+        y: tooltipY,
+        visible: tooltipVisible
+      }))));
     }
   }]);
 

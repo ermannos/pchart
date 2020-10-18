@@ -26,6 +26,7 @@ import Grid from "./grid";
 import Areas from "./areas";
 import Percentiles from "./percentiles";
 import PatientData from "./patient";
+import Tooltip from "./tooltip";
 import { StoreContext, ThemeContext } from "./context";
 
 class PChart extends Component {
@@ -45,8 +46,8 @@ class PChart extends Component {
       },
       this.onUpdate
     );
-
     this.setSize(width, height);
+    this.state = { tooltipX: 0, tooltipY: 0, tooltipVisible: false };
   }
 
   componentDidUpdate(prevprops) {
@@ -61,7 +62,6 @@ class PChart extends Component {
 
   onUpdate = () => {
     this.forceUpdate();
-    console.log("uella!!");
   };
 
   setSize = (w, h) => {
@@ -119,6 +119,16 @@ class PChart extends Component {
         patient={patient}
         showlabels={showlabels}
         showlines={showlines}
+        showTooltip={(x, y) => {
+          this.setState(
+            { tooltipX: x, tooltipY: y, tooltipVisible: true },
+            () => {
+              setTimeout(() => {
+                this.setState({ tooltipVisible: false });
+              }, 3000);
+            }
+          );
+        }}
       />
     ));
 
@@ -136,6 +146,8 @@ class PChart extends Component {
     } else {
       _theme = defaultTheme;
     }
+
+    const { tooltipX, tooltipY, tooltipVisible } = this.state;
     return (
       <StoreContext.Provider value={this.store}>
         <ThemeContext.Provider value={_theme}>
@@ -152,6 +164,7 @@ class PChart extends Component {
             <Areas />
             <Percentiles />
             {patientdata}
+            <Tooltip x={tooltipX} y={tooltipY} visible={tooltipVisible} />
           </svg>
         </ThemeContext.Provider>
       </StoreContext.Provider>

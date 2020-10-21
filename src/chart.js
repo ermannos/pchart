@@ -92,6 +92,7 @@ class PChart extends Component {
       showlines,
     } = this.props;
     let title;
+
     if (showtitle) {
       title = (
         <text
@@ -123,9 +124,10 @@ class PChart extends Component {
           this.setState(
             { tooltipX: x, tooltipY: y, tooltipVisible: true },
             () => {
-              setTimeout(() => {
+              clearTimeout(this.tooltipTimeout);
+              this.tooltipTimeout = setTimeout(() => {
                 this.setState({ tooltipVisible: false });
-              }, 3000);
+              }, 5000);
             }
           );
         }}
@@ -163,8 +165,8 @@ class PChart extends Component {
             <Grid />
             <Areas />
             <Percentiles />
-            {patientdata}
             <Tooltip x={tooltipX} y={tooltipY} visible={tooltipVisible} />
+            {patientdata}
           </svg>
         </ThemeContext.Provider>
       </StoreContext.Provider>

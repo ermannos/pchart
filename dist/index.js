@@ -6576,9 +6576,15 @@ var PatientData = function PatientData(_ref) {
       cx: x,
       cy: y,
       r: 3,
-      fill: patient.color || "red",
+      fill: patient.color || "red"
+    }), /*#__PURE__*/React__default.createElement("circle", {
+      cx: x,
+      cy: y,
+      r: 6,
+      stroke: "none",
+      fill: "rgba(192,192,192,0.01)",
       onMouseEnter: function onMouseEnter() {
-        return showTooltip(x, y);
+        showTooltip(x, y);
       }
     })));
     lineStr += "".concat(i === 0 ? "M" : "L").concat(x, " ").concat(y, " ");
@@ -6609,6 +6615,9 @@ var PatientData = function PatientData(_ref) {
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+var W = 200;
+var H = 50;
+var GAP = 3;
 
 var Tooltip = function Tooltip(_ref) {
   var _ref$x = _ref.x,
@@ -6617,13 +6626,21 @@ var Tooltip = function Tooltip(_ref) {
       y = _ref$y === void 0 ? 0 : _ref$y,
       _ref$visible = _ref.visible,
       visible = _ref$visible === void 0 ? false : _ref$visible;
+  var tx = x - W - GAP;
+  var ty = y - H - GAP;
+
+  if (tx < 0 || ty < 0) {
+    tx = x + GAP;
+    ty = y + GAP;
+  }
+
   return /*#__PURE__*/React__default.createElement("g", {
-    transform: visible ? "translate(".concat(x, ",").concat(y, ")") : "translate(-200,-100)",
+    transform: visible ? "translate(".concat(tx, ",").concat(ty, ")") : "translate(-200,-100)",
     style: {
-      transition: "all .5s ease-in-out"
+      transition: "all .3s ease-in-out"
     }
   }, /*#__PURE__*/React__default.createElement("path", {
-    d: "M0 0 L 200 0 L 200 50 L0 50 Z"
+    d: "M0 0 L ".concat(W, " 0 L ").concat(W, " ").concat(H, " L0 ").concat(H, " Z")
   }));
 };
 
@@ -6747,11 +6764,12 @@ var PChart = /*#__PURE__*/function (_Component) {
               tooltipY: y,
               tooltipVisible: true
             }, function () {
-              setTimeout(function () {
+              clearTimeout(_this2.tooltipTimeout);
+              _this2.tooltipTimeout = setTimeout(function () {
                 _this2.setState({
                   tooltipVisible: false
                 });
-              }, 3000);
+              }, 5000);
             });
           }
         });
@@ -6786,11 +6804,11 @@ var PChart = /*#__PURE__*/function (_Component) {
         style: {
           backgroundColor: defaultTheme.backgroundColor
         }
-      }, title, /*#__PURE__*/React__default.createElement(Backdrop, null), /*#__PURE__*/React__default.createElement(XAxis, null), /*#__PURE__*/React__default.createElement(YAxis, null), /*#__PURE__*/React__default.createElement(Grid, null), /*#__PURE__*/React__default.createElement(Areas, null), /*#__PURE__*/React__default.createElement(Percentiles, null), patientdata, /*#__PURE__*/React__default.createElement(Tooltip, {
+      }, title, /*#__PURE__*/React__default.createElement(Backdrop, null), /*#__PURE__*/React__default.createElement(XAxis, null), /*#__PURE__*/React__default.createElement(YAxis, null), /*#__PURE__*/React__default.createElement(Grid, null), /*#__PURE__*/React__default.createElement(Areas, null), /*#__PURE__*/React__default.createElement(Percentiles, null), /*#__PURE__*/React__default.createElement(Tooltip, {
         x: tooltipX,
         y: tooltipY,
         visible: tooltipVisible
-      }))));
+      }), patientdata)));
     }
   }]);
 

@@ -79,7 +79,16 @@ const PatientData = ({ patient, showlabels, showlines, showTooltip }) => {
           cy={y}
           r={3}
           fill={patient.color || "red"}
-          onMouseEnter={() => showTooltip(x, y)}
+        />
+        <circle
+          cx={x}
+          cy={y}
+          r={6}
+          stroke="none"
+          fill="rgba(192,192,192,0.01)"
+          onMouseEnter={() => {
+            showTooltip(x, y);
+          }}
         />
       </g>
     );

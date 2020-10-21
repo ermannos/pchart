@@ -16,13 +16,29 @@
 */
 import React from "react";
 
+const W = 200;
+const H = 50;
+const GAP = 3;
+
 const Tooltip = ({ x = 0, y = 0, visible = false }) => {
+
+  let tx = x - W  - GAP;
+  let ty = y - H - GAP;
+
+  if (tx<0 || ty<0) {
+    tx = x + GAP;
+    ty = y + GAP;
+  }
+  
   return (
     <g
-      transform={visible ? `translate(${x},${y})` : "translate(-200,-100)"}
-      style={{ transition: "all .5s ease-in-out" }}
+      transform={
+        visible ? `translate(${tx},${ty})`
+          : "translate(-200,-100)"
+      }
+      style={{ transition: "all .3s ease-in-out" }}
     >
-      <path d="M0 0 L 200 0 L 200 50 L0 50 Z" />
+      <path d={`M0 0 L ${W} 0 L ${W} ${H} L0 ${H} Z`} />
     </g>
   );
 };

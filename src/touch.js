@@ -19,12 +19,10 @@ import React, { useContext } from "react";
 import moment from "moment";
 import { StoreContext } from "./context";
 
-const PatientData = ({ patient, showlabels, showlines }) => {
+const TouchAreas = ({ patient, showTooltip }) => {
   const store = useContext(StoreContext);
 
-  const labels = [];
-  const points = [];
-  let lineStr = "";
+  const touch = [];
   patient.measures.forEach((m, i) => {
     if (!m) {
       return;
@@ -37,9 +35,6 @@ const PatientData = ({ patient, showlabels, showlines }) => {
     }
     const datediff = pointdate.diff(birthdate, diffunit);
     const value = m[store.getDataset().getDataType()];
-    const percentile = store
-      .getDataset()
-      .getPercentileForValue(datediff, value);
 
     const dx = store.transformX(datediff);
     if (
@@ -56,50 +51,22 @@ const PatientData = ({ patient, showlabels, showlines }) => {
       return;
     }
 
-    if (showlabels) {
-      labels.push(
-        <text
-          key={`label-${i}`}
-          name={`label-${i}`}
-          className="percentile-label"
-          x={x}
-          y={y - 10}
-          textAnchor="middle"
-          fill={patient.color || "red"}
-        >
-          {percentile}
-        </text>
-      );
-    }
-    points.push(
-      <g key={`dot-${i}`} id={`dot-${i}`}>
+    touch.push(
+      <g key={`touch-${i}`} id={`touch-${i}`}>
         <circle
-          className="percentile-point"
           cx={x}
           cy={y}
-          r={3}
-          fill={patient.color || "red"}
+          r={6}
+          stroke="none"
+          fill="rgba(192,192,192,0.01)"
+          onMouseEnter={() => {
+            showTooltip(x, y, m);
+          }}
         />
       </g>
     );
-
-    lineStr += `${i === 0 ? "M" : "L"}${x} ${y} `;
   });
-  return (
-    <g name="patient-data" className="patient-data">
-      {showlines ? (
-        <path
-          className="percentile-line"
-          d={lineStr}
-          stroke={patient.color || "red"}
-        />
-      ) : (
-        ""
-      )}
-      {labels}
-      {points}
-    </g>
-  );
+  return <g name="touch-areas">{touch}</g>;
 };
 
-export default PatientData;
+export default TouchAreas;

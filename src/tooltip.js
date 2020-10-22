@@ -16,11 +16,11 @@
 */
 import React from "react";
 
-const W = 200;
-const H = 50;
+const W = 180;
+const H = 42;
 const GAP = 3;
 
-const Tooltip = ({ x = 0, y = 0, visible = false }) => {
+const Tooltip = ({ x = 0, y = 0, visible = false, title, value }) => {
 
   let tx = x - W  - GAP;
   let ty = y - H - GAP;
@@ -31,14 +31,21 @@ const Tooltip = ({ x = 0, y = 0, visible = false }) => {
   }
   
   return (
-    <g
-      transform={
-        visible ? `translate(${tx},${ty})`
-          : "translate(-200,-100)"
-      }
+    <g className='tooltip'
+      transform={visible ? `translate(${tx},${ty})` : "translate(-200,-100)"}
       style={{ transition: "all .3s ease-in-out" }}
     >
-      <path d={`M0 0 L ${W} 0 L ${W} ${H} L0 ${H} Z`} />
+      <path
+        d={`M0 0 L ${W} 0 L ${W} ${H} L0 ${H} Z`}
+        fill="rgba(255,255,255,1)"
+        stroke="rgba(192,192,192,1)"
+      />
+      <text x={5} y={15}>
+        {title}
+      </text>
+      <text x={5} y={35}>
+        {value}
+      </text>
     </g>
   );
 };

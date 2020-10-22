@@ -17,6 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-underscore-dangle */
 import React, { Component } from "react";
+import moment from "moment";
 import "./style/chart.css";
 import Store from "./store";
 import Backdrop from "./backdrop";
@@ -27,6 +28,7 @@ import Areas from "./areas";
 import Percentiles from "./percentiles";
 import PatientData from "./patient";
 import Tooltip from "./tooltip";
+import Touch from "./touch";
 import { StoreContext, ThemeContext } from "./context";
 
 class PChart extends Component {
@@ -47,7 +49,7 @@ class PChart extends Component {
       this.onUpdate
     );
     this.setSize(width, height);
-    this.state = { tooltipX: 0, tooltipY: 0, tooltipVisible: false };
+    this.state = { tooltipX: 0, tooltipY: 0, tooltipVisible: false, tooltipTitle: '', tooltipValue: '' };
   }
 
   componentDidUpdate(prevprops) {
@@ -81,6 +83,34 @@ class PChart extends Component {
     }
     this.store.setSize({ width: w, height: h });
   };
+
+  getPointTitle = (patient, measure, ds) => {
+    const pointdate = moment(measure.date);
+    const birthdate = moment(patient.birthdate);
+    let diffunit = ds.getUnitX();
+    if (diffunit === "year") {
+      diffunit = "month";
+    }
+    const datediff = pointdate.diff(birthdate, diffunit);
+
+    const title = `${moment(measure.date).format('DD.MM.YYYY')} (${datediff} ${diffunit}s)`;
+    return title;
+  }
+
+  getPointValue = (patient, measure, ds) => {
+    const pointdate = moment(measure.date);
+    const birthdate = moment(patient.birthdate);
+    let diffunit = ds.getUnitX();
+    if (diffunit === "year") {
+      diffunit = "month";
+    }
+    const datediff = pointdate.diff(birthdate, diffunit);
+    const val = measure[ds.getDataType()];
+    const percentile = ds.getPercentileForValue(datediff, val);
+
+    const value = `${ds.titleY}: ${measure[ds.dataType]} (${percentile}%)`;
+    return value;
+  }
 
   render() {
     const {
@@ -120,9 +150,19 @@ class PChart extends Component {
         patient={patient}
         showlabels={showlabels}
         showlines={showlines}
-        showTooltip={(x, y) => {
+      />
+    ));
+
+    const ds = this.store.getDataset();
+
+    const touchareas = pp.map((patient, i) => (
+      <Touch
+        key={`toucharea-${i}`}
+        patient={patient}
+        showTooltip={(x, y, measure) => {
+          console.log("measure", measure, this.store);
           this.setState(
-            { tooltipX: x, tooltipY: y, tooltipVisible: true },
+            { tooltipX: x, tooltipY: y, tooltipVisible: true, tooltipTitle: this.getPointTitle(patient, measure, ds), tooltipValue: this.getPointValue(patient, measure, ds)},
             () => {
               clearTimeout(this.tooltipTimeout);
               this.tooltipTimeout = setTimeout(() => {
@@ -149,7 +189,7 @@ class PChart extends Component {
       _theme = defaultTheme;
     }
 
-    const { tooltipX, tooltipY, tooltipVisible } = this.state;
+    const { tooltipX, tooltipY, tooltipVisible, tooltipTitle, tooltipValue } = this.state;
     return (
       <StoreContext.Provider value={this.store}>
         <ThemeContext.Provider value={_theme}>
@@ -165,8 +205,9 @@ class PChart extends Component {
             <Grid />
             <Areas />
             <Percentiles />
-            <Tooltip x={tooltipX} y={tooltipY} visible={tooltipVisible} />
             {patientdata}
+            <Tooltip x={tooltipX} y={tooltipY} visible={tooltipVisible} title={tooltipTitle} value={tooltipValue} />
+            {touchareas}
           </svg>
         </ThemeContext.Provider>
       </StoreContext.Provider>

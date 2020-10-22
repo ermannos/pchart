@@ -21,6 +21,32 @@ import { StoreContext } from "./context";
 
 const TouchAreas = ({ patient, showTooltip }) => {
   const store = useContext(StoreContext);
+  const ds = store.getDataset();
+  let diffunit = ds.getUnitX();
+  if (diffunit === "year") {
+    diffunit = "month";
+  }
+  const birthdate = moment(patient.birthdate);
+
+  const getPointTitle = (measure) => {
+    const pointdate = moment(measure.date);
+    const datediff = pointdate.diff(birthdate, diffunit);
+
+    const title = `${moment(measure.date).format(
+      "DD.MM.YYYY"
+    )} (${datediff} ${diffunit}s)`;
+    return title;
+  };
+
+  const getPointValue = (measure) => {
+    const pointdate = moment(measure.date);
+    const datediff = pointdate.diff(birthdate, diffunit);
+    const val = measure[ds.getDataType()];
+    const percentile = ds.getPercentileForValue(datediff, val);
+
+    const value = `${ds.titleY}: ${measure[ds.dataType]} (${percentile}%)`;
+    return value;
+  };
 
   const touch = [];
   patient.measures.forEach((m, i) => {
@@ -60,7 +86,7 @@ const TouchAreas = ({ patient, showTooltip }) => {
           stroke="none"
           fill="rgba(192,192,192,0.01)"
           onMouseEnter={() => {
-            showTooltip(x, y, m);
+            showTooltip(x, y, getPointTitle(m), getPointValue(m));
           }}
         />
       </g>

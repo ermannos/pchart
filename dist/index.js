@@ -6666,6 +6666,31 @@ var TouchAreas = function TouchAreas(_ref) {
   var patient = _ref.patient,
       showTooltip = _ref.showTooltip;
   var store = React.useContext(StoreContext);
+  var ds = store.getDataset();
+  var diffunit = ds.getUnitX();
+
+  if (diffunit === "year") {
+    diffunit = "month";
+  }
+
+  var birthdate = moment(patient.birthdate);
+
+  var getPointTitle = function getPointTitle(measure) {
+    var pointdate = moment(measure.date);
+    var datediff = pointdate.diff(birthdate, diffunit);
+    var title = "".concat(moment(measure.date).format("DD.MM.YYYY"), " (").concat(datediff, " ").concat(diffunit, "s)");
+    return title;
+  };
+
+  var getPointValue = function getPointValue(measure) {
+    var pointdate = moment(measure.date);
+    var datediff = pointdate.diff(birthdate, diffunit);
+    var val = measure[ds.getDataType()];
+    var percentile = ds.getPercentileForValue(datediff, val);
+    var value = "".concat(ds.titleY, ": ").concat(measure[ds.dataType], " (").concat(percentile, "%)");
+    return value;
+  };
+
   var touch = [];
   patient.measures.forEach(function (m, i) {
     if (!m) {
@@ -6705,7 +6730,7 @@ var TouchAreas = function TouchAreas(_ref) {
       stroke: "none",
       fill: "rgba(192,192,192,0.01)",
       onMouseEnter: function onMouseEnter() {
-        showTooltip(x, y, m);
+        showTooltip(x, y, getPointTitle(m), getPointValue(m));
       }
     })));
   });
@@ -6747,36 +6772,6 @@ var PChart = /*#__PURE__*/function (_Component) {
         width: w,
         height: h
       });
-    };
-
-    _this.getPointTitle = function (patient, measure, ds) {
-      var pointdate = moment(measure.date);
-      var birthdate = moment(patient.birthdate);
-      var diffunit = ds.getUnitX();
-
-      if (diffunit === "year") {
-        diffunit = "month";
-      }
-
-      var datediff = pointdate.diff(birthdate, diffunit);
-      var title = "".concat(moment(measure.date).format('DD.MM.YYYY'), " (").concat(datediff, " ").concat(diffunit, "s)");
-      return title;
-    };
-
-    _this.getPointValue = function (patient, measure, ds) {
-      var pointdate = moment(measure.date);
-      var birthdate = moment(patient.birthdate);
-      var diffunit = ds.getUnitX();
-
-      if (diffunit === "year") {
-        diffunit = "month";
-      }
-
-      var datediff = pointdate.diff(birthdate, diffunit);
-      var val = measure[ds.getDataType()];
-      var percentile = ds.getPercentileForValue(datediff, val);
-      var value = "".concat(ds.titleY, ": ").concat(measure[ds.dataType], " (").concat(percentile, "%)");
-      return value;
     };
 
     var showtitle = props.showtitle,
@@ -6862,20 +6857,17 @@ var PChart = /*#__PURE__*/function (_Component) {
           showlines: showlines
         });
       });
-      var ds = this.store.getDataset();
       var touchareas = pp.map(function (patient, i) {
         return /*#__PURE__*/React__default.createElement(TouchAreas, {
           key: "toucharea-".concat(i),
           patient: patient,
-          showTooltip: function showTooltip(x, y, measure) {
-            console.log("measure", measure, _this2.store);
-
+          showTooltip: function showTooltip(x, y, ttle, value) {
             _this2.setState({
               tooltipX: x,
               tooltipY: y,
               tooltipVisible: true,
-              tooltipTitle: _this2.getPointTitle(patient, measure, ds),
-              tooltipValue: _this2.getPointValue(patient, measure, ds)
+              tooltipTitle: ttle,
+              tooltipValue: value
             }, function () {
               clearTimeout(_this2.tooltipTimeout);
               _this2.tooltipTimeout = setTimeout(function () {

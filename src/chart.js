@@ -84,34 +84,6 @@ class PChart extends Component {
     this.store.setSize({ width: w, height: h });
   };
 
-  getPointTitle = (patient, measure, ds) => {
-    const pointdate = moment(measure.date);
-    const birthdate = moment(patient.birthdate);
-    let diffunit = ds.getUnitX();
-    if (diffunit === "year") {
-      diffunit = "month";
-    }
-    const datediff = pointdate.diff(birthdate, diffunit);
-
-    const title = `${moment(measure.date).format('DD.MM.YYYY')} (${datediff} ${diffunit}s)`;
-    return title;
-  }
-
-  getPointValue = (patient, measure, ds) => {
-    const pointdate = moment(measure.date);
-    const birthdate = moment(patient.birthdate);
-    let diffunit = ds.getUnitX();
-    if (diffunit === "year") {
-      diffunit = "month";
-    }
-    const datediff = pointdate.diff(birthdate, diffunit);
-    const val = measure[ds.getDataType()];
-    const percentile = ds.getPercentileForValue(datediff, val);
-
-    const value = `${ds.titleY}: ${measure[ds.dataType]} (${percentile}%)`;
-    return value;
-  }
-
   render() {
     const {
       dataset,
@@ -153,16 +125,14 @@ class PChart extends Component {
       />
     ));
 
-    const ds = this.store.getDataset();
 
     const touchareas = pp.map((patient, i) => (
       <Touch
         key={`toucharea-${i}`}
         patient={patient}
-        showTooltip={(x, y, measure) => {
-          console.log("measure", measure, this.store);
+        showTooltip={(x, y, ttle, value) => {
           this.setState(
-            { tooltipX: x, tooltipY: y, tooltipVisible: true, tooltipTitle: this.getPointTitle(patient, measure, ds), tooltipValue: this.getPointValue(patient, measure, ds)},
+            { tooltipX: x, tooltipY: y, tooltipVisible: true, tooltipTitle: ttle, tooltipValue: value},
             () => {
               clearTimeout(this.tooltipTimeout);
               this.tooltipTimeout = setTimeout(() => {

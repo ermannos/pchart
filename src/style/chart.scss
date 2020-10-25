@@ -1,100 +1,105 @@
-$font-family: 'Lucida Grande',Verdana,Arial, Helvetica, sans-serif;
-$axis-stroke-width-primary: .6;
-$axis-stroke-width-secondary: .3;
-$grid-stroke-width-primary: .6;
-$grid-stroke-width-secondary: .3;
+$font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+$axis-stroke-width-primary: 0.6;
+$axis-stroke-width-secondary: 0.3;
+$grid-stroke-width-primary: 0.6;
+$grid-stroke-width-secondary: 0.3;
 
 svg {
-    font-family: $font-family;
-    font-weight: lighter;
+  font-family: $font-family;
+  font-weight: lighter;
 }
 
 .title {
-    font-size: 16px;
+  font-size: 16px;
 }
 
 .backdrop {
-    z-index: 1;
+  z-index: 1;
 }
 
 .axis {
+  stroke-width: $axis-stroke-width-primary;
+
+  text[name="valuelabel"] {
+    font-size: 9px;
+    stroke: none;
+  }
+  text[name="axislabel"] {
+    font-size: 12px;
+    stroke: none;
+  }
+
+  .tick {
+    stroke-width: $axis-stroke-width-secondary;
+  }
+
+  .longtick {
     stroke-width: $axis-stroke-width-primary;
-
-    text[name="valuelabel"] {
-        font-size: 9px;
-        stroke:none;
-    }
-    text[name="axislabel"] {
-        font-size: 12px;
-        stroke:none;
-    }
-
-    .tick {
-        stroke-width: $axis-stroke-width-secondary;
-    }
-
-    .longtick {
-        stroke-width: $axis-stroke-width-primary;
-    }
+  }
 }
 
 .grid {
-    z-index: 2;
+  z-index: 2;
 
-    .refline {
-        stroke-width: $grid-stroke-width-secondary;
-    }
-    .longrefline {
-        stroke-width: $grid-stroke-width-primary;
-    }
+  .refline {
+    stroke-width: $grid-stroke-width-secondary;
+  }
+  .longrefline {
+    stroke-width: $grid-stroke-width-primary;
+  }
 }
 
 .areas {
-    z-index: 3;
+  z-index: 3;
 
-    .area-curve {
-        stroke: none;
-    }
+  .area-curve {
+    stroke: none;
+  }
 }
 
 .percentiles {
-    z-index: 10;
-    .percentile-curve{
-        fill: none;
-        stroke: black;
-        stroke-width: 1;
+  z-index: 10;
+  .percentile-curve {
+    fill: none;
+    stroke: black;
+    stroke-width: 1;
 
-        &.dotted {
-            stroke-dasharray: 5;
-        }
+    &.dotted {
+      stroke-dasharray: 5;
     }
+  }
 
-    .percentile-label {
-        font-weight: lighter;
-        font-size: 9px;
-        stroke:none;
-    }
+  .percentile-label {
+    font-weight: lighter;
+    font-size: 9px;
+    stroke: none;
+  }
 }
 
 .patient-data {
-    .percentile-label {
-        font-weight: lighter;
-        font-size: 12px;
-        stroke:none;
-    }
+  .percentile-label {
+    font-weight: lighter;
+    font-size: 12px;
+    stroke: none;
+  }
 
-    .percentile-point {
-        stroke: none; 
-    }
+  .percentile-point {
+    stroke: none;
+  }
 
-    .percentile-line {
-        fill: none;
-    }
+  .percentile-line {
+    fill: none;
+  }
 }
 
 .tooltip {
-    text {
-        font-size: 12px;
-        stroke: none;
-    }
+  path {
+    fill: rgba(112, 112, 112, 1);
+    stroke: rgba(112, 112, 112, 1);
+  }
+  text {
+    font-size: 12px;
+    stroke: none;
+    fill: white;
+  }
 }

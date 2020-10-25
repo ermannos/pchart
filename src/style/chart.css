@@ -57,6 +57,11 @@ svg {
 .patient-data .percentile-line {
   fill: none; }
 
+.tooltip path {
+  fill: #707070;
+  stroke: #707070; }
+
 .tooltip text {
   font-size: 12px;
-  stroke: none; }
+  stroke: none;
+  fill: white; }

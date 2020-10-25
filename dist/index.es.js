@@ -5911,7 +5911,7 @@ function styleInject(css, ref) {
   }
 }
 
-var css_248z = "svg {\n  font-family: \"Lucida Grande\", Verdana, Arial, Helvetica, sans-serif;\n  font-weight: lighter; }\n\n.title {\n  font-size: 16px; }\n\n.backdrop {\n  z-index: 1; }\n\n.axis {\n  stroke-width: 0.6; }\n  .axis text[name=\"valuelabel\"] {\n    font-size: 9px;\n    stroke: none; }\n  .axis text[name=\"axislabel\"] {\n    font-size: 12px;\n    stroke: none; }\n  .axis .tick {\n    stroke-width: 0.3; }\n  .axis .longtick {\n    stroke-width: 0.6; }\n\n.grid {\n  z-index: 2; }\n  .grid .refline {\n    stroke-width: 0.3; }\n  .grid .longrefline {\n    stroke-width: 0.6; }\n\n.areas {\n  z-index: 3; }\n  .areas .area-curve {\n    stroke: none; }\n\n.percentiles {\n  z-index: 10; }\n  .percentiles .percentile-curve {\n    fill: none;\n    stroke: black;\n    stroke-width: 1; }\n    .percentiles .percentile-curve.dotted {\n      stroke-dasharray: 5; }\n  .percentiles .percentile-label {\n    font-weight: lighter;\n    font-size: 9px;\n    stroke: none; }\n\n.patient-data .percentile-label {\n  font-weight: lighter;\n  font-size: 12px;\n  stroke: none; }\n\n.patient-data .percentile-point {\n  stroke: none; }\n\n.patient-data .percentile-line {\n  fill: none; }\n\n.tooltip text {\n  font-size: 12px;\n  stroke: none; }\n";
+var css_248z = "svg {\n  font-family: \"Lucida Grande\", Verdana, Arial, Helvetica, sans-serif;\n  font-weight: lighter; }\n\n.title {\n  font-size: 16px; }\n\n.backdrop {\n  z-index: 1; }\n\n.axis {\n  stroke-width: 0.6; }\n  .axis text[name=\"valuelabel\"] {\n    font-size: 9px;\n    stroke: none; }\n  .axis text[name=\"axislabel\"] {\n    font-size: 12px;\n    stroke: none; }\n  .axis .tick {\n    stroke-width: 0.3; }\n  .axis .longtick {\n    stroke-width: 0.6; }\n\n.grid {\n  z-index: 2; }\n  .grid .refline {\n    stroke-width: 0.3; }\n  .grid .longrefline {\n    stroke-width: 0.6; }\n\n.areas {\n  z-index: 3; }\n  .areas .area-curve {\n    stroke: none; }\n\n.percentiles {\n  z-index: 10; }\n  .percentiles .percentile-curve {\n    fill: none;\n    stroke: black;\n    stroke-width: 1; }\n    .percentiles .percentile-curve.dotted {\n      stroke-dasharray: 5; }\n  .percentiles .percentile-label {\n    font-weight: lighter;\n    font-size: 9px;\n    stroke: none; }\n\n.patient-data .percentile-label {\n  font-weight: lighter;\n  font-size: 12px;\n  stroke: none; }\n\n.patient-data .percentile-point {\n  stroke: none; }\n\n.patient-data .percentile-line {\n  fill: none; }\n\n.tooltip path {\n  fill: #707070;\n  stroke: #707070; }\n\n.tooltip text {\n  font-size: 12px;\n  stroke: none;\n  fill: white; }\n";
 styleInject(css_248z);
 
 /*
@@ -6600,6 +6600,7 @@ var PatientData = function PatientData(_ref) {
 */
 var W = 180;
 var H = 42;
+var R = 3;
 var GAP = 3;
 
 var Tooltip = function Tooltip(_ref) {
@@ -6619,27 +6620,47 @@ var Tooltip = function Tooltip(_ref) {
     ty = y + GAP;
   }
 
-  return /*#__PURE__*/React.createElement("g", {
+  var buildPath = function buildPath() {
+    var p0 = "".concat(R, " 0");
+    var p1 = "".concat(W - R, " 0");
+    var c1 = "".concat(W - 1, " 1");
+    var p2 = "".concat(W, " ").concat(R);
+    var p3 = "".concat(W, " ").concat(H - R);
+    var c3 = "".concat(W - 1, " ").concat(H - 1);
+    var p4 = "".concat(W - R, " ").concat(H);
+    var p5 = "".concat(R, " ").concat(H);
+    var c5 = "1 ".concat(H - 1);
+    var p6 = "0 ".concat(H - R);
+    var p7 = "0 ".concat(R);
+    var c7 = '1 1';
+    return "M".concat(p0, " L ").concat(p1, " C ").concat(c1, ", ").concat(c1, ", ").concat(p2, " L ").concat(p3, " C ").concat(c3, ", ").concat(c3, ", ").concat(p4, " L ").concat(p5, " C ").concat(c5, ", ").concat(c5, ", ").concat(p6, " L ").concat(p7, " C ").concat(c7, ", ").concat(c7, ", ").concat(p0);
+  };
+
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("defs", null, /*#__PURE__*/React.createElement("clipPath", {
+    id: "clip"
+  }, /*#__PURE__*/React.createElement("path", {
+    d: buildPath()
+  }))), /*#__PURE__*/React.createElement("g", {
     className: "tooltip",
-    transform: visible ? "translate(".concat(tx, ",").concat(ty, ")") : "translate(-200,-100)",
+    transform: visible ? "translate(".concat(tx, ",").concat(ty, ")") : "translate(-200,-60)",
     style: {
       transition: "all .3s ease-in-out"
-    }
+    },
+    visibility: visible ? 'visible' : 'hidden',
+    clipPath: "url(#clip)"
   }, /*#__PURE__*/React.createElement("path", {
-    d: "M0 0 L ".concat(W, " 0 L ").concat(W, " ").concat(H, " L0 ").concat(H, " Z"),
-    fill: "rgba(255,255,255,1)",
-    stroke: "rgba(192,192,192,1)"
+    d: buildPath()
   }), /*#__PURE__*/React.createElement("text", {
     x: 5,
     y: 15
   }, title), /*#__PURE__*/React.createElement("text", {
     x: 5,
     y: 35
-  }, value));
+  }, value)));
 };
 
 /*
-Copyright (C) 2018  Ermanno Scanagatta
+Copyright (C) 2020  Ermanno Scanagatta
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -6670,8 +6691,26 @@ var TouchAreas = function TouchAreas(_ref) {
 
   var getPointTitle = function getPointTitle(measure) {
     var pointdate = moment(measure.date);
-    var datediff = pointdate.diff(birthdate, diffunit);
-    var title = "".concat(moment(measure.date).format("DD.MM.YYYY"), " (").concat(datediff, " ").concat(diffunit, "s)");
+    var age = '';
+    var diffY = pointdate.diff(birthdate, 'year');
+
+    if (diffY >= 1) {
+      var diffM = pointdate.diff(birthdate, 'month') - 12 * diffY;
+      age = "".concat(diffY, " y, ").concat(diffM, " m");
+    } else {
+      var diffD = pointdate.diff(birthdate, 'day');
+
+      var _diffM = pointdate.diff(birthdate, 'month');
+
+      if (diffD <= 91) {
+        // 13 sett
+        age = "".concat(parseInt(diffD / 7, 10), " w");
+      } else {
+        age = "".concat(_diffM, " m, ").concat(diffD - 30 * _diffM, " d");
+      }
+    }
+
+    var title = "".concat(moment(measure.date).format("DD.MM.YYYY"), " (").concat(age, ")");
     return title;
   };
 
@@ -6691,13 +6730,6 @@ var TouchAreas = function TouchAreas(_ref) {
     }
 
     var pointdate = moment(m.date);
-    var birthdate = moment(patient.birthdate);
-    var diffunit = store.getDataset().getUnitX();
-
-    if (diffunit === "year") {
-      diffunit = "month";
-    }
-
     var datediff = pointdate.diff(birthdate, diffunit);
     var value = m[store.getDataset().getDataType()];
     var dx = store.transformX(datediff);

@@ -18,6 +18,7 @@ import React from "react";
 
 const W = 180;
 const H = 42;
+const R = 3;
 const GAP = 3;
 
 const Tooltip = ({ x = 0, y = 0, visible = false, title, value }) => {
@@ -29,24 +30,50 @@ const Tooltip = ({ x = 0, y = 0, visible = false, title, value }) => {
     tx = x + GAP;
     ty = y + GAP;
   }
+
+  const buildPath = () => {
+    const p0 = `${R} 0`;
+    const p1 = `${W-R} 0`;
+    const c1 = `${W-1} 1`;
+    const p2 = `${W} ${R}`;
+    const p3 = `${W} ${H-R}`;
+    const c3 = `${W-1} ${H-1}`;
+    const p4 = `${W-R} ${H}`;
+    const p5 = `${R} ${H}`;
+    const c5 = `1 ${H-1}`;
+    const p6 = `0 ${H-R}`;
+    const p7 = `0 ${R}`;
+    const c7 = '1 1';
+    return `M${p0} L ${p1} C ${c1}, ${c1}, ${p2} L ${p3} C ${c3}, ${c3}, ${p4} L ${p5} C ${c5}, ${c5}, ${p6} L ${p7} C ${c7}, ${c7}, ${p0}`;
+  }
   
   return (
-    <g className='tooltip'
-      transform={visible ? `translate(${tx},${ty})` : "translate(-200,-100)"}
-      style={{ transition: "all .3s ease-in-out" }}
-    >
-      <path
-        d={`M0 0 L ${W} 0 L ${W} ${H} L0 ${H} Z`}
-        fill="rgba(255,255,255,1)"
-        stroke="rgba(192,192,192,1)"
-      />
-      <text x={5} y={15}>
-        {title}
-      </text>
-      <text x={5} y={35}>
-        {value}
-      </text>
-    </g>
+    <>
+      <defs>
+        <clipPath id='clip'>
+          <path
+            d={buildPath()}
+          />
+        </clipPath>
+      </defs>
+
+      <g className='tooltip'
+        transform={visible ? `translate(${tx},${ty})` : "translate(-200,-60)"}
+        style={{ transition: "all .3s ease-in-out" }}
+        visibility={visible?'visible':'hidden'}
+        clipPath='url(#clip)'
+      >
+        <path
+          d={buildPath()}
+        />
+        <text x={5} y={15}>
+          {title}
+        </text>
+        <text x={5} y={35}>
+          {value}
+        </text>
+      </g>
+    </>
   );
 };
 

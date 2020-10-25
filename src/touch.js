@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018  Ermanno Scanagatta
+Copyright (C) 2020  Ermanno Scanagatta
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -30,11 +30,24 @@ const TouchAreas = ({ patient, showTooltip }) => {
 
   const getPointTitle = (measure) => {
     const pointdate = moment(measure.date);
-    const datediff = pointdate.diff(birthdate, diffunit);
+    let age = '';
+    const diffY = pointdate.diff(birthdate, 'year');
+    if (diffY>=1) {
+      const diffM = pointdate.diff(birthdate, 'month') - 12*diffY; 
+      age = `${diffY} y, ${diffM} m`;
+    } else {
+      const diffD = pointdate.diff(birthdate, 'day');
+      const diffM = pointdate.diff(birthdate, 'month');
+      if (diffD<=91) { // 13 sett
+        age = `${parseInt(diffD/7,10)} w`;
+      } else {
+        age = `${diffM} m, ${diffD-30*diffM} d`;
+      }
+    }
 
     const title = `${moment(measure.date).format(
       "DD.MM.YYYY"
-    )} (${datediff} ${diffunit}s)`;
+    )} (${age})`;
     return title;
   };
 
@@ -54,11 +67,6 @@ const TouchAreas = ({ patient, showTooltip }) => {
       return;
     }
     const pointdate = moment(m.date);
-    const birthdate = moment(patient.birthdate);
-    let diffunit = store.getDataset().getUnitX();
-    if (diffunit === "year") {
-      diffunit = "month";
-    }
     const datediff = pointdate.diff(birthdate, diffunit);
     const value = m[store.getDataset().getDataType()];
 

@@ -3,7 +3,6 @@
   "homepage": "https://github.com/ermannos/pchart",
   "version": "0.0.0",
   "license": "MIT",
-  "private": true,
   "dependencies": {
     "pchart": "file:../",
     "prop-types": "^15.7.2",

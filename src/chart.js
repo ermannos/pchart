@@ -17,7 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-underscore-dangle */
 import React, { Component } from "react";
-import moment from "moment";
 import "./style/chart.css";
 import Store from "./store";
 import Backdrop from "./backdrop";

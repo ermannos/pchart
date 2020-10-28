@@ -20,6 +20,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // with the formula:
 //   X = M[(1 + LSZ)^(1/L)]
 // Calculator here: https://measuringu.com/zcalcp/
+
+/* eslint-disable camelcase */
+
 const zIndex = {
   1: -2.3263,
   2: -2.0537,
@@ -122,6 +125,23 @@ const zIndex = {
   99: 2.3263,
 };
 
+const shortNames_en = {
+  year: "y",
+  month: "m",
+  week: "w",
+  day: "d",
+};
+const shortNames_it = {
+  year: "a",
+  month: "m",
+  week: "s",
+  day: "gg",
+};
+const shortNames = {
+  en: shortNames_en,
+  it: shortNames_it,
+};
+
 export default class Dataset {
   constructor(lmsDataset, percentiles) {
     this.title = lmsDataset.title;
@@ -132,7 +152,14 @@ export default class Dataset {
     this.dataType = lmsDataset.dataType;
     this.lmsdata = lmsDataset.data;
     this.percentiles = percentiles;
+    this.shortNames = shortNames.en;
     this._buildData();
+  }
+
+  setLocale(locale) {
+    if (shortNames[locale]) {
+      this.shortNames = shortNames[locale];
+    }
   }
 
   getUnitX() {
@@ -223,5 +250,9 @@ export default class Dataset {
       }
     });
     return bestP;
+  }
+
+  getShortNames() {
+    return this.shortNames;
   }
 }

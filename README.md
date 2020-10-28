@@ -20,14 +20,14 @@ import {PChart, Dataset} from 'pchart';
 This object will contain some fields descriptiong the type of data and an array of LMS values. See the example below:
 ```javascript
 {
-  "title": [Data description, used as title for the chart],
-  "titleX": [Y axis title],
-  "unitX": [X axis unit, should be days|weeks|months|years],
-  "titleY": [Y axis title],
-  "unitY": [Y axis unit],
-  "sex": [Patient sex],
-  "dataType": [Type of patient measure],
-  "data": [
+  title: [Data description, used as title for the chart],
+  titleX: [Y axis title],
+  unitX: [X axis unit, should be days|weeks|months|years],
+  titleY: [Y axis title],
+  unitY: [Y axis unit],
+  sex: [Patient sex],
+  dataType: [Type of patient measure],
+  data: [
     [ x0, L0, M0, S0 ],
     [ x1, L1, M1, S1 ],
     ...
@@ -37,14 +37,14 @@ This object will contain some fields descriptiong the type of data and an array 
 
 ```javascript
 let percentileValues = {
-  "title": "Height per age, boys, from 5 to 19 year",
-  "titleX": "Months",
-  "unitX": "month",
-  "titleY": "Height (cm)",
-  "unitY": "cm",
-  "sex": "male",
-  "dataType": "height",
-  "data": [
+  title: "Height per age, boys, from 5 to 19 year",
+  titleX: "Months",
+  unitX: "month",
+  titleY: "Height (cm)",
+  unitY: "cm",
+  sex: "male",
+  dataType: "height",
+  data: [
     [ 61, 1, 110.2647, 0.04164],
     [ 62, 1, 110.8006, 0.04172],
     [ 63, 1, 111.3338, 0.0418],
@@ -98,7 +98,7 @@ The color of patient data points can be specified in the patient data structure 
 
 ## PChart properties
 Property | Type | Default | Description
----------|------|---------|------------
+-|-|-|-
 width|number|800|Width in pixels of the chart
 height|number|800|Height in pixels of the chart
 dataset|object|null|The dataset object containingall the data used to build the reference percentile curves
@@ -112,7 +112,7 @@ theme|object|null|An object containing styling properties used to override the d
 ## Sample code
 
 ```jsx
-import React, { Component } from 'react';
+import React from 'react';
 import {PChart, Dataset} from 'pchart';
 import who_height_boys_013W from './who/height_boys_0-13W.json';
 
@@ -134,14 +134,12 @@ const theme = {
   gridColor: '#00ACC1',
   areaColor: 'rgba(0,172,193,.4)'
 }
+const dataset = new Dataset(who_height_boys_013W, percentiles);
 
-class Example extends Component {
-  render () {
-    let dataset = new Dataset(who_height_boys_013W, percentiles);
-    return (
-      <PChart width={1200} height={800} dataset={dataset} patients={patient} theme={theme} showtitle showlabels/>
-    )
-  }
+const Example = () => {
+  return (
+    <PChart width={1200} height={800} dataset={dataset} patients={patient} theme={theme} showtitle showlabels/>
+  )
 }
 ```
 

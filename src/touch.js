@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import React, { useContext } from "react";
 import moment from "moment";
 import { StoreContext } from "./context";
+import { convert } from "./utils";
 
 const TouchAreas = ({ patient, showTooltip }) => {
   const store = useContext(StoreContext);
@@ -30,32 +31,34 @@ const TouchAreas = ({ patient, showTooltip }) => {
 
   const getPointTitle = (measure) => {
     const pointdate = moment(measure.date);
-    let age = '';
-    const diffY = pointdate.diff(birthdate, 'year');
-    if (diffY>=1) {
-      const diffM = pointdate.diff(birthdate, 'month') - 12*diffY; 
+    let age = "";
+    const diffY = pointdate.diff(birthdate, "year");
+    if (diffY >= 1) {
+      const diffM = pointdate.diff(birthdate, "month") - 12 * diffY;
       age = `${diffY} y, ${diffM} m`;
     } else {
-      const diffD = pointdate.diff(birthdate, 'day');
-      const diffM = pointdate.diff(birthdate, 'month');
-      if (diffD<=91) { // 13 sett
-        age = `${parseInt(diffD/7,10)} w`;
+      const diffD = pointdate.diff(birthdate, "day");
+      const diffM = pointdate.diff(birthdate, "month");
+      if (diffD <= 91) {
+        // 13 sett
+        const w = parseInt(diffD / 7, 10);
+        const d = diffD - w * 7;
+        age = `${w} w, ${d} d`;
       } else {
-        age = `${diffM} m, ${diffD-30*diffM} d`;
+        age = `${diffM} m, ${diffD - 30 * diffM} d`;
       }
     }
 
-    const title = `${moment(measure.date).format(
-      "DD.MM.YYYY"
-    )} (${age})`;
+    const title = `${moment(measure.date).format("DD.MM.YYYY")} (${age})`;
     return title;
   };
 
   const getPointValue = (measure) => {
     const pointdate = moment(measure.date);
-    const datediff = pointdate.diff(birthdate, diffunit);
+    // const datediff = pointdate.diff(birthdate, diffunit);
+    const diff = convert(pointdate, birthdate, diffunit);
     const val = measure[ds.getDataType()];
-    const percentile = ds.getPercentileForValue(datediff, val);
+    const percentile = ds.getPercentileForValue(diff, val);
 
     const value = `${ds.titleY}: ${measure[ds.dataType]} (${percentile}%)`;
     return value;
@@ -67,10 +70,10 @@ const TouchAreas = ({ patient, showTooltip }) => {
       return;
     }
     const pointdate = moment(m.date);
-    const datediff = pointdate.diff(birthdate, diffunit);
+    const diff = convert(pointdate, birthdate, diffunit);
     const value = m[store.getDataset().getDataType()];
 
-    const dx = store.transformX(datediff);
+    const dx = store.transformX(diff);
     if (
       dx === null ||
       dx === undefined ||

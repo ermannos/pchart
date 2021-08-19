@@ -2,10 +2,49 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
-
 var React = require('react');
-var React__default = _interopDefault(React);
+
+function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+var React__default = /*#__PURE__*/_interopDefaultLegacy(React);
+
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+
+    if (enumerableOnly) {
+      symbols = symbols.filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      });
+    }
+
+    keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
+function _objectSpread2(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+
+    if (i % 2) {
+      ownKeys(Object(source), true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+  }
+
+  return target;
+}
 
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -42,40 +81,6 @@ function _defineProperty(obj, key, value) {
   }
 
   return obj;
-}
-
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
-
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-    if (enumerableOnly) symbols = symbols.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    });
-    keys.push.apply(keys, symbols);
-  }
-
-  return keys;
-}
-
-function _objectSpread2(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-
-    if (i % 2) {
-      ownKeys(Object(source), true).forEach(function (key) {
-        _defineProperty(target, key, source[key]);
-      });
-    } else if (Object.getOwnPropertyDescriptors) {
-      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-    } else {
-      ownKeys(Object(source)).forEach(function (key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-      });
-    }
-  }
-
-  return target;
 }
 
 function _inherits(subClass, superClass) {
@@ -115,7 +120,7 @@ function _isNativeReflectConstruct() {
   if (typeof Proxy === "function") return true;
 
   try {
-    Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+    Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));
     return true;
   } catch (e) {
     return false;
@@ -133,6 +138,8 @@ function _assertThisInitialized(self) {
 function _possibleConstructorReturn(self, call) {
   if (call && (typeof call === "object" || typeof call === "function")) {
     return call;
+  } else if (call !== void 0) {
+    throw new TypeError("Derived constructors may only return object or undefined");
   }
 
   return _assertThisInitialized(self);
@@ -166,14 +173,17 @@ function _arrayWithHoles(arr) {
 }
 
 function _iterableToArrayLimit(arr, i) {
-  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
+  var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
+
+  if (_i == null) return;
   var _arr = [];
   var _n = true;
   var _d = false;
-  var _e = undefined;
+
+  var _s, _e;
 
   try {
-    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+    for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
       _arr.push(_s.value);
 
       if (i && _arr.length === i) break;
@@ -213,6 +223,616 @@ function _nonIterableRest() {
   throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 
+function styleInject(css, ref) {
+  if ( ref === void 0 ) ref = {};
+  var insertAt = ref.insertAt;
+
+  if (!css || typeof document === 'undefined') { return; }
+
+  var head = document.head || document.getElementsByTagName('head')[0];
+  var style = document.createElement('style');
+  style.type = 'text/css';
+
+  if (insertAt === 'top') {
+    if (head.firstChild) {
+      head.insertBefore(style, head.firstChild);
+    } else {
+      head.appendChild(style);
+    }
+  } else {
+    head.appendChild(style);
+  }
+
+  if (style.styleSheet) {
+    style.styleSheet.cssText = css;
+  } else {
+    style.appendChild(document.createTextNode(css));
+  }
+}
+
+var css_248z = "svg {\n  font-family: \"Lucida Grande\", Verdana, Arial, Helvetica, sans-serif;\n  font-weight: lighter; }\n\n.title {\n  font-size: 16px; }\n\n.backdrop {\n  z-index: 1; }\n\n.axis {\n  stroke-width: 0.6; }\n  .axis text[name=\"valuelabel\"] {\n    font-size: 9px;\n    stroke: none; }\n  .axis text[name=\"axislabel\"] {\n    font-size: 12px;\n    stroke: none; }\n  .axis .tick {\n    stroke-width: 0.3; }\n  .axis .longtick {\n    stroke-width: 0.6; }\n\n.grid {\n  z-index: 2; }\n  .grid .refline {\n    stroke-width: 0.3; }\n  .grid .longrefline {\n    stroke-width: 0.6; }\n\n.areas {\n  z-index: 3; }\n  .areas .area-curve {\n    stroke: none; }\n\n.percentiles {\n  z-index: 10; }\n  .percentiles .percentile-curve {\n    fill: none;\n    stroke: black;\n    stroke-width: 1; }\n    .percentiles .percentile-curve.dotted {\n      stroke-dasharray: 5; }\n  .percentiles .percentile-label {\n    font-weight: lighter;\n    font-size: 9px;\n    stroke: none; }\n\n.patient-data .percentile-label {\n  font-weight: lighter;\n  font-size: 12px;\n  stroke: none; }\n\n.patient-data .percentile-point {\n  stroke: none; }\n\n.patient-data .percentile-line {\n  fill: none; }\n\n.tooltip path {\n  fill: #707070;\n  stroke: #707070; }\n\n.tooltip text {\n  font-size: 12px;\n  stroke: none;\n  fill: white; }\n";
+styleInject(css_248z);
+
+/*
+Copyright (C) 2018  Ermanno Scanagatta
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+/* eslint-disable no-underscore-dangle */
+
+/* eslint-disable max-classes-per-file */
+var AxisTransformation = /*#__PURE__*/function () {
+  function AxisTransformation(len, minValue, maxValue) {
+    _classCallCheck(this, AxisTransformation);
+
+    this.len = len;
+    this.minValue = minValue;
+    this.maxValue = maxValue;
+  }
+
+  _createClass(AxisTransformation, [{
+    key: "transform",
+    value: function transform(value) {
+      if (value < this.minValue) {
+        return null;
+      }
+
+      if (value > this.maxValue) {
+        return this.len;
+      }
+
+      return this.len * (value - this.minValue) / (this.maxValue - this.minValue);
+    }
+  }]);
+
+  return AxisTransformation;
+}();
+
+var Store = /*#__PURE__*/function () {
+  function Store(params, onUpdate) {
+    _classCallCheck(this, Store);
+
+    this.dataset = params.dataset;
+    this.margins = params.margins;
+    this.step = params.step;
+    this.onUpdate = onUpdate;
+  }
+
+  _createClass(Store, [{
+    key: "setSize",
+    value: function setSize(size) {
+      this.size = size;
+
+      this._init();
+    }
+  }, {
+    key: "setDataset",
+    value: function setDataset(dataset) {
+      this.dataset = dataset;
+
+      this._init();
+    }
+  }, {
+    key: "_init",
+    value: function _init() {
+      this.top = this.margins.top;
+      this.bottom = this.size.height - this.margins.bottom;
+      this.left = this.margins.left;
+      this.right = this.size.width - this.margins.right;
+      this.width = this.size.width - this.margins.left - this.margins.right;
+      this.height = this.size.height - this.margins.top - this.margins.bottom;
+      var data = this.dataset.data;
+      this.keys = Object.keys(data);
+      this.countX = this.keys.length;
+      this.stepX = this.width / (this.countX - 1);
+
+      var _this$keys = _slicedToArray(this.keys, 1);
+
+      this.minX = _this$keys[0];
+      this.maxX = this.keys[this.keys.length - 1];
+      var firstentry = data[this.keys[0]];
+      var lastentry = data[this.keys[this.keys.length - 1]];
+      var percentiles = Object.keys(firstentry);
+      var _min = firstentry[percentiles[0]];
+      var _max = lastentry[percentiles[percentiles.length - 1]];
+      var tolerance = 0.05;
+      this.minY = Math.floor((1 - tolerance) * _min / this.step) * this.step;
+      this.maxY = Math.ceil((1 + tolerance) * _max / this.step) * this.step;
+      this._transformX = new AxisTransformation(this.width, this.minX, this.maxX);
+      this._transformY = new AxisTransformation(this.height, this.minY, this.maxY);
+
+      if (this.onUpdate) {
+        this.onUpdate();
+      }
+    }
+  }, {
+    key: "getDataset",
+    value: function getDataset() {
+      return this.dataset;
+    }
+  }, {
+    key: "getSize",
+    value: function getSize() {
+      return this.size;
+    }
+  }, {
+    key: "getMargins",
+    value: function getMargins() {
+      return this.margins;
+    }
+  }, {
+    key: "getStep",
+    value: function getStep() {
+      return this.step;
+    }
+  }, {
+    key: "getMeasures",
+    value: function getMeasures() {
+      return {
+        top: this.top,
+        bottom: this.bottom,
+        left: this.left,
+        right: this.right,
+        width: this.width,
+        height: this.height,
+        keys: this.keys,
+        countX: this.countX,
+        stepX: this.stepX,
+        minX: this.minX,
+        maxX: this.maxX,
+        minY: this.minY,
+        maxY: this.maxY
+      };
+    }
+  }, {
+    key: "transformX",
+    value: function transformX(value) {
+      return this._transformX.transform(value);
+    }
+  }, {
+    key: "transformY",
+    value: function transformY(value) {
+      return this._transformY.transform(value);
+    }
+  }]);
+
+  return Store;
+}();
+
+/*
+    Copyright (C) 2019  Ermanno Scanagatta
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+var StoreContext = /*#__PURE__*/React__default['default'].createContext();
+var defaultTheme = {
+  backgroundColor: "transparent",
+  backdropFill: "#FFFDE7",
+  axisColor: "#707070",
+  gridColor: "#FFD54F",
+  areaColor: "rgba(127,127,127, .3)"
+};
+var ThemeContext = /*#__PURE__*/React__default['default'].createContext({
+  value: defaultTheme
+});
+
+/*
+    Copyright (C) 2018  Ermanno Scanagatta
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+var Backdrop = function Backdrop() {
+  var store = React.useContext(StoreContext);
+  var theme = React.useContext(ThemeContext);
+  return /*#__PURE__*/React__default['default'].createElement("rect", {
+    name: "backdrop",
+    className: "backdrop",
+    fill: theme.backdropFill,
+    x: store.getMeasures().left,
+    y: store.getMeasures().top,
+    width: store.getMeasures().width,
+    height: store.getMeasures().height
+  });
+};
+
+/*
+Copyright (C) 2018  Ermanno Scanagatta
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+var short_tick_len = 5;
+var long_tick_len = 10;
+
+var XAxis = function XAxis() {
+  var store = React.useContext(StoreContext);
+  var theme = React.useContext(ThemeContext);
+  var step = store.getDataset().getUnitX() === "month" || store.getDataset().getUnitX() === "year" ? 6 : store.getDataset().getUnitX() === "week" ? 1 : 5;
+  var labelstep = store.getDataset().getUnitX() === "month" || store.getDataset().getUnitX() === "year" ? 2 : 1;
+  var ticks = [];
+  var valuelabels = [];
+
+  for (var t = 0; t < store.getMeasures().countX; t += 1) {
+    var key = store.getMeasures().keys[t];
+
+    var _long = store.getDataset().getUnitX() === "year" ? key % step === 0 : t % step === 0;
+
+    var x = store.getMeasures().left + t * store.getMeasures().stepX;
+    var y1 = store.getSize().height - store.getMargins().bottom;
+    var y2 = y1 + (_long ? long_tick_len : short_tick_len);
+    ticks.push( /*#__PURE__*/React__default['default'].createElement("line", {
+      className: _long ? "longtick" : "tick",
+      key: "tick-".concat(t),
+      x1: x,
+      y1: y1,
+      x2: x,
+      y2: y2,
+      stroke: theme.axisColor
+    }));
+    var showlabel = store.getDataset().getUnitX() === "year" ? key % 12 === 0 : t % (step * labelstep) === 0;
+
+    if (showlabel) {
+      valuelabels.push( /*#__PURE__*/React__default['default'].createElement("text", {
+        key: "valuelabel-".concat(t),
+        name: "valuelabel",
+        x: x,
+        y: y2 + 2 + 10,
+        textAnchor: "middle"
+      }, store.getDataset().getUnitX() === "year" ? key / 12 : key));
+    }
+  }
+
+  var axisTitle = store.getDataset().getTitleX();
+  return /*#__PURE__*/React__default['default'].createElement("g", {
+    name: "xaxis",
+    className: "axis"
+  }, /*#__PURE__*/React__default['default'].createElement("line", {
+    x1: store.getMeasures().left,
+    y1: store.getMeasures().bottom,
+    x2: store.getMeasures().right,
+    y2: store.getMeasures().bottom,
+    stroke: theme.axisColor
+  }), /*#__PURE__*/React__default['default'].createElement("g", null, ticks), /*#__PURE__*/React__default['default'].createElement("g", null, valuelabels), /*#__PURE__*/React__default['default'].createElement("text", {
+    name: "axislabel",
+    x: (store.getMargins().left + store.getMeasures().right) / 2,
+    y: store.getSize().height - 5,
+    textAnchor: "middle"
+  }, axisTitle));
+};
+
+/*
+    Copyright (C) 2018  Ermanno Scanagatta
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+var shortTickLen = 5;
+var longTickLen = 10;
+
+var YAxis = function YAxis() {
+  var store = React.useContext(StoreContext);
+  var theme = React.useContext(ThemeContext);
+  var labelstep = 2;
+  var tickcount = store.getMeasures().maxY - store.getMeasures().minY;
+  var stepY = store.getMeasures().height / tickcount;
+  var ticks = [];
+  var valuelabels = [];
+
+  for (var t = 0; t <= tickcount; t += 1) {
+    var _long = t % store.getStep() === 0;
+
+    var x1 = store.getMeasures().left;
+    var x2 = x1 - (_long ? longTickLen : shortTickLen);
+    var y = store.getMeasures().bottom - t * stepY;
+    ticks.push( /*#__PURE__*/React__default['default'].createElement("line", {
+      className: _long ? "longtick" : "tick",
+      key: "tick-".concat(t),
+      x1: x1,
+      y1: y,
+      x2: x2,
+      y2: y,
+      stroke: theme.axisColor
+    }));
+    var showlabel = t % (store.getStep() * labelstep) === 0;
+
+    if (showlabel) {
+      valuelabels.push( /*#__PURE__*/React__default['default'].createElement("text", {
+        name: "valuelabel",
+        key: "valuelabel-".concat(t),
+        x: x2 - 3,
+        y: y,
+        textAnchor: "end",
+        alignmentBaseline: "middle"
+      }, store.getMeasures().minY + t));
+    }
+  }
+
+  return /*#__PURE__*/React__default['default'].createElement("g", {
+    name: "yaxis",
+    className: "axis"
+  }, /*#__PURE__*/React__default['default'].createElement("line", {
+    x1: store.getMeasures().left,
+    y1: store.getMeasures().bottom,
+    x2: store.getMeasures().left,
+    y2: store.getMeasures().top,
+    stroke: theme.axisColor
+  }), /*#__PURE__*/React__default['default'].createElement("g", null, ticks), /*#__PURE__*/React__default['default'].createElement("g", null, valuelabels), /*#__PURE__*/React__default['default'].createElement("text", {
+    name: "axislabel",
+    x: 20,
+    y: (store.getMargins().top + store.getMeasures().bottom) / 2,
+    textAnchor: "middle",
+    transform: "rotate(-90 20 ".concat((store.getMargins().top + store.getMeasures().bottom) / 2, ")")
+  }, store.getDataset().getTitleY()));
+};
+
+/*
+    Copyright (C) 2018  Ermanno Scanagatta
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+var Grid = function Grid() {
+  var store = React.useContext(StoreContext);
+  var theme = React.useContext(ThemeContext);
+  var tickcountX = store.getMeasures().keys.length;
+  var stepX = store.getMeasures().width / (tickcountX - 1);
+  var step = store.getDataset().getUnitX() === "month" || store.getDataset().getUnitX() === "year" ? 6 : 5;
+  var reflinesx = [];
+
+  for (var t = 0; t < tickcountX; t += 1) {
+    var key = store.getMeasures().keys[t];
+
+    var _long = store.getDataset().getUnitX() === "year" ? key % step === 0 : t % step === 0;
+
+    var x = store.getMeasures().left + t * stepX;
+    var y1 = store.getMeasures().bottom;
+    var y2 = store.getMeasures().top;
+    reflinesx.push( /*#__PURE__*/React__default['default'].createElement("line", {
+      className: _long ? "longrefline" : "refline",
+      key: "reflinex-".concat(t),
+      x1: x,
+      y1: y1,
+      x2: x,
+      y2: y2,
+      stroke: theme.gridColor
+    }));
+  }
+
+  var tickCountY = store.getMeasures().maxY - store.getMeasures().minY;
+  var stepY = store.getMeasures().height / tickCountY;
+  var reflinesy = [];
+
+  for (var _t = 0; _t <= tickCountY; _t += 1) {
+    var _long2 = _t % store.getStep() === 0;
+
+    var x1 = store.getMeasures().left;
+    var x2 = store.getMeasures().right;
+
+    var y = store.getMeasures().bottom - _t * stepY;
+
+    reflinesy.push( /*#__PURE__*/React__default['default'].createElement("line", {
+      className: _long2 ? "longrefline" : "refline",
+      key: "refliney-".concat(_t),
+      x1: x1,
+      y1: y,
+      x2: x2,
+      y2: y,
+      stroke: theme.gridColor
+    }));
+  }
+
+  return /*#__PURE__*/React__default['default'].createElement("g", {
+    name: "grid",
+    className: "grid"
+  }, reflinesx, reflinesy);
+};
+
+/*
+    Copyright (C) 2018  Ermanno Scanagatta
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+var Areas = function Areas() {
+  var store = React.useContext(StoreContext);
+  var theme = React.useContext(ThemeContext);
+  var areas = [];
+  var points1 = store.getDataset().getPercentilePoints(0);
+  var points2 = store.getDataset().getPercentilePoints(store.getDataset().percentiles.length - 1);
+  var pathStr = "";
+  points1.forEach(function (point, i) {
+    var x = store.transformX(point[0]) + store.getMargins().left;
+    var y = store.getMeasures().bottom - store.transformY(point[1]);
+    pathStr += i === 0 ? "M" : "L";
+    pathStr += "".concat(x, " ").concat(y, " ");
+  });
+  points2.reverse().forEach(function (point) {
+    var x = store.transformX(point[0]) + store.getMargins().left;
+    var y = store.getMeasures().bottom - store.transformY(point[1]);
+    pathStr += "L";
+    pathStr += "".concat(x, " ").concat(y, " ");
+  });
+  pathStr += "Z";
+  areas.push( /*#__PURE__*/React__default['default'].createElement("path", {
+    className: "area-curve",
+    key: "area-curve-1",
+    name: "area-curve-1",
+    d: pathStr,
+    fill: theme.areaColor
+  }));
+
+  if (store.getDataset().percentiles.length >= 4) {
+    var points3 = store.getDataset().getPercentilePoints(1);
+    var points4 = store.getDataset().getPercentilePoints(store.getDataset().percentiles.length - 2);
+    pathStr = "";
+    points3.forEach(function (point, i) {
+      var x = store.transformX(point[0]) + store.getMargins().left;
+      var y = store.getMeasures().bottom - store.transformY(point[1]);
+      pathStr += i === 0 ? "M" : "L";
+      pathStr += "".concat(x, " ").concat(y, " ");
+    });
+    points4.reverse().forEach(function (point) {
+      var x = store.transformX(point[0]) + store.getMargins().left;
+      var y = store.getMeasures().bottom - store.transformY(point[1]);
+      pathStr += "L";
+      pathStr += "".concat(x, " ").concat(y, " ");
+    });
+    pathStr += "Z";
+    areas.push( /*#__PURE__*/React__default['default'].createElement("path", {
+      className: "area-curve",
+      key: "area-curve-2",
+      name: "area-curve-2",
+      d: pathStr,
+      fill: theme.areaColor
+    }));
+  }
+
+  return /*#__PURE__*/React__default['default'].createElement("g", {
+    name: "areas",
+    className: "areas"
+  }, areas);
+};
+
+/*
+    Copyright (C) 2018  Ermanno Scanagatta
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+var Percentiles = function Percentiles() {
+  var store = React.useContext(StoreContext);
+  var curves = [];
+
+  var _loop = function _loop(j) {
+    var p = store.getDataset().percentiles[j];
+    var points = store.getDataset().getPercentilePoints(j);
+    var pathStr = "";
+    var lastx = void 0;
+    var lasty = void 0;
+    points.forEach(function (point, i) {
+      var x = store.transformX(point[0]) + store.getMeasures().left;
+      var y = store.getMeasures().bottom - store.transformY(point[1]);
+      pathStr += i === 0 ? "M" : "L";
+      pathStr += "".concat(x, " ").concat(y, " ");
+
+      if (i === points.length - 1) {
+        lastx = x;
+        lasty = y;
+      }
+    });
+    curves.push( /*#__PURE__*/React__default['default'].createElement("path", {
+      className: "percentile-curve".concat(j === 0 || j === store.getDataset().percentiles.length - 1 ? " dotted" : ""),
+      key: "percentile-curve-".concat(p),
+      name: "percentile-".concat(p),
+      d: pathStr
+    }));
+    curves.push( /*#__PURE__*/React__default['default'].createElement("text", {
+      key: "percentile-label-".concat(p),
+      className: "percentile-label",
+      x: lastx - 3,
+      y: lasty - 3,
+      textAnchor: "end"
+    }, "".concat(p, "th")));
+  };
+
+  for (var j = 0; j < store.getDataset().percentiles.length; j += 1) {
+    _loop(j);
+  }
+
+  return /*#__PURE__*/React__default['default'].createElement("g", {
+    name: "percentiles",
+    className: "percentiles"
+  }, curves);
+};
+
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 function createCommonjsModule(fn, basedir, module) {
@@ -231,7 +851,7 @@ function commonjsRequire () {
 
 var moment = createCommonjsModule(function (module, exports) {
 (function (global, factory) {
-     module.exports = factory() ;
+    module.exports = factory() ;
 }(commonjsGlobal, (function () {
     var hookCallback;
 
@@ -2763,8 +3383,7 @@ var moment = createCommonjsModule(function (module, exports) {
     hooks.createFromInputFallback = deprecate(
         'value provided is not in a recognized RFC2822 or ISO format. moment construction falls back to js Date(), ' +
             'which is not reliable across all browsers and versions. Non RFC2822/ISO date formats are ' +
-            'discouraged and will be removed in an upcoming major release. Please refer to ' +
-            'http://momentjs.com/guides/#/warnings/js-date/ for more info.',
+            'discouraged. Please refer to http://momentjs.com/guides/#/warnings/js-date/ for more info.',
         function (config) {
             config._d = new Date(config._i + (config._useUTC ? ' UTC' : ''));
         }
@@ -3949,7 +4568,10 @@ var moment = createCommonjsModule(function (module, exports) {
     function calendar$1(time, formats) {
         // Support for single parameter, formats only overload to the calendar function
         if (arguments.length === 1) {
-            if (isMomentInput(arguments[0])) {
+            if (!arguments[0]) {
+                time = undefined;
+                formats = undefined;
+            } else if (isMomentInput(arguments[0])) {
                 time = arguments[0];
                 formats = undefined;
             } else if (isCalendarSpec(arguments[0])) {
@@ -4627,7 +5249,7 @@ var moment = createCommonjsModule(function (module, exports) {
             eras = this.localeData().eras();
         for (i = 0, l = eras.length; i < l; ++i) {
             // truncate time
-            val = this.startOf('day').valueOf();
+            val = this.clone().startOf('day').valueOf();
 
             if (eras[i].since <= val && val <= eras[i].until) {
                 return eras[i].name;
@@ -4647,7 +5269,7 @@ var moment = createCommonjsModule(function (module, exports) {
             eras = this.localeData().eras();
         for (i = 0, l = eras.length; i < l; ++i) {
             // truncate time
-            val = this.startOf('day').valueOf();
+            val = this.clone().startOf('day').valueOf();
 
             if (eras[i].since <= val && val <= eras[i].until) {
                 return eras[i].narrow;
@@ -4667,7 +5289,7 @@ var moment = createCommonjsModule(function (module, exports) {
             eras = this.localeData().eras();
         for (i = 0, l = eras.length; i < l; ++i) {
             // truncate time
-            val = this.startOf('day').valueOf();
+            val = this.clone().startOf('day').valueOf();
 
             if (eras[i].since <= val && val <= eras[i].until) {
                 return eras[i].abbr;
@@ -4690,7 +5312,7 @@ var moment = createCommonjsModule(function (module, exports) {
             dir = eras[i].since <= eras[i].until ? +1 : -1;
 
             // truncate time
-            val = this.startOf('day').valueOf();
+            val = this.clone().startOf('day').valueOf();
 
             if (
                 (eras[i].since <= val && val <= eras[i].until) ||
@@ -5841,7 +6463,7 @@ var moment = createCommonjsModule(function (module, exports) {
 
     //! moment.js
 
-    hooks.version = '2.27.0';
+    hooks.version = '2.29.1';
 
     setHookCallback(createLocal);
 
@@ -5891,700 +6513,127 @@ var moment = createCommonjsModule(function (module, exports) {
 })));
 });
 
-function styleInject(css, ref) {
-  if ( ref === void 0 ) ref = {};
-  var insertAt = ref.insertAt;
+var convert = function convert(pointdate, birthdate, unit) {
+  if (unit === "month") return convertMonths(pointdate, birthdate);
+  if (unit === "week") return convertWeeks(pointdate, birthdate);
+  return 0;
+};
 
-  if (!css || typeof document === 'undefined') { return; }
+var convertWeeks = function convertWeeks(pointdate, birthdate) {
+  var daydiff = pointdate.diff(birthdate, "day");
+  var diff = Math.round(daydiff * 10 / 7) / 10;
+  return diff;
+};
 
-  var head = document.head || document.getElementsByTagName('head')[0];
-  var style = document.createElement('style');
-  style.type = 'text/css';
+var convertMonths = function convertMonths(pointdate, birthdate) {
+  var unit = "month";
+  var daydiff = pointdate.diff(birthdate, "day");
+  var datediff = pointdate.diff(birthdate, unit);
+  var diff = 0;
 
-  if (insertAt === 'top') {
-    if (head.firstChild) {
-      head.insertBefore(style, head.firstChild);
-    } else {
-      head.appendChild(style);
-    }
+  if (daydiff > 365) {
+    var years = pointdate.diff(birthdate, "year");
+    var months = datediff % 12;
+    var rest = daydiff - years * 365 - months * 30;
+    diff = datediff + Math.round(rest * 10 / 30) / 10;
   } else {
-    head.appendChild(style);
+    var _rest = daydiff - datediff * 30;
+
+    diff = datediff + Math.round(_rest * 10 / 30) / 10;
   }
 
-  if (style.styleSheet) {
-    style.styleSheet.cssText = css;
-  } else {
-    style.appendChild(document.createTextNode(css));
-  }
-}
-
-var css_248z = "svg {\n  font-family: \"Lucida Grande\", Verdana, Arial, Helvetica, sans-serif;\n  font-weight: lighter; }\n\n.title {\n  font-size: 16px; }\n\n.backdrop {\n  z-index: 1; }\n\n.axis {\n  stroke-width: 0.6; }\n  .axis text[name=\"valuelabel\"] {\n    font-size: 9px;\n    stroke: none; }\n  .axis text[name=\"axislabel\"] {\n    font-size: 12px;\n    stroke: none; }\n  .axis .tick {\n    stroke-width: 0.3; }\n  .axis .longtick {\n    stroke-width: 0.6; }\n\n.grid {\n  z-index: 2; }\n  .grid .refline {\n    stroke-width: 0.3; }\n  .grid .longrefline {\n    stroke-width: 0.6; }\n\n.areas {\n  z-index: 3; }\n  .areas .area-curve {\n    stroke: none; }\n\n.percentiles {\n  z-index: 10; }\n  .percentiles .percentile-curve {\n    fill: none;\n    stroke: black;\n    stroke-width: 1; }\n    .percentiles .percentile-curve.dotted {\n      stroke-dasharray: 5; }\n  .percentiles .percentile-label {\n    font-weight: lighter;\n    font-size: 9px;\n    stroke: none; }\n\n.patient-data .percentile-label {\n  font-weight: lighter;\n  font-size: 12px;\n  stroke: none; }\n\n.patient-data .percentile-point {\n  stroke: none; }\n\n.patient-data .percentile-line {\n  fill: none; }\n\n.tooltip path {\n  fill: #707070;\n  stroke: #707070; }\n\n.tooltip text {\n  font-size: 12px;\n  stroke: none;\n  fill: white; }\n";
-styleInject(css_248z);
-
-/*
-Copyright (C) 2018  Ermanno Scanagatta
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-/* eslint-disable no-underscore-dangle */
-
-/* eslint-disable max-classes-per-file */
-var AxisTransformation = /*#__PURE__*/function () {
-  function AxisTransformation(len, minValue, maxValue) {
-    _classCallCheck(this, AxisTransformation);
-
-    this.len = len;
-    this.minValue = minValue;
-    this.maxValue = maxValue;
-  }
-
-  _createClass(AxisTransformation, [{
-    key: "transform",
-    value: function transform(value) {
-      if (value < this.minValue) {
-        return null;
-      }
-
-      if (value > this.maxValue) {
-        return this.len;
-      }
-
-      return this.len * (value - this.minValue) / (this.maxValue - this.minValue);
-    }
-  }]);
-
-  return AxisTransformation;
-}();
-
-var Store = /*#__PURE__*/function () {
-  function Store(params, onUpdate) {
-    _classCallCheck(this, Store);
-
-    this.dataset = params.dataset;
-    this.margins = params.margins;
-    this.step = params.step;
-    this.onUpdate = onUpdate;
-  }
-
-  _createClass(Store, [{
-    key: "setSize",
-    value: function setSize(size) {
-      this.size = size;
-
-      this._init();
-    }
-  }, {
-    key: "setDataset",
-    value: function setDataset(dataset) {
-      this.dataset = dataset;
-
-      this._init();
-    }
-  }, {
-    key: "_init",
-    value: function _init() {
-      this.top = this.margins.top;
-      this.bottom = this.size.height - this.margins.bottom;
-      this.left = this.margins.left;
-      this.right = this.size.width - this.margins.right;
-      this.width = this.size.width - this.margins.left - this.margins.right;
-      this.height = this.size.height - this.margins.top - this.margins.bottom;
-      var data = this.dataset.data;
-      this.keys = Object.keys(data);
-      this.countX = this.keys.length;
-      this.stepX = this.width / (this.countX - 1);
-
-      var _this$keys = _slicedToArray(this.keys, 1);
-
-      this.minX = _this$keys[0];
-      this.maxX = this.keys[this.keys.length - 1];
-      var firstentry = data[this.keys[0]];
-      var lastentry = data[this.keys[this.keys.length - 1]];
-      var percentiles = Object.keys(firstentry);
-      var _min = firstentry[percentiles[0]];
-      var _max = lastentry[percentiles[percentiles.length - 1]];
-      var tolerance = 0.05;
-      this.minY = Math.floor((1 - tolerance) * _min / this.step) * this.step;
-      this.maxY = Math.ceil((1 + tolerance) * _max / this.step) * this.step;
-      this._transformX = new AxisTransformation(this.width, this.minX, this.maxX);
-      this._transformY = new AxisTransformation(this.height, this.minY, this.maxY);
-
-      if (this.onUpdate) {
-        this.onUpdate();
-      }
-    }
-  }, {
-    key: "getDataset",
-    value: function getDataset() {
-      return this.dataset;
-    }
-  }, {
-    key: "getSize",
-    value: function getSize() {
-      return this.size;
-    }
-  }, {
-    key: "getMargins",
-    value: function getMargins() {
-      return this.margins;
-    }
-  }, {
-    key: "getStep",
-    value: function getStep() {
-      return this.step;
-    }
-  }, {
-    key: "getMeasures",
-    value: function getMeasures() {
-      return {
-        top: this.top,
-        bottom: this.bottom,
-        left: this.left,
-        right: this.right,
-        width: this.width,
-        height: this.height,
-        keys: this.keys,
-        countX: this.countX,
-        stepX: this.stepX,
-        minX: this.minX,
-        maxX: this.maxX,
-        minY: this.minY,
-        maxY: this.maxY
-      };
-    }
-  }, {
-    key: "transformX",
-    value: function transformX(value) {
-      return this._transformX.transform(value);
-    }
-  }, {
-    key: "transformY",
-    value: function transformY(value) {
-      return this._transformY.transform(value);
-    }
-  }]);
-
-  return Store;
-}();
-
-/*
-    Copyright (C) 2019  Ermanno Scanagatta
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-var StoreContext = /*#__PURE__*/React__default.createContext();
-var defaultTheme = {
-  backgroundColor: "transparent",
-  backdropFill: "#FFFDE7",
-  axisColor: "#707070",
-  gridColor: "#FFD54F",
-  areaColor: "rgba(127,127,127, .3)"
+  return diff;
 };
-var ThemeContext = /*#__PURE__*/React__default.createContext({
-  value: defaultTheme
-});
-
-/*
-    Copyright (C) 2018  Ermanno Scanagatta
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-var Backdrop = function Backdrop() {
-  var store = React.useContext(StoreContext);
-  var theme = React.useContext(ThemeContext);
-  return /*#__PURE__*/React__default.createElement("rect", {
-    name: "backdrop",
-    className: "backdrop",
-    fill: theme.backdropFill,
-    x: store.getMeasures().left,
-    y: store.getMeasures().top,
-    width: store.getMeasures().width,
-    height: store.getMeasures().height
-  });
-};
-
-/*
-Copyright (C) 2018  Ermanno Scanagatta
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-var short_tick_len = 5;
-var long_tick_len = 10;
-
-var XAxis = function XAxis() {
-  var store = React.useContext(StoreContext);
-  var theme = React.useContext(ThemeContext);
-  var step = store.getDataset().getUnitX() === "month" || store.getDataset().getUnitX() === "year" ? 6 : store.getDataset().getUnitX() === "week" ? 1 : 5;
-  var labelstep = store.getDataset().getUnitX() === "month" || store.getDataset().getUnitX() === "year" ? 2 : 1;
-  var ticks = [];
-  var valuelabels = [];
-
-  for (var t = 0; t < store.getMeasures().countX; t += 1) {
-    var key = store.getMeasures().keys[t];
-
-    var _long = store.getDataset().getUnitX() === "year" ? key % step === 0 : t % step === 0;
-
-    var x = store.getMeasures().left + t * store.getMeasures().stepX;
-    var y1 = store.getSize().height - store.getMargins().bottom;
-    var y2 = y1 + (_long ? long_tick_len : short_tick_len);
-    ticks.push( /*#__PURE__*/React__default.createElement("line", {
-      className: _long ? "longtick" : "tick",
-      key: "tick-".concat(t),
-      x1: x,
-      y1: y1,
-      x2: x,
-      y2: y2,
-      stroke: theme.axisColor
-    }));
-    var showlabel = store.getDataset().getUnitX() === "year" ? key % 12 === 0 : t % (step * labelstep) === 0;
-
-    if (showlabel) {
-      valuelabels.push( /*#__PURE__*/React__default.createElement("text", {
-        key: "valuelabel-".concat(t),
-        name: "valuelabel",
-        x: x,
-        y: y2 + 2 + 10,
-        textAnchor: "middle"
-      }, store.getDataset().getUnitX() === "year" ? key / 12 : key));
-    }
-  }
-
-  var axisTitle = store.getDataset().getTitleX();
-  return /*#__PURE__*/React__default.createElement("g", {
-    name: "xaxis",
-    className: "axis"
-  }, /*#__PURE__*/React__default.createElement("line", {
-    x1: store.getMeasures().left,
-    y1: store.getMeasures().bottom,
-    x2: store.getMeasures().right,
-    y2: store.getMeasures().bottom,
-    stroke: theme.axisColor
-  }), /*#__PURE__*/React__default.createElement("g", null, ticks), /*#__PURE__*/React__default.createElement("g", null, valuelabels), /*#__PURE__*/React__default.createElement("text", {
-    name: "axislabel",
-    x: (store.getMargins().left + store.getMeasures().right) / 2,
-    y: store.getSize().height - 5,
-    textAnchor: "middle"
-  }, axisTitle));
-};
-
-/*
-    Copyright (C) 2018  Ermanno Scanagatta
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-var shortTickLen = 5;
-var longTickLen = 10;
-
-var YAxis = function YAxis() {
-  var store = React.useContext(StoreContext);
-  var theme = React.useContext(ThemeContext);
-  var labelstep = 2;
-  var tickcount = store.getMeasures().maxY - store.getMeasures().minY;
-  var stepY = store.getMeasures().height / tickcount;
-  var ticks = [];
-  var valuelabels = [];
-
-  for (var t = 0; t <= tickcount; t += 1) {
-    var _long = t % store.getStep() === 0;
-
-    var x1 = store.getMeasures().left;
-    var x2 = x1 - (_long ? longTickLen : shortTickLen);
-    var y = store.getMeasures().bottom - t * stepY;
-    ticks.push( /*#__PURE__*/React__default.createElement("line", {
-      className: _long ? "longtick" : "tick",
-      key: "tick-".concat(t),
-      x1: x1,
-      y1: y,
-      x2: x2,
-      y2: y,
-      stroke: theme.axisColor
-    }));
-    var showlabel = t % (store.getStep() * labelstep) === 0;
-
-    if (showlabel) {
-      valuelabels.push( /*#__PURE__*/React__default.createElement("text", {
-        name: "valuelabel",
-        key: "valuelabel-".concat(t),
-        x: x2 - 3,
-        y: y,
-        textAnchor: "end",
-        alignmentBaseline: "middle"
-      }, store.getMeasures().minY + t));
-    }
-  }
-
-  return /*#__PURE__*/React__default.createElement("g", {
-    name: "yaxis",
-    className: "axis"
-  }, /*#__PURE__*/React__default.createElement("line", {
-    x1: store.getMeasures().left,
-    y1: store.getMeasures().bottom,
-    x2: store.getMeasures().left,
-    y2: store.getMeasures().top,
-    stroke: theme.axisColor
-  }), /*#__PURE__*/React__default.createElement("g", null, ticks), /*#__PURE__*/React__default.createElement("g", null, valuelabels), /*#__PURE__*/React__default.createElement("text", {
-    name: "axislabel",
-    x: 20,
-    y: (store.getMargins().top + store.getMeasures().bottom) / 2,
-    textAnchor: "middle",
-    transform: "rotate(-90 20 ".concat((store.getMargins().top + store.getMeasures().bottom) / 2, ")")
-  }, store.getDataset().getTitleY()));
-};
-
-/*
-    Copyright (C) 2018  Ermanno Scanagatta
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-var Grid = function Grid() {
-  var store = React.useContext(StoreContext);
-  var theme = React.useContext(ThemeContext);
-  var tickcountX = store.getMeasures().keys.length;
-  var stepX = store.getMeasures().width / (tickcountX - 1);
-  var step = store.getDataset().getUnitX() === "month" || store.getDataset().getUnitX() === "year" ? 6 : 5;
-  var reflinesx = [];
-
-  for (var t = 0; t < tickcountX; t += 1) {
-    var key = store.getMeasures().keys[t];
-
-    var _long = store.getDataset().getUnitX() === "year" ? key % step === 0 : t % step === 0;
-
-    var x = store.getMeasures().left + t * stepX;
-    var y1 = store.getMeasures().bottom;
-    var y2 = store.getMeasures().top;
-    reflinesx.push( /*#__PURE__*/React__default.createElement("line", {
-      className: _long ? "longrefline" : "refline",
-      key: "reflinex-".concat(t),
-      x1: x,
-      y1: y1,
-      x2: x,
-      y2: y2,
-      stroke: theme.gridColor
-    }));
-  }
-
-  var tickCountY = store.getMeasures().maxY - store.getMeasures().minY;
-  var stepY = store.getMeasures().height / tickCountY;
-  var reflinesy = [];
-
-  for (var _t = 0; _t <= tickCountY; _t += 1) {
-    var _long2 = _t % store.getStep() === 0;
-
-    var x1 = store.getMeasures().left;
-    var x2 = store.getMeasures().right;
-
-    var y = store.getMeasures().bottom - _t * stepY;
-
-    reflinesy.push( /*#__PURE__*/React__default.createElement("line", {
-      className: _long2 ? "longrefline" : "refline",
-      key: "refliney-".concat(_t),
-      x1: x1,
-      y1: y,
-      x2: x2,
-      y2: y,
-      stroke: theme.gridColor
-    }));
-  }
-
-  return /*#__PURE__*/React__default.createElement("g", {
-    name: "grid",
-    className: "grid"
-  }, reflinesx, reflinesy);
-};
-
-/*
-    Copyright (C) 2018  Ermanno Scanagatta
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-var Areas = function Areas() {
-  var store = React.useContext(StoreContext);
-  var theme = React.useContext(ThemeContext);
-  var areas = [];
-  var points1 = store.getDataset().getPercentilePoints(0);
-  var points2 = store.getDataset().getPercentilePoints(store.getDataset().percentiles.length - 1);
-  var pathStr = "";
-  points1.forEach(function (point, i) {
-    var x = store.transformX(point[0]) + store.getMargins().left;
-    var y = store.getMeasures().bottom - store.transformY(point[1]);
-    pathStr += i === 0 ? "M" : "L";
-    pathStr += "".concat(x, " ").concat(y, " ");
-  });
-  points2.reverse().forEach(function (point) {
-    var x = store.transformX(point[0]) + store.getMargins().left;
-    var y = store.getMeasures().bottom - store.transformY(point[1]);
-    pathStr += "L";
-    pathStr += "".concat(x, " ").concat(y, " ");
-  });
-  pathStr += "Z";
-  areas.push( /*#__PURE__*/React__default.createElement("path", {
-    className: "area-curve",
-    key: "area-curve-1",
-    name: "area-curve-1",
-    d: pathStr,
-    fill: theme.areaColor
-  }));
-
-  if (store.getDataset().percentiles.length >= 4) {
-    var points3 = store.getDataset().getPercentilePoints(1);
-    var points4 = store.getDataset().getPercentilePoints(store.getDataset().percentiles.length - 2);
-    pathStr = "";
-    points3.forEach(function (point, i) {
-      var x = store.transformX(point[0]) + store.getMargins().left;
-      var y = store.getMeasures().bottom - store.transformY(point[1]);
-      pathStr += i === 0 ? "M" : "L";
-      pathStr += "".concat(x, " ").concat(y, " ");
-    });
-    points4.reverse().forEach(function (point) {
-      var x = store.transformX(point[0]) + store.getMargins().left;
-      var y = store.getMeasures().bottom - store.transformY(point[1]);
-      pathStr += "L";
-      pathStr += "".concat(x, " ").concat(y, " ");
-    });
-    pathStr += "Z";
-    areas.push( /*#__PURE__*/React__default.createElement("path", {
-      className: "area-curve",
-      key: "area-curve-2",
-      name: "area-curve-2",
-      d: pathStr,
-      fill: theme.areaColor
-    }));
-  }
-
-  return /*#__PURE__*/React__default.createElement("g", {
-    name: "areas",
-    className: "areas"
-  }, areas);
-};
-
-/*
-    Copyright (C) 2018  Ermanno Scanagatta
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-var Percentiles = function Percentiles() {
-  var store = React.useContext(StoreContext);
-  var curves = [];
-
-  var _loop = function _loop(j) {
-    var p = store.getDataset().percentiles[j];
-    var points = store.getDataset().getPercentilePoints(j);
-    var pathStr = "";
-    var lastx = void 0;
-    var lasty = void 0;
-    points.forEach(function (point, i) {
-      var x = store.transformX(point[0]) + store.getMeasures().left;
-      var y = store.getMeasures().bottom - store.transformY(point[1]);
-      pathStr += i === 0 ? "M" : "L";
-      pathStr += "".concat(x, " ").concat(y, " ");
-
-      if (i === points.length - 1) {
-        lastx = x;
-        lasty = y;
-      }
-    });
-    curves.push( /*#__PURE__*/React__default.createElement("path", {
-      className: "percentile-curve".concat(j === 0 || j === store.getDataset().percentiles.length - 1 ? " dotted" : ""),
-      key: "percentile-curve-".concat(p),
-      name: "percentile-".concat(p),
-      d: pathStr
-    }));
-    curves.push( /*#__PURE__*/React__default.createElement("text", {
-      key: "percentile-label-".concat(p),
-      className: "percentile-label",
-      x: lastx - 3,
-      y: lasty - 3,
-      textAnchor: "end"
-    }, "".concat(p, "th")));
-  };
-
-  for (var j = 0; j < store.getDataset().percentiles.length; j += 1) {
-    _loop(j);
-  }
-
-  return /*#__PURE__*/React__default.createElement("g", {
-    name: "percentiles",
-    className: "percentiles"
-  }, curves);
-};
-
-/*
-Copyright (C) 2018  Ermanno Scanagatta
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
 
 var PatientData = function PatientData(_ref) {
   var patient = _ref.patient,
       showlabels = _ref.showlabels,
       showlines = _ref.showlines;
   var store = React.useContext(StoreContext);
-  var labels = [];
-  var points = [];
-  var lineStr = "";
-  patient.measures.forEach(function (m, i) {
-    if (!m) {
-      return;
-    }
 
-    var pointdate = moment(m.date);
-    var birthdate = moment(patient.birthdate);
-    var diffunit = store.getDataset().getUnitX();
+  var _useState = React.useState([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      labels = _useState2[0],
+      setLabels = _useState2[1];
 
-    if (diffunit === "year") {
-      diffunit = "month";
-    }
+  var _useState3 = React.useState([]),
+      _useState4 = _slicedToArray(_useState3, 2),
+      points = _useState4[0],
+      setPoints = _useState4[1];
 
-    var datediff = pointdate.diff(birthdate, diffunit);
-    var value = m[store.getDataset().getDataType()];
-    var percentile = store.getDataset().getPercentileForValue(datediff, value);
-    var dx = store.transformX(datediff);
+  var _useState5 = React.useState(""),
+      _useState6 = _slicedToArray(_useState5, 2),
+      lineString = _useState6[0],
+      setLineString = _useState6[1];
 
-    if (dx === null || dx === undefined || dx < 0 || dx > store.getMeasures().width) {
-      return;
-    }
+  React.useEffect(function () {
+    var lineStr = "";
+    var pp = [];
+    var ll = [];
+    patient.measures.forEach(function (m, i) {
+      if (!m) {
+        return;
+      }
 
-    var x = store.getMeasures().left + dx;
-    var y = store.getMeasures().bottom - store.transformY(value);
+      var pointdate = moment(m.date);
+      var birthdate = moment(patient.birthdate);
+      var diffunit = store.getDataset().getUnitX();
 
-    if (Number.isNaN(y)) {
-      return;
-    }
+      if (diffunit === "year") {
+        diffunit = "month";
+      }
 
-    if (showlabels) {
-      labels.push( /*#__PURE__*/React__default.createElement("text", {
-        key: "label-".concat(i),
-        name: "label-".concat(i),
-        className: "percentile-label",
-        x: x,
-        y: y - 10,
-        textAnchor: "middle",
+      var diff = convert(pointdate, birthdate, diffunit);
+      var value = m[store.getDataset().getDataType()];
+      var percentile = store.getDataset().getPercentileForValue(diff, value);
+      var dx = store.transformX(diff);
+      var dy = store.transformY(value);
+
+      if (dx === null || dx === undefined || dx < 0 || dx > store.getMeasures().width) {
+        return;
+      }
+
+      var x = store.getMeasures().left + dx;
+      var y = store.getMeasures().bottom - dy;
+
+      if (Number.isNaN(y)) {
+        return;
+      }
+
+      if (showlabels) {
+        ll.push( /*#__PURE__*/React__default['default'].createElement("text", {
+          key: "label-".concat(i),
+          name: "label-".concat(i),
+          className: "percentile-label",
+          x: x,
+          y: y - 10,
+          textAnchor: "middle",
+          fill: patient.color || "red"
+        }, percentile));
+      }
+
+      pp.push( /*#__PURE__*/React__default['default'].createElement("g", {
+        key: "dot-".concat(i),
+        id: "dot-".concat(i)
+      }, /*#__PURE__*/React__default['default'].createElement("circle", {
+        className: "percentile-point",
+        cx: x,
+        cy: y,
+        r: 3,
         fill: patient.color || "red"
-      }, percentile));
-    }
-
-    points.push( /*#__PURE__*/React__default.createElement("g", {
-      key: "dot-".concat(i),
-      id: "dot-".concat(i)
-    }, /*#__PURE__*/React__default.createElement("circle", {
-      className: "percentile-point",
-      cx: x,
-      cy: y,
-      r: 3,
-      fill: patient.color || "red"
-    })));
-    lineStr += "".concat(i === 0 ? "M" : "L").concat(x, " ").concat(y, " ");
-  });
-  return /*#__PURE__*/React__default.createElement("g", {
+      })));
+      lineStr += "".concat(i === 0 ? "M" : "L").concat(x, " ").concat(y, " ");
+    });
+    setLineString(lineStr);
+    setPoints(pp);
+    setLabels(ll);
+  }, [patient, store, showlabels]);
+  return /*#__PURE__*/React__default['default'].createElement("g", {
     name: "patient-data",
     className: "patient-data"
-  }, showlines ? /*#__PURE__*/React__default.createElement("path", {
+  }, showlines ? /*#__PURE__*/React__default['default'].createElement("path", {
     className: "percentile-line",
-    d: lineStr,
+    d: lineString,
     stroke: patient.color || "red"
   }) : "", labels, points);
 };
@@ -6643,11 +6692,11 @@ var Tooltip = function Tooltip(_ref) {
     return "M".concat(p0, " L ").concat(p1, " C ").concat(c1, ", ").concat(c1, ", ").concat(p2, " L ").concat(p3, " C ").concat(c3, ", ").concat(c3, ", ").concat(p4, " L ").concat(p5, " C ").concat(c5, ", ").concat(c5, ", ").concat(p6, " L ").concat(p7, " C ").concat(c7, ", ").concat(c7, ", ").concat(p0);
   };
 
-  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("defs", null, /*#__PURE__*/React__default.createElement("clipPath", {
+  return /*#__PURE__*/React__default['default'].createElement(React__default['default'].Fragment, null, /*#__PURE__*/React__default['default'].createElement("defs", null, /*#__PURE__*/React__default['default'].createElement("clipPath", {
     id: "clip"
-  }, /*#__PURE__*/React__default.createElement("path", {
+  }, /*#__PURE__*/React__default['default'].createElement("path", {
     d: buildPath()
-  }))), /*#__PURE__*/React__default.createElement("g", {
+  }))), /*#__PURE__*/React__default['default'].createElement("g", {
     className: "tooltip",
     transform: visible ? "translate(".concat(tx, ",").concat(ty, ")") : "translate(-200,-60)",
     style: {
@@ -6655,12 +6704,12 @@ var Tooltip = function Tooltip(_ref) {
     },
     visibility: visible ? 'visible' : 'hidden',
     clipPath: "url(#clip)"
-  }, /*#__PURE__*/React__default.createElement("path", {
+  }, /*#__PURE__*/React__default['default'].createElement("path", {
     d: buildPath()
-  }), /*#__PURE__*/React__default.createElement("text", {
+  }), /*#__PURE__*/React__default['default'].createElement("text", {
     x: 5,
     y: 15
-  }, title), /*#__PURE__*/React__default.createElement("text", {
+  }, title), /*#__PURE__*/React__default['default'].createElement("text", {
     x: 5,
     y: 35
   }, value)));
@@ -6698,20 +6747,22 @@ var TouchAreas = function TouchAreas(_ref) {
 
   var getPointTitle = function getPointTitle(measure) {
     var pointdate = moment(measure.date);
-    var age = '';
-    var diffY = pointdate.diff(birthdate, 'year');
+    var age = "";
+    var diffY = pointdate.diff(birthdate, "year");
 
     if (diffY >= 1) {
-      var diffM = pointdate.diff(birthdate, 'month') - 12 * diffY;
+      var diffM = pointdate.diff(birthdate, "month") - 12 * diffY;
       age = "".concat(diffY, " y, ").concat(diffM, " m");
     } else {
-      var diffD = pointdate.diff(birthdate, 'day');
+      var diffD = pointdate.diff(birthdate, "day");
 
-      var _diffM = pointdate.diff(birthdate, 'month');
+      var _diffM = pointdate.diff(birthdate, "month");
 
       if (diffD <= 91) {
         // 13 sett
-        age = "".concat(parseInt(diffD / 7, 10), " w");
+        var w = parseInt(diffD / 7, 10);
+        var d = diffD - w * 7;
+        age = "".concat(w, " w, ").concat(d, " d");
       } else {
         age = "".concat(_diffM, " m, ").concat(diffD - 30 * _diffM, " d");
       }
@@ -6722,10 +6773,11 @@ var TouchAreas = function TouchAreas(_ref) {
   };
 
   var getPointValue = function getPointValue(measure) {
-    var pointdate = moment(measure.date);
-    var datediff = pointdate.diff(birthdate, diffunit);
+    var pointdate = moment(measure.date); // const datediff = pointdate.diff(birthdate, diffunit);
+
+    var diff = convert(pointdate, birthdate, diffunit);
     var val = measure[ds.getDataType()];
-    var percentile = ds.getPercentileForValue(datediff, val);
+    var percentile = ds.getPercentileForValue(diff, val);
     var value = "".concat(ds.titleY, ": ").concat(measure[ds.dataType], " (").concat(percentile, "%)");
     return value;
   };
@@ -6737,9 +6789,9 @@ var TouchAreas = function TouchAreas(_ref) {
     }
 
     var pointdate = moment(m.date);
-    var datediff = pointdate.diff(birthdate, diffunit);
+    var diff = convert(pointdate, birthdate, diffunit);
     var value = m[store.getDataset().getDataType()];
-    var dx = store.transformX(datediff);
+    var dx = store.transformX(diff);
 
     if (dx === null || dx === undefined || dx < 0 || dx > store.getMeasures().width) {
       return;
@@ -6752,10 +6804,10 @@ var TouchAreas = function TouchAreas(_ref) {
       return;
     }
 
-    touch.push( /*#__PURE__*/React__default.createElement("g", {
+    touch.push( /*#__PURE__*/React__default['default'].createElement("g", {
       key: "touch-".concat(i),
       id: "touch-".concat(i)
-    }, /*#__PURE__*/React__default.createElement("circle", {
+    }, /*#__PURE__*/React__default['default'].createElement("circle", {
       cx: x,
       cy: y,
       r: 6,
@@ -6766,7 +6818,7 @@ var TouchAreas = function TouchAreas(_ref) {
       }
     })));
   });
-  return /*#__PURE__*/React__default.createElement("g", {
+  return /*#__PURE__*/React__default['default'].createElement("g", {
     name: "touch-areas"
   }, touch);
 };
@@ -6826,8 +6878,8 @@ var PChart = /*#__PURE__*/function (_Component) {
       tooltipX: 0,
       tooltipY: 0,
       tooltipVisible: false,
-      tooltipTitle: '',
-      tooltipValue: ''
+      tooltipTitle: "",
+      tooltipValue: ""
     };
     return _this;
   }
@@ -6863,7 +6915,7 @@ var PChart = /*#__PURE__*/function (_Component) {
       var title;
 
       if (showtitle) {
-        title = /*#__PURE__*/React__default.createElement("text", {
+        title = /*#__PURE__*/React__default['default'].createElement("text", {
           name: "title",
           className: "title",
           x: this.store.getSize().width / 2,
@@ -6882,7 +6934,7 @@ var PChart = /*#__PURE__*/function (_Component) {
       }
 
       var patientdata = pp.map(function (patient, i) {
-        return /*#__PURE__*/React__default.createElement(PatientData, {
+        return /*#__PURE__*/React__default['default'].createElement(PatientData, {
           key: "patientdata-".concat(i),
           patient: patient,
           showlabels: showlabels,
@@ -6890,7 +6942,7 @@ var PChart = /*#__PURE__*/function (_Component) {
         });
       });
       var touchareas = pp.map(function (patient, i) {
-        return /*#__PURE__*/React__default.createElement(TouchAreas, {
+        return /*#__PURE__*/React__default['default'].createElement(TouchAreas, {
           key: "toucharea-".concat(i),
           patient: patient,
           showTooltip: function showTooltip(x, y, ttle, value) {
@@ -6933,17 +6985,17 @@ var PChart = /*#__PURE__*/function (_Component) {
           tooltipVisible = _this$state.tooltipVisible,
           tooltipTitle = _this$state.tooltipTitle,
           tooltipValue = _this$state.tooltipValue;
-      return /*#__PURE__*/React__default.createElement(StoreContext.Provider, {
+      return /*#__PURE__*/React__default['default'].createElement(StoreContext.Provider, {
         value: this.store
-      }, /*#__PURE__*/React__default.createElement(ThemeContext.Provider, {
+      }, /*#__PURE__*/React__default['default'].createElement(ThemeContext.Provider, {
         value: _theme
-      }, /*#__PURE__*/React__default.createElement("svg", {
+      }, /*#__PURE__*/React__default['default'].createElement("svg", {
         width: this.store.getSize().width,
         height: this.store.getSize().height,
         style: {
           backgroundColor: defaultTheme.backgroundColor
         }
-      }, title, /*#__PURE__*/React__default.createElement(Backdrop, null), /*#__PURE__*/React__default.createElement(XAxis, null), /*#__PURE__*/React__default.createElement(YAxis, null), /*#__PURE__*/React__default.createElement(Grid, null), /*#__PURE__*/React__default.createElement(Areas, null), /*#__PURE__*/React__default.createElement(Percentiles, null), patientdata, /*#__PURE__*/React__default.createElement(Tooltip, {
+      }, title, /*#__PURE__*/React__default['default'].createElement(Backdrop, null), /*#__PURE__*/React__default['default'].createElement(XAxis, null), /*#__PURE__*/React__default['default'].createElement(YAxis, null), /*#__PURE__*/React__default['default'].createElement(Grid, null), /*#__PURE__*/React__default['default'].createElement(Areas, null), /*#__PURE__*/React__default['default'].createElement(Percentiles, null), patientdata, /*#__PURE__*/React__default['default'].createElement(Tooltip, {
         x: tooltipX,
         y: tooltipY,
         visible: tooltipVisible,
@@ -7175,6 +7227,16 @@ var Dataset = /*#__PURE__*/function () {
   }, {
     key: "getPercentileForValue",
     value: function getPercentileForValue(x, y) {
+      var p0 = Math.trunc(x);
+      var p1 = p0 + 1;
+      var percentile0 = Number.parseInt(this._getPercentileForValue(p0, y), 10);
+      var percentile1 = Number.parseInt(this._getPercentileForValue(p1, y), 10);
+      var percentile = Math.round(percentile0 + (x - p0) * (percentile1 - percentile0));
+      return percentile;
+    }
+  }, {
+    key: "_getPercentileForValue",
+    value: function _getPercentileForValue(x, y) {
       var data;
       this.lmsdata.forEach(function (v) {
         var d = v[0];

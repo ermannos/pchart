@@ -17,7 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-underscore-dangle */
 import React, { Component } from "react";
-import moment from "moment";
 import "./style/chart.css";
 import Store from "./store";
 import Backdrop from "./backdrop";
@@ -49,7 +48,13 @@ class PChart extends Component {
       this.onUpdate
     );
     this.setSize(width, height);
-    this.state = { tooltipX: 0, tooltipY: 0, tooltipVisible: false, tooltipTitle: '', tooltipValue: '' };
+    this.state = {
+      tooltipX: 0,
+      tooltipY: 0,
+      tooltipVisible: false,
+      tooltipTitle: "",
+      tooltipValue: "",
+    };
   }
 
   componentDidUpdate(prevprops) {
@@ -85,14 +90,8 @@ class PChart extends Component {
   };
 
   render() {
-    const {
-      dataset,
-      patients,
-      theme,
-      showtitle,
-      showlabels,
-      showlines,
-    } = this.props;
+    const { dataset, patients, theme, showtitle, showlabels, showlines } =
+      this.props;
     let title;
 
     if (showtitle) {
@@ -125,14 +124,19 @@ class PChart extends Component {
       />
     ));
 
-
     const touchareas = pp.map((patient, i) => (
       <Touch
         key={`toucharea-${i}`}
         patient={patient}
         showTooltip={(x, y, ttle, value) => {
           this.setState(
-            { tooltipX: x, tooltipY: y, tooltipVisible: true, tooltipTitle: ttle, tooltipValue: value},
+            {
+              tooltipX: x,
+              tooltipY: y,
+              tooltipVisible: true,
+              tooltipTitle: ttle,
+              tooltipValue: value,
+            },
             () => {
               clearTimeout(this.tooltipTimeout);
               this.tooltipTimeout = setTimeout(() => {
@@ -159,7 +163,8 @@ class PChart extends Component {
       _theme = defaultTheme;
     }
 
-    const { tooltipX, tooltipY, tooltipVisible, tooltipTitle, tooltipValue } = this.state;
+    const { tooltipX, tooltipY, tooltipVisible, tooltipTitle, tooltipValue } =
+      this.state;
     return (
       <StoreContext.Provider value={this.store}>
         <ThemeContext.Provider value={_theme}>
@@ -176,7 +181,13 @@ class PChart extends Component {
             <Areas />
             <Percentiles />
             {patientdata}
-            <Tooltip x={tooltipX} y={tooltipY} visible={tooltipVisible} title={tooltipTitle} value={tooltipValue} />
+            <Tooltip
+              x={tooltipX}
+              y={tooltipY}
+              visible={tooltipVisible}
+              title={tooltipTitle}
+              value={tooltipValue}
+            />
             {touchareas}
           </svg>
         </ThemeContext.Provider>

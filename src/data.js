@@ -200,6 +200,17 @@ export default class Dataset {
   }
 
   getPercentileForValue(x, y) {
+    const p0 = Math.trunc(x);
+    const p1 = p0 + 1;
+    const percentile0 = Number.parseInt(this._getPercentileForValue(p0, y), 10);
+    const percentile1 = Number.parseInt(this._getPercentileForValue(p1, y), 10);
+    const percentile = Math.round(
+      percentile0 + (x - p0) * (percentile1 - percentile0)
+    );
+    return percentile;
+  }
+
+  _getPercentileForValue(x, y) {
     let data;
     this.lmsdata.forEach((v) => {
       const d = v[0];

@@ -6737,6 +6737,7 @@ var TouchAreas = function TouchAreas(_ref) {
       showTooltip = _ref.showTooltip;
   var store = React.useContext(StoreContext);
   var ds = store.getDataset();
+  var shortNames = ds.getShortNames();
   var diffunit = ds.getUnitX();
 
   if (diffunit === "year") {
@@ -6752,19 +6753,19 @@ var TouchAreas = function TouchAreas(_ref) {
 
     if (diffY >= 1) {
       var diffM = pointdate.diff(birthdate, "month") - 12 * diffY;
-      age = "".concat(diffY, " y, ").concat(diffM, " m");
+      age = "".concat(diffY, " ").concat(shortNames.year, ", ").concat(diffM, " ").concat(shortNames.month);
     } else {
       var diffD = pointdate.diff(birthdate, "day");
 
       var _diffM = pointdate.diff(birthdate, "month");
 
       if (diffD <= 91) {
-        // 13 sett
+        // 13 weeks
         var w = parseInt(diffD / 7, 10);
         var d = diffD - w * 7;
-        age = "".concat(w, " w, ").concat(d, " d");
+        age = "".concat(w, " ").concat(shortNames.week, ", ").concat(d, " ").concat(shortNames.day);
       } else {
-        age = "".concat(_diffM, " m, ").concat(diffD - 30 * _diffM, " d");
+        age = "".concat(_diffM, " ").concat(shortNames.month);
       }
     }
 
@@ -7030,6 +7031,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // with the formula:
 //   X = M[(1 + LSZ)^(1/L)]
 // Calculator here: https://measuringu.com/zcalcp/
+
+/* eslint-disable camelcase */
 var zIndex = {
   1: -2.3263,
   2: -2.0537,
@@ -7131,6 +7134,22 @@ var zIndex = {
   98: 2.0537,
   99: 2.3263
 };
+var shortNames_en = {
+  year: "y",
+  month: "m",
+  week: "w",
+  day: "d"
+};
+var shortNames_it = {
+  year: "a",
+  month: "m",
+  week: "s",
+  day: "gg"
+};
+var shortNames = {
+  en: shortNames_en,
+  it: shortNames_it
+};
 
 var Dataset = /*#__PURE__*/function () {
   function Dataset(lmsDataset, percentiles) {
@@ -7144,11 +7163,19 @@ var Dataset = /*#__PURE__*/function () {
     this.dataType = lmsDataset.dataType;
     this.lmsdata = lmsDataset.data;
     this.percentiles = percentiles;
+    this.shortNames = shortNames.en;
 
     this._buildData();
   }
 
   _createClass(Dataset, [{
+    key: "setLocale",
+    value: function setLocale(locale) {
+      if (shortNames[locale]) {
+        this.shortNames = shortNames[locale];
+      }
+    }
+  }, {
     key: "getUnitX",
     value: function getUnitX() {
       return this.unitX;
@@ -7263,6 +7290,11 @@ var Dataset = /*#__PURE__*/function () {
         }
       });
       return bestP;
+    }
+  }, {
+    key: "getShortNames",
+    value: function getShortNames() {
+      return this.shortNames;
     }
   }]);
 

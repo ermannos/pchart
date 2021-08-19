@@ -23,6 +23,7 @@ import { convert } from "./utils";
 const TouchAreas = ({ patient, showTooltip }) => {
   const store = useContext(StoreContext);
   const ds = store.getDataset();
+  const shortNames = ds.getShortNames();
   let diffunit = ds.getUnitX();
   if (diffunit === "year") {
     diffunit = "month";
@@ -35,17 +36,17 @@ const TouchAreas = ({ patient, showTooltip }) => {
     const diffY = pointdate.diff(birthdate, "year");
     if (diffY >= 1) {
       const diffM = pointdate.diff(birthdate, "month") - 12 * diffY;
-      age = `${diffY} y, ${diffM} m`;
+      age = `${diffY} ${shortNames.year}, ${diffM} ${shortNames.month}`;
     } else {
       const diffD = pointdate.diff(birthdate, "day");
       const diffM = pointdate.diff(birthdate, "month");
       if (diffD <= 91) {
-        // 13 sett
+        // 13 weeks
         const w = parseInt(diffD / 7, 10);
         const d = diffD - w * 7;
-        age = `${w} w, ${d} d`;
+        age = `${w} ${shortNames.week}, ${d} ${shortNames.day}`;
       } else {
-        age = `${diffM} m, ${diffD - 30 * diffM} d`;
+        age = `${diffM} ${shortNames.month}`;
       }
     }
 

@@ -1,42 +1,4 @@
-import React, { useContext, useState, useEffect, Component } from 'react';
-
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
-
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-
-    if (enumerableOnly) {
-      symbols = symbols.filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-      });
-    }
-
-    keys.push.apply(keys, symbols);
-  }
-
-  return keys;
-}
-
-function _objectSpread2(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-
-    if (i % 2) {
-      ownKeys(Object(source), true).forEach(function (key) {
-        _defineProperty(target, key, source[key]);
-      });
-    } else if (Object.getOwnPropertyDescriptors) {
-      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-    } else {
-      ownKeys(Object(source)).forEach(function (key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-      });
-    }
-  }
-
-  return target;
-}
+import React, { useContext, useState, useEffect, useMemo } from 'react';
 
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -75,85 +37,38 @@ function _defineProperty(obj, key, value) {
   return obj;
 }
 
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+    if (enumerableOnly) symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    });
+    keys.push.apply(keys, symbols);
   }
 
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
+  return keys;
 }
 
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
+function _objectSpread2(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
 
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-function _isNativeReflectConstruct() {
-  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-  if (Reflect.construct.sham) return false;
-  if (typeof Proxy === "function") return true;
-
-  try {
-    Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (typeof call === "object" || typeof call === "function")) {
-    return call;
-  } else if (call !== void 0) {
-    throw new TypeError("Derived constructors may only return object or undefined");
-  }
-
-  return _assertThisInitialized(self);
-}
-
-function _createSuper(Derived) {
-  var hasNativeReflectConstruct = _isNativeReflectConstruct();
-
-  return function _createSuperInternal() {
-    var Super = _getPrototypeOf(Derived),
-        result;
-
-    if (hasNativeReflectConstruct) {
-      var NewTarget = _getPrototypeOf(this).constructor;
-
-      result = Reflect.construct(Super, arguments, NewTarget);
+    if (i % 2) {
+      ownKeys(Object(source), true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
     } else {
-      result = Super.apply(this, arguments);
+      ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
     }
+  }
 
-    return _possibleConstructorReturn(this, result);
-  };
+  return target;
 }
 
 function _slicedToArray(arr, i) {
@@ -165,17 +80,14 @@ function _arrayWithHoles(arr) {
 }
 
 function _iterableToArrayLimit(arr, i) {
-  var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
-
-  if (_i == null) return;
+  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
   var _arr = [];
   var _n = true;
   var _d = false;
-
-  var _s, _e;
+  var _e = undefined;
 
   try {
-    for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
+    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
       _arr.push(_s.value);
 
       if (i && _arr.length === i) break;
@@ -300,6 +212,12 @@ var Store = /*#__PURE__*/function () {
     this.margins = params.margins;
     this.step = params.step;
     this.onUpdate = onUpdate;
+    this.size = {
+      width: 800,
+      height: 800
+    };
+
+    this._init();
   }
 
   _createClass(Store, [{
@@ -843,7 +761,7 @@ function commonjsRequire () {
 
 var moment = createCommonjsModule(function (module, exports) {
 (function (global, factory) {
-    module.exports = factory() ;
+     module.exports = factory() ;
 }(commonjsGlobal, (function () {
     var hookCallback;
 
@@ -3375,7 +3293,8 @@ var moment = createCommonjsModule(function (module, exports) {
     hooks.createFromInputFallback = deprecate(
         'value provided is not in a recognized RFC2822 or ISO format. moment construction falls back to js Date(), ' +
             'which is not reliable across all browsers and versions. Non RFC2822/ISO date formats are ' +
-            'discouraged. Please refer to http://momentjs.com/guides/#/warnings/js-date/ for more info.',
+            'discouraged and will be removed in an upcoming major release. Please refer to ' +
+            'http://momentjs.com/guides/#/warnings/js-date/ for more info.',
         function (config) {
             config._d = new Date(config._i + (config._useUTC ? ' UTC' : ''));
         }
@@ -4560,10 +4479,7 @@ var moment = createCommonjsModule(function (module, exports) {
     function calendar$1(time, formats) {
         // Support for single parameter, formats only overload to the calendar function
         if (arguments.length === 1) {
-            if (!arguments[0]) {
-                time = undefined;
-                formats = undefined;
-            } else if (isMomentInput(arguments[0])) {
+            if (isMomentInput(arguments[0])) {
                 time = arguments[0];
                 formats = undefined;
             } else if (isCalendarSpec(arguments[0])) {
@@ -5241,7 +5157,7 @@ var moment = createCommonjsModule(function (module, exports) {
             eras = this.localeData().eras();
         for (i = 0, l = eras.length; i < l; ++i) {
             // truncate time
-            val = this.clone().startOf('day').valueOf();
+            val = this.startOf('day').valueOf();
 
             if (eras[i].since <= val && val <= eras[i].until) {
                 return eras[i].name;
@@ -5261,7 +5177,7 @@ var moment = createCommonjsModule(function (module, exports) {
             eras = this.localeData().eras();
         for (i = 0, l = eras.length; i < l; ++i) {
             // truncate time
-            val = this.clone().startOf('day').valueOf();
+            val = this.startOf('day').valueOf();
 
             if (eras[i].since <= val && val <= eras[i].until) {
                 return eras[i].narrow;
@@ -5281,7 +5197,7 @@ var moment = createCommonjsModule(function (module, exports) {
             eras = this.localeData().eras();
         for (i = 0, l = eras.length; i < l; ++i) {
             // truncate time
-            val = this.clone().startOf('day').valueOf();
+            val = this.startOf('day').valueOf();
 
             if (eras[i].since <= val && val <= eras[i].until) {
                 return eras[i].abbr;
@@ -5304,7 +5220,7 @@ var moment = createCommonjsModule(function (module, exports) {
             dir = eras[i].since <= eras[i].until ? +1 : -1;
 
             // truncate time
-            val = this.clone().startOf('day').valueOf();
+            val = this.startOf('day').valueOf();
 
             if (
                 (eras[i].since <= val && val <= eras[i].until) ||
@@ -6455,7 +6371,7 @@ var moment = createCommonjsModule(function (module, exports) {
 
     //! moment.js
 
-    hooks.version = '2.29.1';
+    hooks.version = '2.27.0';
 
     setHookCallback(createLocal);
 
@@ -6581,7 +6497,7 @@ var PatientData = function PatientData(_ref) {
       var dx = store.transformX(diff);
       var dy = store.transformY(value);
 
-      if (dx === null || dx === undefined || dx < 0 || dx > store.getMeasures().width) {
+      if (dx === null || dx === undefined || dx <= 0 || dx >= store.getMeasures().width) {
         return;
       }
 
@@ -6816,46 +6732,62 @@ var TouchAreas = function TouchAreas(_ref) {
   }, touch);
 };
 
-var PChart = /*#__PURE__*/function (_Component) {
-  _inherits(PChart, _Component);
+var defaultTheme$1 = {
+  backgroundColor: "transparent",
+  backdropFill: "#FFFDE7",
+  axisColor: "#707070",
+  gridColor: "#FFD54F",
+  areaColor: "rgba(127,127,127, .3)"
+};
 
-  var _super = _createSuper(PChart);
+var PChart = function PChart(_ref) {
+  var width = _ref.width,
+      height = _ref.height,
+      dataset = _ref.dataset,
+      patients = _ref.patients,
+      theme = _ref.theme,
+      showtitle = _ref.showtitle,
+      showlabels = _ref.showlabels,
+      showlines = _ref.showlines;
 
-  function PChart(props) {
-    var _this;
+  var _useState = useState(),
+      _useState2 = _slicedToArray(_useState, 2),
+      store = _useState2[0],
+      setStore = _useState2[1];
 
-    _classCallCheck(this, PChart);
+  var _useState3 = useState(0),
+      _useState4 = _slicedToArray(_useState3, 2),
+      tooltipX = _useState4[0],
+      setTooltipX = _useState4[1];
 
-    _this = _super.call(this, props);
+  var _useState5 = useState(0),
+      _useState6 = _slicedToArray(_useState5, 2),
+      tooltipY = _useState6[0],
+      setTooltipY = _useState6[1];
 
-    _this.onUpdate = function () {
-      _this.forceUpdate();
-    };
+  var _useState7 = useState(false),
+      _useState8 = _slicedToArray(_useState7, 2),
+      tooltipVisible = _useState8[0],
+      setTooltipVisible = _useState8[1];
 
-    _this.setSize = function (w, h) {
-      if (Number.isNaN(w)) {
-        // eslint-disable-next-line no-param-reassign
-        w = 800;
-        console.error("Error: width property must be a number. Using the default value");
-      }
+  var _useState9 = useState(""),
+      _useState10 = _slicedToArray(_useState9, 2),
+      tooltipTitle = _useState10[0],
+      setTooltipTitle = _useState10[1];
 
-      if (Number.isNaN(h)) {
-        // eslint-disable-next-line no-param-reassign
-        h = 800;
-        console.error("Error: height property must be a number. Using the default value");
-      }
+  var _useState11 = useState(""),
+      _useState12 = _slicedToArray(_useState11, 2),
+      tooltipValue = _useState12[0],
+      setTooltipValue = _useState12[1];
 
-      _this.store.setSize({
-        width: w,
-        height: h
-      });
-    };
+  var _useState13 = useState(),
+      _useState14 = _slicedToArray(_useState13, 2),
+      tooltipTimeout = _useState14[0],
+      setTooltipTimeout = _useState14[1];
 
-    var showtitle = props.showtitle,
-        width = props.width,
-        height = props.height;
-    _this.store = new Store({
-      dataset: props.dataset,
+  useEffect(function () {
+    var newstore = new Store({
+      dataset: dataset,
       margins: {
         left: 60,
         right: 10,
@@ -6863,143 +6795,112 @@ var PChart = /*#__PURE__*/function (_Component) {
         bottom: 40
       },
       step: 2
-    }, _this.onUpdate);
+    }, function () {});
+    var w = width;
+    var h = height;
 
-    _this.setSize(width, height);
-
-    _this.state = {
-      tooltipX: 0,
-      tooltipY: 0,
-      tooltipVisible: false,
-      tooltipTitle: "",
-      tooltipValue: ""
-    };
-    return _this;
-  }
-
-  _createClass(PChart, [{
-    key: "componentDidUpdate",
-    value: function componentDidUpdate(prevprops) {
-      var _this$props = this.props,
-          width = _this$props.width,
-          height = _this$props.height,
-          dataset = _this$props.dataset;
-
-      if (prevprops.width !== width || prevprops.height !== height) {
-        this.setSize(width, height);
-      }
-
-      if (dataset && prevprops.dataset !== dataset) {
-        this.store.setDataset(dataset);
-      }
+    if (Number.isNaN(w)) {
+      // eslint-disable-next-line no-param-reassign
+      w = 800;
+      console.error("Error: width property must be a number. Using the default value");
     }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this2 = this;
 
-      var _this$props2 = this.props,
-          dataset = _this$props2.dataset,
-          patients = _this$props2.patients,
-          theme = _this$props2.theme,
-          showtitle = _this$props2.showtitle,
-          showlabels = _this$props2.showlabels,
-          showlines = _this$props2.showlines;
-      var title;
+    if (Number.isNaN(h)) {
+      // eslint-disable-next-line no-param-reassign
+      h = 800;
+      console.error("Error: height property must be a number. Using the default value");
+    }
 
-      if (showtitle) {
-        title = /*#__PURE__*/React.createElement("text", {
-          name: "title",
-          className: "title",
-          x: this.store.getSize().width / 2,
-          y: 15,
-          textAnchor: "middle",
-          alignmentBaseline: "text-before-edge"
-        }, dataset.title);
-      }
+    newstore.setSize({
+      width: w,
+      height: h
+    });
+    setStore(newstore);
+  }, [dataset, width, height, showtitle]);
+  var currentTheme = useMemo(function () {
+    if (theme) {
+      return _objectSpread2(_objectSpread2({}, defaultTheme$1), theme);
+    }
 
-      var pp;
+    return defaultTheme$1;
+  }, [theme]);
+  var title = useMemo(function () {
+    if (showtitle && store) {
+      return /*#__PURE__*/React.createElement("text", {
+        name: "title",
+        className: "title",
+        x: store.getSize().width / 2,
+        y: 15,
+        textAnchor: "middle",
+        alignmentBaseline: "text-before-edge"
+      }, dataset.title);
+    }
 
-      if (Array.isArray(patients)) {
-        pp = patients;
-      } else {
-        pp = [patients];
-      }
+    return null;
+  }, [dataset, store, showtitle]);
+  var patientdata = useMemo(function () {
+    var pp;
 
-      var patientdata = pp.map(function (patient, i) {
-        return /*#__PURE__*/React.createElement(PatientData, {
-          key: "patientdata-".concat(i),
-          patient: patient,
-          showlabels: showlabels,
-          showlines: showlines
-        });
+    if (Array.isArray(patients)) {
+      pp = patients;
+    } else {
+      pp = [patients];
+    }
+
+    return pp.map(function (patient, i) {
+      return /*#__PURE__*/React.createElement(PatientData, {
+        key: "patientdata-".concat(i),
+        patient: patient,
+        showlabels: showlabels,
+        showlines: showlines
       });
-      var touchareas = pp.map(function (patient, i) {
-        return /*#__PURE__*/React.createElement(TouchAreas, {
-          key: "toucharea-".concat(i),
-          patient: patient,
-          showTooltip: function showTooltip(x, y, ttle, value) {
-            _this2.setState({
-              tooltipX: x,
-              tooltipY: y,
-              tooltipVisible: true,
-              tooltipTitle: ttle,
-              tooltipValue: value
-            }, function () {
-              clearTimeout(_this2.tooltipTimeout);
-              _this2.tooltipTimeout = setTimeout(function () {
-                _this2.setState({
-                  tooltipVisible: false
-                });
-              }, 5000);
-            });
-          }
-        });
-      });
-      var defaultTheme = {
-        backgroundColor: "transparent",
-        backdropFill: "#FFFDE7",
-        axisColor: "#707070",
-        gridColor: "#FFD54F",
-        areaColor: "rgba(127,127,127, .3)"
-      };
+    });
+  }, [patients, showlabels, showlines]);
+  var touchareas = useMemo(function () {
+    var pp;
 
-      var _theme;
+    if (Array.isArray(patients)) {
+      pp = patients;
+    } else {
+      pp = [patients];
+    }
 
-      if (theme) {
-        _theme = _objectSpread2(_objectSpread2({}, defaultTheme), theme);
-      } else {
-        _theme = defaultTheme;
-      }
-
-      var _this$state = this.state,
-          tooltipX = _this$state.tooltipX,
-          tooltipY = _this$state.tooltipY,
-          tooltipVisible = _this$state.tooltipVisible,
-          tooltipTitle = _this$state.tooltipTitle,
-          tooltipValue = _this$state.tooltipValue;
-      return /*#__PURE__*/React.createElement(StoreContext.Provider, {
-        value: this.store
-      }, /*#__PURE__*/React.createElement(ThemeContext.Provider, {
-        value: _theme
-      }, /*#__PURE__*/React.createElement("svg", {
-        width: this.store.getSize().width,
-        height: this.store.getSize().height,
-        style: {
-          backgroundColor: defaultTheme.backgroundColor
+    return pp.map(function (patient, i) {
+      return /*#__PURE__*/React.createElement(TouchAreas, {
+        key: "toucharea-".concat(i),
+        patient: patient,
+        showTooltip: function showTooltip(x, y, ttle, value) {
+          setTooltipX(x);
+          setTooltipY(y);
+          setTooltipVisible(true);
+          setTooltipTitle(ttle);
+          setTooltipValue(value);
+          clearTimeout(tooltipTimeout);
+          setTooltipTimeout(setTimeout(function () {
+            setTooltipVisible(false);
+          }, 5000));
         }
-      }, title, /*#__PURE__*/React.createElement(Backdrop, null), /*#__PURE__*/React.createElement(XAxis, null), /*#__PURE__*/React.createElement(YAxis, null), /*#__PURE__*/React.createElement(Grid, null), /*#__PURE__*/React.createElement(Areas, null), /*#__PURE__*/React.createElement(Percentiles, null), patientdata, /*#__PURE__*/React.createElement(Tooltip, {
-        x: tooltipX,
-        y: tooltipY,
-        visible: tooltipVisible,
-        title: tooltipTitle,
-        value: tooltipValue
-      }), touchareas)));
+      });
+    });
+  }, [patients, tooltipTimeout]);
+  return store ? /*#__PURE__*/React.createElement(StoreContext.Provider, {
+    value: store
+  }, /*#__PURE__*/React.createElement(ThemeContext.Provider, {
+    value: currentTheme
+  }, /*#__PURE__*/React.createElement("svg", {
+    width: store.getSize().width,
+    height: store.getSize().height,
+    style: {
+      backgroundColor: currentTheme.backgroundColor
     }
-  }]);
-
-  return PChart;
-}(Component);
+  }, title, /*#__PURE__*/React.createElement(Backdrop, null), /*#__PURE__*/React.createElement(XAxis, null), /*#__PURE__*/React.createElement(YAxis, null), /*#__PURE__*/React.createElement(Grid, null), /*#__PURE__*/React.createElement(Areas, null), /*#__PURE__*/React.createElement(Percentiles, null), patientdata, /*#__PURE__*/React.createElement(Tooltip, {
+    x: tooltipX,
+    y: tooltipY,
+    visible: tooltipVisible,
+    title: tooltipTitle,
+    value: tooltipValue
+  }), touchareas))) : null;
+};
 
 /*
 Copyright (C) 2018  Ermanno Scanagatta

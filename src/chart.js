@@ -16,7 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-underscore-dangle */
-import React, { Component } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import "./style/chart.css";
 import Store from "./store";
 import Backdrop from "./backdrop";
@@ -30,13 +30,36 @@ import Tooltip from "./tooltip";
 import Touch from "./touch";
 import { StoreContext, ThemeContext } from "./context";
 
-class PChart extends Component {
-  constructor(props) {
-    super(props);
-    const { showtitle, width, height } = props;
-    this.store = new Store(
+const defaultTheme = {
+  backgroundColor: "transparent",
+  backdropFill: "#FFFDE7",
+  axisColor: "#707070",
+  gridColor: "#FFD54F",
+  areaColor: "rgba(127,127,127, .3)",
+};
+
+const PChart = ({
+  width,
+  height,
+  dataset,
+  patients,
+  theme,
+  showtitle,
+  showlabels,
+  showlines,
+}) => {
+  const [store, setStore] = useState();
+  const [tooltipX, setTooltipX] = useState(0);
+  const [tooltipY, setTooltipY] = useState(0);
+  const [tooltipVisible, setTooltipVisible] = useState(false);
+  const [tooltipTitle, setTooltipTitle] = useState("");
+  const [tooltipValue, setTooltipValue] = useState("");
+  const [tooltipTimeout, setTooltipTimeout] = useState();
+
+  useEffect(() => {
+    const newstore = new Store(
       {
-        dataset: props.dataset,
+        dataset,
         margins: {
           left: 60,
           right: 10,
@@ -45,33 +68,11 @@ class PChart extends Component {
         },
         step: 2,
       },
-      this.onUpdate
+      () => {}
     );
-    this.setSize(width, height);
-    this.state = {
-      tooltipX: 0,
-      tooltipY: 0,
-      tooltipVisible: false,
-      tooltipTitle: "",
-      tooltipValue: "",
-    };
-  }
 
-  componentDidUpdate(prevprops) {
-    const { width, height, dataset } = this.props;
-    if (prevprops.width !== width || prevprops.height !== height) {
-      this.setSize(width, height);
-    }
-    if (dataset && prevprops.dataset !== dataset) {
-      this.store.setDataset(dataset);
-    }
-  }
-
-  onUpdate = () => {
-    this.forceUpdate();
-  };
-
-  setSize = (w, h) => {
+    let w = width;
+    let h = height;
     if (Number.isNaN(w)) {
       // eslint-disable-next-line no-param-reassign
       w = 800;
@@ -86,20 +87,24 @@ class PChart extends Component {
         "Error: height property must be a number. Using the default value"
       );
     }
-    this.store.setSize({ width: w, height: h });
-  };
+    newstore.setSize({ width: w, height: h });
+    setStore(newstore);
+  }, [dataset, width, height, showtitle]);
 
-  render() {
-    const { dataset, patients, theme, showtitle, showlabels, showlines } =
-      this.props;
-    let title;
+  const currentTheme = useMemo(() => {
+    if (theme) {
+      return { ...defaultTheme, ...theme };
+    }
+    return defaultTheme;
+  }, [theme]);
 
-    if (showtitle) {
-      title = (
+  const title = useMemo(() => {
+    if (showtitle && store) {
+      return (
         <text
           name="title"
           className="title"
-          x={this.store.getSize().width / 2}
+          x={store.getSize().width / 2}
           y={15}
           textAnchor="middle"
           alignmentBaseline="text-before-edge"
@@ -108,6 +113,10 @@ class PChart extends Component {
         </text>
       );
     }
+    return null;
+  }, [dataset, store, showtitle]);
+
+  const patientdata = useMemo(() => {
     let pp;
     if (Array.isArray(patients)) {
       pp = patients;
@@ -115,7 +124,7 @@ class PChart extends Component {
       pp = [patients];
     }
 
-    const patientdata = pp.map((patient, i) => (
+    return pp.map((patient, i) => (
       <PatientData
         key={`patientdata-${i}`}
         patient={patient}
@@ -123,77 +132,64 @@ class PChart extends Component {
         showlines={showlines}
       />
     ));
+  }, [patients, showlabels, showlines]);
 
-    const touchareas = pp.map((patient, i) => (
+  const touchareas = useMemo(() => {
+    let pp;
+    if (Array.isArray(patients)) {
+      pp = patients;
+    } else {
+      pp = [patients];
+    }
+    return pp.map((patient, i) => (
       <Touch
         key={`toucharea-${i}`}
         patient={patient}
         showTooltip={(x, y, ttle, value) => {
-          this.setState(
-            {
-              tooltipX: x,
-              tooltipY: y,
-              tooltipVisible: true,
-              tooltipTitle: ttle,
-              tooltipValue: value,
-            },
-            () => {
-              clearTimeout(this.tooltipTimeout);
-              this.tooltipTimeout = setTimeout(() => {
-                this.setState({ tooltipVisible: false });
-              }, 5000);
-            }
+          setTooltipX(x);
+          setTooltipY(y);
+          setTooltipVisible(true);
+          setTooltipTitle(ttle);
+          setTooltipValue(value);
+          clearTimeout(tooltipTimeout);
+          setTooltipTimeout(
+            setTimeout(() => {
+              setTooltipVisible(false);
+            }, 5000)
           );
         }}
       />
     ));
+  }, [patients, tooltipTimeout]);
 
-    const defaultTheme = {
-      backgroundColor: "transparent",
-      backdropFill: "#FFFDE7",
-      axisColor: "#707070",
-      gridColor: "#FFD54F",
-      areaColor: "rgba(127,127,127, .3)",
-    };
-
-    let _theme;
-    if (theme) {
-      _theme = { ...defaultTheme, ...theme };
-    } else {
-      _theme = defaultTheme;
-    }
-
-    const { tooltipX, tooltipY, tooltipVisible, tooltipTitle, tooltipValue } =
-      this.state;
-    return (
-      <StoreContext.Provider value={this.store}>
-        <ThemeContext.Provider value={_theme}>
-          <svg
-            width={this.store.getSize().width}
-            height={this.store.getSize().height}
-            style={{ backgroundColor: defaultTheme.backgroundColor }}
-          >
-            {title}
-            <Backdrop />
-            <XAxis />
-            <YAxis />
-            <Grid />
-            <Areas />
-            <Percentiles />
-            {patientdata}
-            <Tooltip
-              x={tooltipX}
-              y={tooltipY}
-              visible={tooltipVisible}
-              title={tooltipTitle}
-              value={tooltipValue}
-            />
-            {touchareas}
-          </svg>
-        </ThemeContext.Provider>
-      </StoreContext.Provider>
-    );
-  }
-}
+  return store ? (
+    <StoreContext.Provider value={store}>
+      <ThemeContext.Provider value={currentTheme}>
+        <svg
+          width={store.getSize().width}
+          height={store.getSize().height}
+          style={{ backgroundColor: currentTheme.backgroundColor }}
+        >
+          {title}
+          <Backdrop />
+          <XAxis />
+          <YAxis />
+          <Grid />
+          <Areas />
+          <Percentiles />
+          {patientdata}
+          <Tooltip
+            x={tooltipX}
+            y={tooltipY}
+            visible={tooltipVisible}
+            title={tooltipTitle}
+            value={tooltipValue}
+          />
+          {touchareas}
+        </svg>
+      </ThemeContext.Provider>
+    </StoreContext.Provider>
+  ) : null;
+};
 
 export default PChart;

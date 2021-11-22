@@ -2,49 +2,10 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
 var React = require('react');
-
-function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-var React__default = /*#__PURE__*/_interopDefaultLegacy(React);
-
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
-
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-
-    if (enumerableOnly) {
-      symbols = symbols.filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-      });
-    }
-
-    keys.push.apply(keys, symbols);
-  }
-
-  return keys;
-}
-
-function _objectSpread2(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-
-    if (i % 2) {
-      ownKeys(Object(source), true).forEach(function (key) {
-        _defineProperty(target, key, source[key]);
-      });
-    } else if (Object.getOwnPropertyDescriptors) {
-      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-    } else {
-      ownKeys(Object(source)).forEach(function (key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-      });
-    }
-  }
-
-  return target;
-}
+var React__default = _interopDefault(React);
 
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -83,85 +44,38 @@ function _defineProperty(obj, key, value) {
   return obj;
 }
 
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+    if (enumerableOnly) symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    });
+    keys.push.apply(keys, symbols);
   }
 
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
+  return keys;
 }
 
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
+function _objectSpread2(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
 
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-function _isNativeReflectConstruct() {
-  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-  if (Reflect.construct.sham) return false;
-  if (typeof Proxy === "function") return true;
-
-  try {
-    Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (typeof call === "object" || typeof call === "function")) {
-    return call;
-  } else if (call !== void 0) {
-    throw new TypeError("Derived constructors may only return object or undefined");
-  }
-
-  return _assertThisInitialized(self);
-}
-
-function _createSuper(Derived) {
-  var hasNativeReflectConstruct = _isNativeReflectConstruct();
-
-  return function _createSuperInternal() {
-    var Super = _getPrototypeOf(Derived),
-        result;
-
-    if (hasNativeReflectConstruct) {
-      var NewTarget = _getPrototypeOf(this).constructor;
-
-      result = Reflect.construct(Super, arguments, NewTarget);
+    if (i % 2) {
+      ownKeys(Object(source), true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
     } else {
-      result = Super.apply(this, arguments);
+      ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
     }
+  }
 
-    return _possibleConstructorReturn(this, result);
-  };
+  return target;
 }
 
 function _slicedToArray(arr, i) {
@@ -173,17 +87,14 @@ function _arrayWithHoles(arr) {
 }
 
 function _iterableToArrayLimit(arr, i) {
-  var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
-
-  if (_i == null) return;
+  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
   var _arr = [];
   var _n = true;
   var _d = false;
-
-  var _s, _e;
+  var _e = undefined;
 
   try {
-    for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
+    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
       _arr.push(_s.value);
 
       if (i && _arr.length === i) break;
@@ -308,6 +219,12 @@ var Store = /*#__PURE__*/function () {
     this.margins = params.margins;
     this.step = params.step;
     this.onUpdate = onUpdate;
+    this.size = {
+      width: 800,
+      height: 800
+    };
+
+    this._init();
   }
 
   _createClass(Store, [{
@@ -427,7 +344,7 @@ var Store = /*#__PURE__*/function () {
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-var StoreContext = /*#__PURE__*/React__default['default'].createContext();
+var StoreContext = /*#__PURE__*/React__default.createContext();
 var defaultTheme = {
   backgroundColor: "transparent",
   backdropFill: "#FFFDE7",
@@ -435,7 +352,7 @@ var defaultTheme = {
   gridColor: "#FFD54F",
   areaColor: "rgba(127,127,127, .3)"
 };
-var ThemeContext = /*#__PURE__*/React__default['default'].createContext({
+var ThemeContext = /*#__PURE__*/React__default.createContext({
   value: defaultTheme
 });
 
@@ -459,7 +376,7 @@ var ThemeContext = /*#__PURE__*/React__default['default'].createContext({
 var Backdrop = function Backdrop() {
   var store = React.useContext(StoreContext);
   var theme = React.useContext(ThemeContext);
-  return /*#__PURE__*/React__default['default'].createElement("rect", {
+  return /*#__PURE__*/React__default.createElement("rect", {
     name: "backdrop",
     className: "backdrop",
     fill: theme.backdropFill,
@@ -505,7 +422,7 @@ var XAxis = function XAxis() {
     var x = store.getMeasures().left + t * store.getMeasures().stepX;
     var y1 = store.getSize().height - store.getMargins().bottom;
     var y2 = y1 + (_long ? long_tick_len : short_tick_len);
-    ticks.push( /*#__PURE__*/React__default['default'].createElement("line", {
+    ticks.push( /*#__PURE__*/React__default.createElement("line", {
       className: _long ? "longtick" : "tick",
       key: "tick-".concat(t),
       x1: x,
@@ -517,7 +434,7 @@ var XAxis = function XAxis() {
     var showlabel = store.getDataset().getUnitX() === "year" ? key % 12 === 0 : t % (step * labelstep) === 0;
 
     if (showlabel) {
-      valuelabels.push( /*#__PURE__*/React__default['default'].createElement("text", {
+      valuelabels.push( /*#__PURE__*/React__default.createElement("text", {
         key: "valuelabel-".concat(t),
         name: "valuelabel",
         x: x,
@@ -528,16 +445,16 @@ var XAxis = function XAxis() {
   }
 
   var axisTitle = store.getDataset().getTitleX();
-  return /*#__PURE__*/React__default['default'].createElement("g", {
+  return /*#__PURE__*/React__default.createElement("g", {
     name: "xaxis",
     className: "axis"
-  }, /*#__PURE__*/React__default['default'].createElement("line", {
+  }, /*#__PURE__*/React__default.createElement("line", {
     x1: store.getMeasures().left,
     y1: store.getMeasures().bottom,
     x2: store.getMeasures().right,
     y2: store.getMeasures().bottom,
     stroke: theme.axisColor
-  }), /*#__PURE__*/React__default['default'].createElement("g", null, ticks), /*#__PURE__*/React__default['default'].createElement("g", null, valuelabels), /*#__PURE__*/React__default['default'].createElement("text", {
+  }), /*#__PURE__*/React__default.createElement("g", null, ticks), /*#__PURE__*/React__default.createElement("g", null, valuelabels), /*#__PURE__*/React__default.createElement("text", {
     name: "axislabel",
     x: (store.getMargins().left + store.getMeasures().right) / 2,
     y: store.getSize().height - 5,
@@ -579,7 +496,7 @@ var YAxis = function YAxis() {
     var x1 = store.getMeasures().left;
     var x2 = x1 - (_long ? longTickLen : shortTickLen);
     var y = store.getMeasures().bottom - t * stepY;
-    ticks.push( /*#__PURE__*/React__default['default'].createElement("line", {
+    ticks.push( /*#__PURE__*/React__default.createElement("line", {
       className: _long ? "longtick" : "tick",
       key: "tick-".concat(t),
       x1: x1,
@@ -591,7 +508,7 @@ var YAxis = function YAxis() {
     var showlabel = t % (store.getStep() * labelstep) === 0;
 
     if (showlabel) {
-      valuelabels.push( /*#__PURE__*/React__default['default'].createElement("text", {
+      valuelabels.push( /*#__PURE__*/React__default.createElement("text", {
         name: "valuelabel",
         key: "valuelabel-".concat(t),
         x: x2 - 3,
@@ -602,16 +519,16 @@ var YAxis = function YAxis() {
     }
   }
 
-  return /*#__PURE__*/React__default['default'].createElement("g", {
+  return /*#__PURE__*/React__default.createElement("g", {
     name: "yaxis",
     className: "axis"
-  }, /*#__PURE__*/React__default['default'].createElement("line", {
+  }, /*#__PURE__*/React__default.createElement("line", {
     x1: store.getMeasures().left,
     y1: store.getMeasures().bottom,
     x2: store.getMeasures().left,
     y2: store.getMeasures().top,
     stroke: theme.axisColor
-  }), /*#__PURE__*/React__default['default'].createElement("g", null, ticks), /*#__PURE__*/React__default['default'].createElement("g", null, valuelabels), /*#__PURE__*/React__default['default'].createElement("text", {
+  }), /*#__PURE__*/React__default.createElement("g", null, ticks), /*#__PURE__*/React__default.createElement("g", null, valuelabels), /*#__PURE__*/React__default.createElement("text", {
     name: "axislabel",
     x: 20,
     y: (store.getMargins().top + store.getMeasures().bottom) / 2,
@@ -653,7 +570,7 @@ var Grid = function Grid() {
     var x = store.getMeasures().left + t * stepX;
     var y1 = store.getMeasures().bottom;
     var y2 = store.getMeasures().top;
-    reflinesx.push( /*#__PURE__*/React__default['default'].createElement("line", {
+    reflinesx.push( /*#__PURE__*/React__default.createElement("line", {
       className: _long ? "longrefline" : "refline",
       key: "reflinex-".concat(t),
       x1: x,
@@ -676,7 +593,7 @@ var Grid = function Grid() {
 
     var y = store.getMeasures().bottom - _t * stepY;
 
-    reflinesy.push( /*#__PURE__*/React__default['default'].createElement("line", {
+    reflinesy.push( /*#__PURE__*/React__default.createElement("line", {
       className: _long2 ? "longrefline" : "refline",
       key: "refliney-".concat(_t),
       x1: x1,
@@ -687,7 +604,7 @@ var Grid = function Grid() {
     }));
   }
 
-  return /*#__PURE__*/React__default['default'].createElement("g", {
+  return /*#__PURE__*/React__default.createElement("g", {
     name: "grid",
     className: "grid"
   }, reflinesx, reflinesy);
@@ -730,7 +647,7 @@ var Areas = function Areas() {
     pathStr += "".concat(x, " ").concat(y, " ");
   });
   pathStr += "Z";
-  areas.push( /*#__PURE__*/React__default['default'].createElement("path", {
+  areas.push( /*#__PURE__*/React__default.createElement("path", {
     className: "area-curve",
     key: "area-curve-1",
     name: "area-curve-1",
@@ -755,7 +672,7 @@ var Areas = function Areas() {
       pathStr += "".concat(x, " ").concat(y, " ");
     });
     pathStr += "Z";
-    areas.push( /*#__PURE__*/React__default['default'].createElement("path", {
+    areas.push( /*#__PURE__*/React__default.createElement("path", {
       className: "area-curve",
       key: "area-curve-2",
       name: "area-curve-2",
@@ -764,7 +681,7 @@ var Areas = function Areas() {
     }));
   }
 
-  return /*#__PURE__*/React__default['default'].createElement("g", {
+  return /*#__PURE__*/React__default.createElement("g", {
     name: "areas",
     className: "areas"
   }, areas);
@@ -808,13 +725,13 @@ var Percentiles = function Percentiles() {
         lasty = y;
       }
     });
-    curves.push( /*#__PURE__*/React__default['default'].createElement("path", {
+    curves.push( /*#__PURE__*/React__default.createElement("path", {
       className: "percentile-curve".concat(j === 0 || j === store.getDataset().percentiles.length - 1 ? " dotted" : ""),
       key: "percentile-curve-".concat(p),
       name: "percentile-".concat(p),
       d: pathStr
     }));
-    curves.push( /*#__PURE__*/React__default['default'].createElement("text", {
+    curves.push( /*#__PURE__*/React__default.createElement("text", {
       key: "percentile-label-".concat(p),
       className: "percentile-label",
       x: lastx - 3,
@@ -827,7 +744,7 @@ var Percentiles = function Percentiles() {
     _loop(j);
   }
 
-  return /*#__PURE__*/React__default['default'].createElement("g", {
+  return /*#__PURE__*/React__default.createElement("g", {
     name: "percentiles",
     className: "percentiles"
   }, curves);
@@ -851,7 +768,7 @@ function commonjsRequire () {
 
 var moment = createCommonjsModule(function (module, exports) {
 (function (global, factory) {
-    module.exports = factory() ;
+     module.exports = factory() ;
 }(commonjsGlobal, (function () {
     var hookCallback;
 
@@ -3383,7 +3300,8 @@ var moment = createCommonjsModule(function (module, exports) {
     hooks.createFromInputFallback = deprecate(
         'value provided is not in a recognized RFC2822 or ISO format. moment construction falls back to js Date(), ' +
             'which is not reliable across all browsers and versions. Non RFC2822/ISO date formats are ' +
-            'discouraged. Please refer to http://momentjs.com/guides/#/warnings/js-date/ for more info.',
+            'discouraged and will be removed in an upcoming major release. Please refer to ' +
+            'http://momentjs.com/guides/#/warnings/js-date/ for more info.',
         function (config) {
             config._d = new Date(config._i + (config._useUTC ? ' UTC' : ''));
         }
@@ -4568,10 +4486,7 @@ var moment = createCommonjsModule(function (module, exports) {
     function calendar$1(time, formats) {
         // Support for single parameter, formats only overload to the calendar function
         if (arguments.length === 1) {
-            if (!arguments[0]) {
-                time = undefined;
-                formats = undefined;
-            } else if (isMomentInput(arguments[0])) {
+            if (isMomentInput(arguments[0])) {
                 time = arguments[0];
                 formats = undefined;
             } else if (isCalendarSpec(arguments[0])) {
@@ -5249,7 +5164,7 @@ var moment = createCommonjsModule(function (module, exports) {
             eras = this.localeData().eras();
         for (i = 0, l = eras.length; i < l; ++i) {
             // truncate time
-            val = this.clone().startOf('day').valueOf();
+            val = this.startOf('day').valueOf();
 
             if (eras[i].since <= val && val <= eras[i].until) {
                 return eras[i].name;
@@ -5269,7 +5184,7 @@ var moment = createCommonjsModule(function (module, exports) {
             eras = this.localeData().eras();
         for (i = 0, l = eras.length; i < l; ++i) {
             // truncate time
-            val = this.clone().startOf('day').valueOf();
+            val = this.startOf('day').valueOf();
 
             if (eras[i].since <= val && val <= eras[i].until) {
                 return eras[i].narrow;
@@ -5289,7 +5204,7 @@ var moment = createCommonjsModule(function (module, exports) {
             eras = this.localeData().eras();
         for (i = 0, l = eras.length; i < l; ++i) {
             // truncate time
-            val = this.clone().startOf('day').valueOf();
+            val = this.startOf('day').valueOf();
 
             if (eras[i].since <= val && val <= eras[i].until) {
                 return eras[i].abbr;
@@ -5312,7 +5227,7 @@ var moment = createCommonjsModule(function (module, exports) {
             dir = eras[i].since <= eras[i].until ? +1 : -1;
 
             // truncate time
-            val = this.clone().startOf('day').valueOf();
+            val = this.startOf('day').valueOf();
 
             if (
                 (eras[i].since <= val && val <= eras[i].until) ||
@@ -6463,7 +6378,7 @@ var moment = createCommonjsModule(function (module, exports) {
 
     //! moment.js
 
-    hooks.version = '2.29.1';
+    hooks.version = '2.27.0';
 
     setHookCallback(createLocal);
 
@@ -6589,7 +6504,7 @@ var PatientData = function PatientData(_ref) {
       var dx = store.transformX(diff);
       var dy = store.transformY(value);
 
-      if (dx === null || dx === undefined || dx < 0 || dx > store.getMeasures().width) {
+      if (dx === null || dx === undefined || dx <= 0 || dx >= store.getMeasures().width) {
         return;
       }
 
@@ -6601,7 +6516,7 @@ var PatientData = function PatientData(_ref) {
       }
 
       if (showlabels) {
-        ll.push( /*#__PURE__*/React__default['default'].createElement("text", {
+        ll.push( /*#__PURE__*/React__default.createElement("text", {
           key: "label-".concat(i),
           name: "label-".concat(i),
           className: "percentile-label",
@@ -6612,10 +6527,10 @@ var PatientData = function PatientData(_ref) {
         }, percentile));
       }
 
-      pp.push( /*#__PURE__*/React__default['default'].createElement("g", {
+      pp.push( /*#__PURE__*/React__default.createElement("g", {
         key: "dot-".concat(i),
         id: "dot-".concat(i)
-      }, /*#__PURE__*/React__default['default'].createElement("circle", {
+      }, /*#__PURE__*/React__default.createElement("circle", {
         className: "percentile-point",
         cx: x,
         cy: y,
@@ -6628,10 +6543,10 @@ var PatientData = function PatientData(_ref) {
     setPoints(pp);
     setLabels(ll);
   }, [patient, store, showlabels]);
-  return /*#__PURE__*/React__default['default'].createElement("g", {
+  return /*#__PURE__*/React__default.createElement("g", {
     name: "patient-data",
     className: "patient-data"
-  }, showlines ? /*#__PURE__*/React__default['default'].createElement("path", {
+  }, showlines ? /*#__PURE__*/React__default.createElement("path", {
     className: "percentile-line",
     d: lineString,
     stroke: patient.color || "red"
@@ -6692,11 +6607,11 @@ var Tooltip = function Tooltip(_ref) {
     return "M".concat(p0, " L ").concat(p1, " C ").concat(c1, ", ").concat(c1, ", ").concat(p2, " L ").concat(p3, " C ").concat(c3, ", ").concat(c3, ", ").concat(p4, " L ").concat(p5, " C ").concat(c5, ", ").concat(c5, ", ").concat(p6, " L ").concat(p7, " C ").concat(c7, ", ").concat(c7, ", ").concat(p0);
   };
 
-  return /*#__PURE__*/React__default['default'].createElement(React__default['default'].Fragment, null, /*#__PURE__*/React__default['default'].createElement("defs", null, /*#__PURE__*/React__default['default'].createElement("clipPath", {
+  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("defs", null, /*#__PURE__*/React__default.createElement("clipPath", {
     id: "clip"
-  }, /*#__PURE__*/React__default['default'].createElement("path", {
+  }, /*#__PURE__*/React__default.createElement("path", {
     d: buildPath()
-  }))), /*#__PURE__*/React__default['default'].createElement("g", {
+  }))), /*#__PURE__*/React__default.createElement("g", {
     className: "tooltip",
     transform: visible ? "translate(".concat(tx, ",").concat(ty, ")") : "translate(-200,-60)",
     style: {
@@ -6704,12 +6619,12 @@ var Tooltip = function Tooltip(_ref) {
     },
     visibility: visible ? 'visible' : 'hidden',
     clipPath: "url(#clip)"
-  }, /*#__PURE__*/React__default['default'].createElement("path", {
+  }, /*#__PURE__*/React__default.createElement("path", {
     d: buildPath()
-  }), /*#__PURE__*/React__default['default'].createElement("text", {
+  }), /*#__PURE__*/React__default.createElement("text", {
     x: 5,
     y: 15
-  }, title), /*#__PURE__*/React__default['default'].createElement("text", {
+  }, title), /*#__PURE__*/React__default.createElement("text", {
     x: 5,
     y: 35
   }, value)));
@@ -6805,10 +6720,10 @@ var TouchAreas = function TouchAreas(_ref) {
       return;
     }
 
-    touch.push( /*#__PURE__*/React__default['default'].createElement("g", {
+    touch.push( /*#__PURE__*/React__default.createElement("g", {
       key: "touch-".concat(i),
       id: "touch-".concat(i)
-    }, /*#__PURE__*/React__default['default'].createElement("circle", {
+    }, /*#__PURE__*/React__default.createElement("circle", {
       cx: x,
       cy: y,
       r: 6,
@@ -6819,51 +6734,67 @@ var TouchAreas = function TouchAreas(_ref) {
       }
     })));
   });
-  return /*#__PURE__*/React__default['default'].createElement("g", {
+  return /*#__PURE__*/React__default.createElement("g", {
     name: "touch-areas"
   }, touch);
 };
 
-var PChart = /*#__PURE__*/function (_Component) {
-  _inherits(PChart, _Component);
+var defaultTheme$1 = {
+  backgroundColor: "transparent",
+  backdropFill: "#FFFDE7",
+  axisColor: "#707070",
+  gridColor: "#FFD54F",
+  areaColor: "rgba(127,127,127, .3)"
+};
 
-  var _super = _createSuper(PChart);
+var PChart = function PChart(_ref) {
+  var width = _ref.width,
+      height = _ref.height,
+      dataset = _ref.dataset,
+      patients = _ref.patients,
+      theme = _ref.theme,
+      showtitle = _ref.showtitle,
+      showlabels = _ref.showlabels,
+      showlines = _ref.showlines;
 
-  function PChart(props) {
-    var _this;
+  var _useState = React.useState(),
+      _useState2 = _slicedToArray(_useState, 2),
+      store = _useState2[0],
+      setStore = _useState2[1];
 
-    _classCallCheck(this, PChart);
+  var _useState3 = React.useState(0),
+      _useState4 = _slicedToArray(_useState3, 2),
+      tooltipX = _useState4[0],
+      setTooltipX = _useState4[1];
 
-    _this = _super.call(this, props);
+  var _useState5 = React.useState(0),
+      _useState6 = _slicedToArray(_useState5, 2),
+      tooltipY = _useState6[0],
+      setTooltipY = _useState6[1];
 
-    _this.onUpdate = function () {
-      _this.forceUpdate();
-    };
+  var _useState7 = React.useState(false),
+      _useState8 = _slicedToArray(_useState7, 2),
+      tooltipVisible = _useState8[0],
+      setTooltipVisible = _useState8[1];
 
-    _this.setSize = function (w, h) {
-      if (Number.isNaN(w)) {
-        // eslint-disable-next-line no-param-reassign
-        w = 800;
-        console.error("Error: width property must be a number. Using the default value");
-      }
+  var _useState9 = React.useState(""),
+      _useState10 = _slicedToArray(_useState9, 2),
+      tooltipTitle = _useState10[0],
+      setTooltipTitle = _useState10[1];
 
-      if (Number.isNaN(h)) {
-        // eslint-disable-next-line no-param-reassign
-        h = 800;
-        console.error("Error: height property must be a number. Using the default value");
-      }
+  var _useState11 = React.useState(""),
+      _useState12 = _slicedToArray(_useState11, 2),
+      tooltipValue = _useState12[0],
+      setTooltipValue = _useState12[1];
 
-      _this.store.setSize({
-        width: w,
-        height: h
-      });
-    };
+  var _useState13 = React.useState(),
+      _useState14 = _slicedToArray(_useState13, 2),
+      tooltipTimeout = _useState14[0],
+      setTooltipTimeout = _useState14[1];
 
-    var showtitle = props.showtitle,
-        width = props.width,
-        height = props.height;
-    _this.store = new Store({
-      dataset: props.dataset,
+  React.useEffect(function () {
+    var newstore = new Store({
+      dataset: dataset,
       margins: {
         left: 60,
         right: 10,
@@ -6871,143 +6802,112 @@ var PChart = /*#__PURE__*/function (_Component) {
         bottom: 40
       },
       step: 2
-    }, _this.onUpdate);
+    }, function () {});
+    var w = width;
+    var h = height;
 
-    _this.setSize(width, height);
-
-    _this.state = {
-      tooltipX: 0,
-      tooltipY: 0,
-      tooltipVisible: false,
-      tooltipTitle: "",
-      tooltipValue: ""
-    };
-    return _this;
-  }
-
-  _createClass(PChart, [{
-    key: "componentDidUpdate",
-    value: function componentDidUpdate(prevprops) {
-      var _this$props = this.props,
-          width = _this$props.width,
-          height = _this$props.height,
-          dataset = _this$props.dataset;
-
-      if (prevprops.width !== width || prevprops.height !== height) {
-        this.setSize(width, height);
-      }
-
-      if (dataset && prevprops.dataset !== dataset) {
-        this.store.setDataset(dataset);
-      }
+    if (Number.isNaN(w)) {
+      // eslint-disable-next-line no-param-reassign
+      w = 800;
+      console.error("Error: width property must be a number. Using the default value");
     }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this2 = this;
 
-      var _this$props2 = this.props,
-          dataset = _this$props2.dataset,
-          patients = _this$props2.patients,
-          theme = _this$props2.theme,
-          showtitle = _this$props2.showtitle,
-          showlabels = _this$props2.showlabels,
-          showlines = _this$props2.showlines;
-      var title;
+    if (Number.isNaN(h)) {
+      // eslint-disable-next-line no-param-reassign
+      h = 800;
+      console.error("Error: height property must be a number. Using the default value");
+    }
 
-      if (showtitle) {
-        title = /*#__PURE__*/React__default['default'].createElement("text", {
-          name: "title",
-          className: "title",
-          x: this.store.getSize().width / 2,
-          y: 15,
-          textAnchor: "middle",
-          alignmentBaseline: "text-before-edge"
-        }, dataset.title);
-      }
+    newstore.setSize({
+      width: w,
+      height: h
+    });
+    setStore(newstore);
+  }, [dataset, width, height, showtitle]);
+  var currentTheme = React.useMemo(function () {
+    if (theme) {
+      return _objectSpread2(_objectSpread2({}, defaultTheme$1), theme);
+    }
 
-      var pp;
+    return defaultTheme$1;
+  }, [theme]);
+  var title = React.useMemo(function () {
+    if (showtitle && store) {
+      return /*#__PURE__*/React__default.createElement("text", {
+        name: "title",
+        className: "title",
+        x: store.getSize().width / 2,
+        y: 15,
+        textAnchor: "middle",
+        alignmentBaseline: "text-before-edge"
+      }, dataset.title);
+    }
 
-      if (Array.isArray(patients)) {
-        pp = patients;
-      } else {
-        pp = [patients];
-      }
+    return null;
+  }, [dataset, store, showtitle]);
+  var patientdata = React.useMemo(function () {
+    var pp;
 
-      var patientdata = pp.map(function (patient, i) {
-        return /*#__PURE__*/React__default['default'].createElement(PatientData, {
-          key: "patientdata-".concat(i),
-          patient: patient,
-          showlabels: showlabels,
-          showlines: showlines
-        });
+    if (Array.isArray(patients)) {
+      pp = patients;
+    } else {
+      pp = [patients];
+    }
+
+    return pp.map(function (patient, i) {
+      return /*#__PURE__*/React__default.createElement(PatientData, {
+        key: "patientdata-".concat(i),
+        patient: patient,
+        showlabels: showlabels,
+        showlines: showlines
       });
-      var touchareas = pp.map(function (patient, i) {
-        return /*#__PURE__*/React__default['default'].createElement(TouchAreas, {
-          key: "toucharea-".concat(i),
-          patient: patient,
-          showTooltip: function showTooltip(x, y, ttle, value) {
-            _this2.setState({
-              tooltipX: x,
-              tooltipY: y,
-              tooltipVisible: true,
-              tooltipTitle: ttle,
-              tooltipValue: value
-            }, function () {
-              clearTimeout(_this2.tooltipTimeout);
-              _this2.tooltipTimeout = setTimeout(function () {
-                _this2.setState({
-                  tooltipVisible: false
-                });
-              }, 5000);
-            });
-          }
-        });
-      });
-      var defaultTheme = {
-        backgroundColor: "transparent",
-        backdropFill: "#FFFDE7",
-        axisColor: "#707070",
-        gridColor: "#FFD54F",
-        areaColor: "rgba(127,127,127, .3)"
-      };
+    });
+  }, [patients, showlabels, showlines]);
+  var touchareas = React.useMemo(function () {
+    var pp;
 
-      var _theme;
+    if (Array.isArray(patients)) {
+      pp = patients;
+    } else {
+      pp = [patients];
+    }
 
-      if (theme) {
-        _theme = _objectSpread2(_objectSpread2({}, defaultTheme), theme);
-      } else {
-        _theme = defaultTheme;
-      }
-
-      var _this$state = this.state,
-          tooltipX = _this$state.tooltipX,
-          tooltipY = _this$state.tooltipY,
-          tooltipVisible = _this$state.tooltipVisible,
-          tooltipTitle = _this$state.tooltipTitle,
-          tooltipValue = _this$state.tooltipValue;
-      return /*#__PURE__*/React__default['default'].createElement(StoreContext.Provider, {
-        value: this.store
-      }, /*#__PURE__*/React__default['default'].createElement(ThemeContext.Provider, {
-        value: _theme
-      }, /*#__PURE__*/React__default['default'].createElement("svg", {
-        width: this.store.getSize().width,
-        height: this.store.getSize().height,
-        style: {
-          backgroundColor: defaultTheme.backgroundColor
+    return pp.map(function (patient, i) {
+      return /*#__PURE__*/React__default.createElement(TouchAreas, {
+        key: "toucharea-".concat(i),
+        patient: patient,
+        showTooltip: function showTooltip(x, y, ttle, value) {
+          setTooltipX(x);
+          setTooltipY(y);
+          setTooltipVisible(true);
+          setTooltipTitle(ttle);
+          setTooltipValue(value);
+          clearTimeout(tooltipTimeout);
+          setTooltipTimeout(setTimeout(function () {
+            setTooltipVisible(false);
+          }, 5000));
         }
-      }, title, /*#__PURE__*/React__default['default'].createElement(Backdrop, null), /*#__PURE__*/React__default['default'].createElement(XAxis, null), /*#__PURE__*/React__default['default'].createElement(YAxis, null), /*#__PURE__*/React__default['default'].createElement(Grid, null), /*#__PURE__*/React__default['default'].createElement(Areas, null), /*#__PURE__*/React__default['default'].createElement(Percentiles, null), patientdata, /*#__PURE__*/React__default['default'].createElement(Tooltip, {
-        x: tooltipX,
-        y: tooltipY,
-        visible: tooltipVisible,
-        title: tooltipTitle,
-        value: tooltipValue
-      }), touchareas)));
+      });
+    });
+  }, [patients, tooltipTimeout]);
+  return store ? /*#__PURE__*/React__default.createElement(StoreContext.Provider, {
+    value: store
+  }, /*#__PURE__*/React__default.createElement(ThemeContext.Provider, {
+    value: currentTheme
+  }, /*#__PURE__*/React__default.createElement("svg", {
+    width: store.getSize().width,
+    height: store.getSize().height,
+    style: {
+      backgroundColor: currentTheme.backgroundColor
     }
-  }]);
-
-  return PChart;
-}(React.Component);
+  }, title, /*#__PURE__*/React__default.createElement(Backdrop, null), /*#__PURE__*/React__default.createElement(XAxis, null), /*#__PURE__*/React__default.createElement(YAxis, null), /*#__PURE__*/React__default.createElement(Grid, null), /*#__PURE__*/React__default.createElement(Areas, null), /*#__PURE__*/React__default.createElement(Percentiles, null), patientdata, /*#__PURE__*/React__default.createElement(Tooltip, {
+    x: tooltipX,
+    y: tooltipY,
+    visible: tooltipVisible,
+    title: tooltipTitle,
+    value: tooltipValue
+  }), touchareas))) : null;
+};
 
 /*
 Copyright (C) 2018  Ermanno Scanagatta

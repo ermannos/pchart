@@ -14,7 +14,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-import PChart from './chart';
-import Dataset from './data';
+import PChart from "./chart";
+import Dataset from "./data";
 
-export {PChart, Dataset};
+export { PChart, Dataset };

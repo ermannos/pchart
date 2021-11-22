@@ -43,6 +43,8 @@ export default class Store {
     this.margins = params.margins;
     this.step = params.step;
     this.onUpdate = onUpdate;
+    this.size = { width: 800, height: 800 };
+    this._init();
   }
 
   setSize(size) {

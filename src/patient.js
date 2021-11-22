@@ -49,11 +49,12 @@ const PatientData = ({ patient, showlabels, showlines }) => {
 
       const dx = store.transformX(diff);
       const dy = store.transformY(value);
+
       if (
         dx === null ||
         dx === undefined ||
-        dx < 0 ||
-        dx > store.getMeasures().width
+        dx <= 0 ||
+        dx >= store.getMeasures().width
       ) {
         return;
       }

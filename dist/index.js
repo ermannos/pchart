@@ -6537,7 +6537,7 @@ var PatientData = function PatientData(_ref) {
         r: 3,
         fill: patient.color || "red"
       })));
-      lineStr += "".concat(i === 0 ? "M" : "L").concat(x, " ").concat(y, " ");
+      lineStr += "".concat(!lineStr.length ? "M" : "L").concat(x, " ").concat(y, " ");
     });
     setLineString(lineStr);
     setPoints(pp);

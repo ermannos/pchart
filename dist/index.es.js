@@ -6421,12 +6421,6 @@ var moment = createCommonjsModule(function (module, exports) {
 })));
 });
 
-var convert = function convert(pointdate, birthdate, unit) {
-  if (unit === "month") return convertMonths(pointdate, birthdate);
-  if (unit === "week") return convertWeeks(pointdate, birthdate);
-  return 0;
-};
-
 var convertWeeks = function convertWeeks(pointdate, birthdate) {
   var daydiff = pointdate.diff(birthdate, "day");
   var diff = Math.round(daydiff * 10 / 7) / 10;
@@ -6451,6 +6445,19 @@ var convertMonths = function convertMonths(pointdate, birthdate) {
   }
 
   return diff;
+}; // eslint-disable-next-line import/prefer-default-export
+
+
+var convert = function convert(pointdate, birthdate, unit) {
+  if (unit === "month") {
+    return convertMonths(pointdate, birthdate);
+  }
+
+  if (unit === "week") {
+    return convertWeeks(pointdate, birthdate);
+  }
+
+  return 0;
 };
 
 var PatientData = function PatientData(_ref) {

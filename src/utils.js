@@ -1,12 +1,3 @@
-import moment from "moment";
-
-// eslint-disable-next-line import/prefer-default-export
-export const convert = (pointdate, birthdate, unit) => {
-  if (unit === "month") return convertMonths(pointdate, birthdate);
-  if (unit === "week") return convertWeeks(pointdate, birthdate);
-  return 0;
-};
-
 const convertWeeks = (pointdate, birthdate) => {
   const daydiff = pointdate.diff(birthdate, "day");
   const diff = Math.round((daydiff * 10) / 7) / 10;
@@ -28,4 +19,15 @@ const convertMonths = (pointdate, birthdate) => {
     diff = datediff + Math.round((rest * 10) / 30) / 10;
   }
   return diff;
+};
+
+// eslint-disable-next-line import/prefer-default-export
+export const convert = (pointdate, birthdate, unit) => {
+  if (unit === "month") {
+    return convertMonths(pointdate, birthdate);
+  }
+  if (unit === "week") {
+    return convertWeeks(pointdate, birthdate);
+  }
+  return 0;
 };

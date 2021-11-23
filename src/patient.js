@@ -91,7 +91,7 @@ const PatientData = ({ patient, showlabels, showlines }) => {
         </g>
       );
 
-      lineStr += `${i === 0 ? "M" : "L"}${x} ${y} `;
+      lineStr += `${!lineStr.length ? "M" : "L"}${x} ${y} `;
     });
     setLineString(lineStr);
     setPoints(pp);

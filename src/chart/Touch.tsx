@@ -49,7 +49,7 @@ const TouchAreas: React.FC<Props> = ({ patient, showTooltip }) => {
       const diffM = pointdate.diff(birthdate, "month");
       if (diffD <= 91) {
         // 13 weeks
-        const w = diffD / 7;
+        const w = Math.trunc(diffD / 7);
         const d = diffD - w * 7;
         age = `${w} ${shortNames.week}, ${d} ${shortNames.day}`;
       } else {

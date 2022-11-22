@@ -14,21 +14,22 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-import React, { useMemo, useState } from 'react';
-import Areas from './chart/Areas';
-import Backdrop from './chart/Backdrop';
-import Grid from './chart/Grid';
-import PatientData from './chart/PatientData';
-import Percentiles from './chart/Percentiles';
-import Tooltip from './chart/Tooltip';
-import TouchAreas from './chart/Touch';
-import XAxis from './chart/XAxis';
-import YAxis from './chart/YAxis';
-import { StoreProvider } from './context/StoreContext';
-import { ThemeContext, ThemeProvider } from './context/ThemeContext';
-import Dataset from './data/Dataset';
-import Store from './store/Store';
-import { Patient, Theme } from './types';
+import React, { useMemo, useState } from "react";
+import Areas from "./chart/Areas";
+import Backdrop from "./chart/Backdrop";
+import Grid from "./chart/Grid";
+import PatientData from "./chart/PatientData";
+import Percentiles from "./chart/Percentiles";
+import Tooltip from "./chart/Tooltip";
+import TouchAreas from "./chart/Touch";
+import XAxis from "./chart/XAxis";
+import YAxis from "./chart/YAxis";
+import { StoreProvider } from "./context/StoreContext";
+import { ThemeContext, ThemeProvider } from "./context/ThemeContext";
+import Dataset from "./data/Dataset";
+import Store from "./store/Store";
+import { Patient, Theme } from "./types";
+import "./style.css";
 
 interface Props {
   width?: number;
@@ -38,7 +39,7 @@ interface Props {
   theme?: Theme;
   showtitle?: boolean;
   showlabels?: boolean;
-  showlines?: boolean
+  showlines?: boolean;
 }
 
 const defaultTheme = {
@@ -49,7 +50,16 @@ const defaultTheme = {
   areaColor: "rgba(127,127,127, .3)",
 };
 
-const PChart: React.FC<Props> = ({ width = 800, height = 800, dataset, patients, theme = defaultTheme, showtitle = true, showlabels = true, showlines = true }) => {
+const PChart: React.FC<Props> = ({
+  width = 800,
+  height = 800,
+  dataset,
+  patients,
+  theme = defaultTheme,
+  showtitle = true,
+  showlabels = true,
+  showlines = true,
+}) => {
   const [tooltipX, setTooltipX] = useState(0);
   const [tooltipY, setTooltipY] = useState(0);
   const [tooltipVisible, setTooltipVisible] = useState(false);
@@ -69,7 +79,7 @@ const PChart: React.FC<Props> = ({ width = 800, height = 800, dataset, patients,
         },
         step: 2,
       },
-      () => { }
+      () => {}
     );
 
     let w = width;
@@ -163,36 +173,34 @@ const PChart: React.FC<Props> = ({ width = 800, height = 800, dataset, patients,
     ));
   }, [patients, tooltipTimeout]);
 
-  return (
-    store ?
-      <StoreProvider value={store}>
-        <ThemeProvider value={currentTheme}>
-          <svg
-            width={store.getSize().width}
-            height={store.getSize().height}
-            style={{ backgroundColor: currentTheme.backgroundColor }}
-          >
-            {title}
-            <Backdrop />
-            <XAxis />
-            <YAxis />
-            <Grid />
-            <Areas />
-            <Percentiles />
-            {patientdata}
-            <Tooltip
-              x={tooltipX}
-              y={tooltipY}
-              visible={tooltipVisible}
-              title={tooltipTitle}
-              value={tooltipValue}
-            />
-            {touchareas}
-          </svg>
-        </ThemeProvider>
-      </StoreProvider>
-      : null
-  )
-}
+  return store ? (
+    <StoreProvider value={store}>
+      <ThemeProvider value={currentTheme}>
+        <svg
+          width={store.getSize().width}
+          height={store.getSize().height}
+          style={{ backgroundColor: currentTheme.backgroundColor }}
+        >
+          {title}
+          <Backdrop />
+          <XAxis />
+          <YAxis />
+          <Grid />
+          <Areas />
+          <Percentiles />
+          {patientdata}
+          <Tooltip
+            x={tooltipX}
+            y={tooltipY}
+            visible={tooltipVisible}
+            title={tooltipTitle}
+            value={tooltipValue}
+          />
+          {touchareas}
+        </svg>
+      </ThemeProvider>
+    </StoreProvider>
+  ) : null;
+};
 
 export default PChart;

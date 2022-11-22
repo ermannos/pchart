@@ -16,7 +16,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "moment": "^2.29.4"
+    "moment": "^2.29.4",
+    "vite-plugin-css-injected-by-js": "^2.1.1"
   },
   "peerDependencies": {
     "react": "^16.x || ^17.x || ^18.x",

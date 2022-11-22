@@ -5,6 +5,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
+    "start": "npm run dev",
     "dev": "vite --port=3000",
     "build": "tsc && vite build",
     "preview": "vite preview"

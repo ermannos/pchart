@@ -1,6 +1,6 @@
-import React from 'react';
-import Dataset from './data/Dataset';
-import { Patient, Theme } from './types';
+import React from "react";
+import Dataset from "./data/Dataset";
+import { Patient, Theme } from "./types";
 interface Props {
     width?: number;
     height?: number;

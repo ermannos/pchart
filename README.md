@@ -143,6 +143,8 @@ const Example = () => {
 }
 ```
 
+![Example chart](pchart.png?raw=true "Example chart")
+
 ## Example
 To run the included example open the terminal in the project folder and run:
 ```bash

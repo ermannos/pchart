@@ -4,6 +4,8 @@
 
 A really simple charting component made for React to display percentile charts, more specifically child growth charts.
 
+![Example chart](pchart.png?raw=true "Example chart")
+
 ## Install
 
 ```bash
@@ -142,8 +144,6 @@ const Example = () => {
   )
 }
 ```
-
-![Example chart](pchart.png?raw=true "Example chart")
 
 ## Example
 To run the included example open the terminal in the project folder and run:

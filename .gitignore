@@ -8,8 +8,8 @@
 /coverage
 
 # production
-/build
-/example/build
+/dist
+/example/dist
 
 # misc
 .DS_Store

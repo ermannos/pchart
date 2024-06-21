@@ -9,7 +9,11 @@ export default defineConfig({
     dts({
       insertTypesEntry: true,
     }),
-    cssInjectedByJsPlugin(),
+    cssInjectedByJsPlugin({
+      dev: {
+        enableDev: true,
+      }
+    }),
     react(),
   ],
   build: {

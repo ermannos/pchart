@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018  Ermanno Scanagatta
+Copyright (C) 2018-2024  Ermanno Scanagatta
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -16,7 +16,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 /* eslint-disable react/no-array-index-key */
 import React, { useEffect, useState } from "react";
-import moment from "moment";
 import { convert } from "../utils";
 import { useStore } from "../context/StoreContext";
 import Store from "../store/Store";
@@ -43,8 +42,8 @@ const PatientData: React.FC<Props> = ({ patient, showlabels = true, showlines = 
       if (!m) {
         return;
       }
-      const pointdate = moment(m.date);
-      const birthdate = moment(patient.birthdate);
+      const pointdate = new Date(m.date);
+      const birthdate = new Date(patient.birthdate);
       let diffunit = store.getDataset().getUnitX();
       if (diffunit === "year") {
         diffunit = "month";

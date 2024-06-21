@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018  Ermanno Scanagatta
+Copyright (C) 2018-2024  Ermanno Scanagatta
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ import TouchAreas from "./chart/Touch";
 import XAxis from "./chart/XAxis";
 import YAxis from "./chart/YAxis";
 import { StoreProvider } from "./context/StoreContext";
-import { ThemeContext, ThemeProvider } from "./context/ThemeContext";
+import { ThemeProvider } from "./context/ThemeContext";
 import Dataset from "./data/Dataset";
 import Store from "./store/Store";
 import { Patient, Theme } from "./types";
@@ -79,7 +79,7 @@ const PChart: React.FC<Props> = ({
         },
         step: 2,
       },
-      () => {}
+      () => { }
     );
 
     let w = width;

@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2020  Ermanno Scanagatta
+Copyright (C) 2020-2024  Ermanno Scanagatta
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -16,11 +16,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 /* eslint-disable react/no-array-index-key */
 import React from "react";
-import moment from "moment";
 import { convert } from "../utils";
 import { Measure, Patient } from "../types";
 import { useStore } from "../context/StoreContext";
 import Store from "../store/Store";
+import { differenceInDays, differenceInMonths, differenceInYears, format } from "date-fns";
 
 interface Props {
   patient: Patient;
@@ -35,18 +35,18 @@ const TouchAreas: React.FC<Props> = ({ patient, showTooltip }) => {
   if (diffunit === "year") {
     diffunit = "month";
   }
-  const birthdate = moment(patient.birthdate);
+  const birthdate = new Date(patient.birthdate);
 
   const getPointTitle = (measure: Measure) => {
-    const pointdate = moment(measure.date);
+    const pointdate = new Date(measure.date);
     let age = "";
-    const diffY = pointdate.diff(birthdate, "year");
+    const diffY = differenceInYears(pointdate, birthdate);
     if (diffY >= 1) {
-      const diffM = pointdate.diff(birthdate, "month") - 12 * diffY;
+      const diffM = differenceInMonths(pointdate, birthdate) - 12 * diffY;
       age = `${diffY} ${shortNames.year}, ${diffM} ${shortNames.month}`;
     } else {
-      const diffD = pointdate.diff(birthdate, "day");
-      const diffM = pointdate.diff(birthdate, "month");
+      const diffD = differenceInDays(pointdate, birthdate);
+      const diffM = differenceInMonths(pointdate, birthdate);
       if (diffD <= 91) {
         // 13 weeks
         const w = Math.trunc(diffD / 7);
@@ -57,12 +57,12 @@ const TouchAreas: React.FC<Props> = ({ patient, showTooltip }) => {
       }
     }
 
-    const title = `${moment(measure.date).format("DD.MM.YYYY")} (${age})`;
+    const title = `${format(new Date(measure.date), "dd.MM.yyyy")} (${age})`;
     return title;
   };
 
   const getPointValue = (measure: Measure) => {
-    const pointdate = moment(measure.date);
+    const pointdate = new Date(measure.date);
     // const datediff = pointdate.diff(birthdate, diffunit);
     const diff = convert(pointdate, birthdate, diffunit);
     const val = measure[ds.getDataType()] || 0;
@@ -77,7 +77,7 @@ const TouchAreas: React.FC<Props> = ({ patient, showTooltip }) => {
     if (!m) {
       return;
     }
-    const pointdate = moment(m.date);
+    const pointdate = new Date(m.date);
     const diff = convert(pointdate, birthdate, diffunit);
     const value = m[store.getDataset().getDataType()];
 

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018  Ermanno Scanagatta
+    Copyright (C) 2018-2024  Ermanno Scanagatta
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -40,8 +40,8 @@ const Percentiles = () => {
     curves.push(
       <path
         className={`percentile-curve${j === 0 || j === store.getDataset().percentiles.length - 1
-            ? " dotted"
-            : ""
+          ? " dotted"
+          : ""
           }`}
         key={`percentile-curve-${p}`}
         name={`percentile-${p}`}

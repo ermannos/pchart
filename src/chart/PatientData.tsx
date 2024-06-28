@@ -61,9 +61,10 @@ const PatientData: React.FC<Props> = ({ patient, showlabels = true, showlines = 
       if (
         dx === null ||
         dx === undefined ||
-        dx <= 0 ||
-        dx >= store.getMeasures().width
+        dx < 0 ||
+        dx > store.getMeasures().width
       ) {
+        console.log('dx too low', dx)
         return;
       }
       const x = store.getMeasures().left + dx;

@@ -29,12 +29,6 @@ export default class AxisTransformation {
   }
 
   transform(value: number) {
-    if (value < this.minValue) {
-      return 0;
-    }
-    if (value > this.maxValue) {
-      return this.len;
-    }
     return (
       (this.len * (value - this.minValue)) / (this.maxValue - this.minValue)
     );

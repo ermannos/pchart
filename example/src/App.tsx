@@ -19,7 +19,7 @@ import { Dataset, PChart } from "pchart";
 import heightBoys519Y from "./who/height_boys_5-19Y.json";
 import heightGirls013W from "./who/height_girls_0-13W.json";
 import "./App.css";
-import { LMSDataset, Theme } from "pchart/dist/types";
+import type { LMSDataset, Theme } from "pchart";
 import { patient1, patient2, patient3 } from "./patients";
 
 const percentiles1 = [3, 10, 25, 50, 75, 90, 97];

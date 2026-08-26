@@ -14,7 +14,14 @@ export default defineConfig({
         enableDev: true,
       }
     }),
-    react(),
+    react({
+      // The library is consumed as a peer of react, so react must stay
+      // external. `react/jsx-runtime` ships as CJS only, so the automatic
+      // runtime would get inlined and emit a `require("react")` call that
+      // blows up in the browser. The classic runtime only needs `React`,
+      // which every source file already imports.
+      jsxRuntime: "classic",
+    }),
   ],
   build: {
     lib: {
@@ -24,7 +31,7 @@ export default defineConfig({
       fileName: (format) => `pchart.${format}.js`,
     },
     rollupOptions: {
-      external: ["react", "react-dom"],
+      external: [/^react$/, /^react-dom$/, /^react\//, /^react-dom\//],
       output: {
         globals: {
           react: "React",

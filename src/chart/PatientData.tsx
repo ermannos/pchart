@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 /* eslint-disable react/no-array-index-key */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, JSX } from "react";
 import { convert } from "../utils";
 import { useStore } from "../context/StoreContext";
 import Store from "../store/Store";

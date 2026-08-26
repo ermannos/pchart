@@ -65,7 +65,8 @@ const PChart: React.FC<Props> = ({
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const [tooltipTitle, setTooltipTitle] = useState("");
   const [tooltipValue, setTooltipValue] = useState("");
-  const [tooltipTimeout, setTooltipTimeout] = useState<NodeJS.Timeout>();
+  const [tooltipTimeout, setTooltipTimeout] =
+    useState<ReturnType<typeof setTimeout>>();
 
   const store = useMemo(() => {
     const newstore = new Store(
